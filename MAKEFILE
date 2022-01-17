@@ -1,0 +1,30 @@
+CC = gcc
+DEBUG = -Wall -g
+
+.PHONY: clean
+
+OBJECTS = nate.o graphics.o objects.o map.o tileset.o 
+
+all: nate
+
+nate: $(OBJECTS)
+	$(CC) $(DEBUG) $(OBJECTS) -o $@ -lalleg
+
+nate.o: nate.c nate.h
+	$(CC) $(DEBUG) -c $< -o $@
+	
+graphics.o: graphics.c graphics.h
+	$(CC) $(DEBUG) -c $< -o $@
+	
+objects.o: objects.c objects.h
+	$(CC) $(DEBUG) -c $< -o $@
+	
+map.o: map.c map.h
+	$(CC) $(DEBUG) -c $< -o $@
+	
+tileset.o: tileset.c tileset.h
+	$(CC) $(DEBUG) -c $< -o $@
+
+clean:
+	del /S *.o
+	del nate.exe
