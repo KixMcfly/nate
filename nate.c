@@ -118,7 +118,7 @@ BOOL NATE_init( void ){
     
     pal = load_datafile_object( "nate.dat", "PALETTE" );
     if( !pal ){
-        allegro_message( "Unable load palette from data file\n" );
+        allegro_message( "Unable to load palette from data file\n" );
         error = TRUE;
     }else{
         set_palette( pal->dat );

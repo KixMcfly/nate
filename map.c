@@ -26,6 +26,8 @@ Map *load_map( char *map_name ){
 	unsigned char **map_p;
 	unsigned char *save;
 	int i;
+	
+	
 	map = load_datafile_object( "nate.dat", map_name );
 	map_data = malloc( map->size );
 	save = map_data;
