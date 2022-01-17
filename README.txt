@@ -1,7 +1,6 @@
- My Room
+   My Room
 
-    By
-
+     By
 
 Shawn Achimasi
 
