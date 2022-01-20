@@ -3,6 +3,10 @@
 
 #include "tileset.h"
 
+#define TILE_NUM( t ) ( t & 0x00FF )
+#define TSET_NUM( t ) ( (t & 0xF0000) >> 16 )
+#define IS_SOLID( t ) ( t & 0x40000000 )
+
 typedef struct {
 	
 	char *name;
@@ -12,8 +16,6 @@ typedef struct {
 	unsigned long **td, mw, mh;
 
 } Map;
-
-extern unsigned char map_nates_room[10][16];
 
 int is_solid( Map *m, int x, int y );
 Map *load_map( char *map_name );

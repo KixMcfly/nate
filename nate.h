@@ -2,6 +2,7 @@
 #define NATE_H
 
 #include <allegro.h>
+#include <math.h>
 #include "graphics.h"
 #include "objects.h"
 #include "map.h"

@@ -3,7 +3,6 @@
 PALETTE cur_pal;
 BITMAP *back_buff;
 
-
 void blit_sprite( Sprite *spr, BITMAP *d, int x, int y, int r, int c ){
 	
 	if( r == SPR_RIGHT )

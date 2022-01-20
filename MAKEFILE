@@ -3,7 +3,7 @@ DEBUG = -Wall -g
 
 .PHONY: clean
 
-OBJECTS = nate.o graphics.o objects.o map.o tileset.o 
+OBJECTS = nate.o graphics.o objects.o map.o tileset.o triggers.o
 
 all: nate
 
@@ -23,6 +23,9 @@ map.o: map.c map.h
 	$(CC) $(DEBUG) -c $< -o $@
 	
 tileset.o: tileset.c tileset.h
+	$(CC) $(DEBUG) -c $< -o $@
+	
+triggers.o: triggers.c triggers.h
 	$(CC) $(DEBUG) -c $< -o $@
 
 clean:

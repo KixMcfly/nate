@@ -1,4 +1,5 @@
 #include "nate.h"
+#include "triggers.h"
 
 volatile int elapsed_time = 5;
 void __inc_elapsed_time(){ elapsed_time--; };
@@ -6,68 +7,121 @@ END_OF_FUNCTION( __inc_elapsed_time );
 
 int main (void){
     
-    DATAFILE *song;
+    DATAFILE *song, *dat;
     Sprite *nate;
-    Map *map;
+    Map *map = NULL;
+    BITMAP *ball_spr = NULL, *title_img = NULL;
+    BOOL in_menu = TRUE;
+    int room_change = NULL;
+    BOOL quit = FALSE;
+	int ball_x = -20, ball_y = 100, ball_y_dir = -1, ball_float = 0; 
+
 
 	if( !NATE_init() )
 	   return NULL;
 	   
 	install_timer();
-	   
+	
 	LOCK_VARIABLE( time );
 	LOCK_FUNCTION( __inc_elapsed_time );
 	install_int_ex( __inc_elapsed_time, BPS_TO_TIMER(1000) );
 	
+	dat = load_datafile_object( "nate.dat", "TITLE_PCX" );
 	back_buff = create_bitmap( 320, 200 );
-	map = load_map( "NATEROOM_SED" );
+	title_img = create_bitmap( 320, 200 );
+	blit( (BITMAP *)dat->dat, title_img, 0, 0, 0, 0, 320, 200 );
+	unload_datafile_object( dat );
+	
+	dat = load_datafile_object( "nate.dat", "BALL_PCX" );
+	ball_spr = create_bitmap( 48, 68 );
+	blit( (BITMAP *)dat->dat, ball_spr, 0, 0, 0, 0, 48, 68 );
+	unload_datafile_object( dat );
+	
+	dat = load_datafile_object( "nate.dat", "TITLE_PAL" );
+    set_palette( dat->dat );
+    unload_datafile_object( dat );
     
     nate = new_sprite();
     load_sprite( nate, "NATESPR_PCX", 20, 40 );
-    
-    song = load_datafile_object( "nate.dat", "SONG_MID" );
-    play_midi( (MIDI *)song->dat, 1 );
  
-    while( !key[KEY_ESC] ){
+	song = load_datafile_object( "nate.dat", "UP_MID" );
+	play_midi( (MIDI *)song->dat, 1 );
+ 
+    while( !quit ){
         
-        if( key[KEY_UP] && !snap_y && !is_solid( map, nate_x, nate_y - 1 ) ){
-            snap_y = -20;
-            nate_dir = SPR_UP;
-            nate_frm++;
-            nate_y--;
-        }
+        if( !in_menu )
+			process_nate( map );
         
-        if( key[KEY_DOWN] && !snap_y &&  nate_y + 1 < map->mh && !is_solid( map, nate_x, nate_y + 1 )  ){
-            snap_y = 20;
-            nate_dir = SPR_DOWN;
-            nate_frm++;
-            nate_y++;
-        }
+        if( !in_menu )
+			room_change = change_room_check( map, nate_x, nate_y);
         
-        if( key[KEY_LEFT] && !snap_x && !is_solid( map, nate_x - 1, nate_y ) ){
-            snap_x = -20;
-            nate_dir = SPR_LEFT;
-            nate_frm++;
-            nate_x--;
-        }
+        if( !in_menu && key[KEY_ESC] )
+			quit = TRUE;
         
-        if( key[KEY_RIGHT] && !snap_x && !is_solid( map, nate_x + 1, nate_y ) ){
-            snap_x = 20;
-            nate_dir = SPR_RIGHT;
-            nate_frm++;
-            nate_x++;
-        }
-        
-        if( key[KEY_A] ){
-			fade_out( 3 );
-			fade_in( cur_pal, 3 );
+        if( key[KEY_LCONTROL] ){
+			
+			if( room_change && !in_menu ){
+				free_map( map );
+				map = load_map( "HALLWAY_SED" );
+				nate_change_x( 4 );
+				nate_change_y( 5 );
+			}else if( in_menu ){
+				map = load_map( "NATEROOM_SED" );
+				stop_midi();
+				unload_datafile_object( song );
+				song = load_datafile_object( "nate.dat", "SONG_MID" );
+				play_midi( (MIDI *)song->dat, 1 );
+				dat = load_datafile_object( "nate.dat", "PALETTE" );
+				set_palette( dat->dat );
+				unload_datafile_object( dat );
+				set_palette( dat->dat );
+				get_palette( cur_pal );
+				destroy_bitmap( title_img );
+				in_menu = FALSE;
+				
+			}
 		}
-        
+                
         snap_adj_x();
         snap_adj_y();
+    
+		if(!in_menu)
+			draw_all_layers( back_buff, map );
+		else{
+			blit( title_img, back_buff, 0, 0, 0, 0, back_buff->w, back_buff->h );
+			draw_sprite(back_buff, ball_spr, ++ball_x, ball_y);
+			
+			if( ++ball_float == 40 ){
+				ball_float = 0;
+				
+				if( ball_y_dir == -1 )
+					ball_y_dir = 1;
+				else
+					ball_y_dir = -1;
+			}
+			
+			
+			
+			ball_y += ball_y_dir;
+			
+			if( ball_x > 400 ){
+				ball_x = -50;
+				ball_y = (rand() % (160 - -20 + 1)) + -20;
+			}
+		}
+
+        if( !in_menu )
+			blit_sprite( nate, back_buff, nate_log_x, nate_log_y, nate_dir, nate_frm );
         
-        draw_all_layers( back_buff, map );
-        blit_sprite( nate, back_buff, nate_log_x, nate_log_y, nate_dir, nate_frm );
+		/* Display trigger data */
+        switch( room_change ){
+			
+			case GOTO_NATEROOM_OUT:
+				textout_ex( back_buff, font, "To Hallway", 10, 10, 15, -1 );
+				break;
+			
+		}
+        
         blit( back_buff, screen, 0, 0, 0, 0, back_buff->w, back_buff->h );
         
         while( elapsed_time > 0 )
@@ -80,6 +134,7 @@ int main (void){
     unload_datafile_object( song );
     
     free_map( map );
+    destroy_bitmap( ball_spr );
     destroy_sprite( nate );
     
     NATE_uninit();
@@ -113,7 +168,7 @@ BOOL NATE_init( void ){
     if( install_sound(DIGI_AUTODETECT, MIDI_AUTODETECT, NULL) ){
         allegro_message( "Error initialising sound: %s\n", allegro_error );
         install_sound( DIGI_NONE, MIDI_NONE, NULL );
-        error = TRUE;  
+        error = TRUE;
     }
     
     pal = load_datafile_object( "nate.dat", "PALETTE" );

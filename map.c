@@ -5,17 +5,12 @@
 
 #define DEBUG FALSE
 
-#define TILE_NUM( t ) ( t & 0x00FF )
-#define TSET_NUM( t ) ( (t & 0x0F00) >> 8 )
-#define IS_SOLID( t ) ( t & 0x40000000 )
-
 int is_solid( Map *m, int x, int y ){
 	
-	if( IS_SOLID( m->td[ m->nl - 1 ][ y*m->mw+x ] ) )
+	if( IS_SOLID( m->td[ 0 ][ y*m->mw+x ] ) )
 		return TRUE;
 	else
 		return FALSE;
-	
 }
 
 Map *load_map( char *map_name ){
@@ -27,8 +22,12 @@ Map *load_map( char *map_name ){
 	unsigned char *save;
 	int i;
 	
-	
 	map = load_datafile_object( "nate.dat", map_name );
+	
+	if( !map ){
+		return NULL;
+	}
+	
 	map_data = malloc( map->size );
 	save = map_data;
 	new_m = malloc( sizeof(Map) );
@@ -109,8 +108,8 @@ Map *load_map( char *map_name ){
 				
 				new_m->td[i][y * new_m->mw + x] = get_dword( map_p );
 				
-				if( new_m->td[i][y * new_m->mw + x] )
-					new_m->td[i][y * new_m->mw + x]--;
+				//if( new_m->td[i][y * new_m->mw + x] )
+					//new_m->td[i][y * new_m->mw + x]--;
 				
 				#if DEBUG
 				printf( "%lx ", TILE_NUM(new_m->td[i][y * new_m->mw + x]) );
@@ -170,12 +169,19 @@ void free_map( Map *m ){
 
 void draw_all_layers( BITMAP *d, Map *m ){
 	
-	unsigned long x, y, i, tx, ty;
+	unsigned long x, y, i, tx, ty, tn, ts;
 	
 	for( i = 0; i < m->nl; i++ )
 		for( y = 0, ty = 0; y < m->mh; y++, ty += m->th )
-			for( x = 0, tx = 0; x < m->mw; x++, tx += m->tw )
-				blit( m->tsets[i]->tiles[ TILE_NUM(m->td[i][y*(m->mw)+x]) ], d, 0, 0, tx, ty, m->tw, m->th );
+			for( x = 0, tx = 0; x < m->mw; x++, tx += m->tw ){
+				tn = TILE_NUM(m->td[i][y*(m->mw)+x]);
+				ts = TSET_NUM(m->td[i][y*(m->mw)+x]);
+				
+				if( tn )
+					blit( m->tsets[ts]->tiles[--tn], d, 0, 0, tx, ty, m->tw, m->th );
+				else if( !i )
+					rectfill( d, tx, ty, tx + m->tw, ty + m->th, 0 );
+			}
 
 }
 
