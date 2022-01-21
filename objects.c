@@ -41,12 +41,14 @@ void process_nate( Map *map ){
 void nate_change_y( int y ){
 	
 	nate_y = y;
-	nate_log_y = nate_y * 20;
+	snap_y = 0;
+	nate_log_y = nate_y * 20 - 20;
 }
 
 void nate_change_x( int x ){
 	
 	nate_x = x;
+	snap_x = 0;
 	nate_log_x = nate_x * 20;
 }
 

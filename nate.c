@@ -16,7 +16,6 @@ int main (void){
     BOOL quit = FALSE;
 	int ball_x = -20, ball_y = 100, ball_y_dir = -1, ball_float = 0; 
 
-
 	if( !NATE_init() )
 	   return NULL;
 	   
@@ -62,16 +61,27 @@ int main (void){
 			
 			if( room_change && !in_menu ){
 				free_map( map );
-				map = load_map( "HALLWAY_SED" );
-				nate_change_x( 4 );
-				nate_change_y( 5 );
+				
+				switch( room_change ){
+				case GOTO_NATEROOM_OUT:
+					map = load_map( "HALL_F1_SED" );
+					nate_change_x( 5 );
+					nate_change_y( 5 );
+					break;
+				case GOTO_NATEROOM_IN:
+					map = load_map( "NATEROOM_SED" );
+					nate_change_x( 5 );
+					nate_change_y( 5 );
+				}
+				
+				
 			}else if( in_menu ){
 				map = load_map( "NATEROOM_SED" );
 				stop_midi();
 				unload_datafile_object( song );
 				song = load_datafile_object( "nate.dat", "SONG_MID" );
 				play_midi( (MIDI *)song->dat, 1 );
-				dat = load_datafile_object( "nate.dat", "PALETTE" );
+				dat = load_datafile_object( "nate.dat", "NATE_PAL" );
 				set_palette( dat->dat );
 				unload_datafile_object( dat );
 				set_palette( dat->dat );
@@ -100,8 +110,6 @@ int main (void){
 					ball_y_dir = -1;
 			}
 			
-			
-			
 			ball_y += ball_y_dir;
 			
 			if( ball_x > 400 ){
@@ -119,6 +127,7 @@ int main (void){
 			case GOTO_NATEROOM_OUT:
 				textout_ex( back_buff, font, "To Hallway", 10, 10, 15, -1 );
 				break;
+			
 			
 		}
         
@@ -169,16 +178,6 @@ BOOL NATE_init( void ){
         allegro_message( "Error initialising sound: %s\n", allegro_error );
         install_sound( DIGI_NONE, MIDI_NONE, NULL );
         error = TRUE;
-    }
-    
-    pal = load_datafile_object( "nate.dat", "PALETTE" );
-    if( !pal ){
-        allegro_message( "Unable to load palette from data file\n" );
-        error = TRUE;
-    }else{
-        set_palette( pal->dat );
-        get_palette( cur_pal );
-        unload_datafile_object( pal );
     }
     
     if( error )
