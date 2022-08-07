@@ -1,37 +1,41 @@
-#include <allegro.h>
-#include <stdio.h>
 #include "tileset.h"
 
-Tileset *new_tileset( void ){
+int
+load_tileset (TILESET *ts, char *dat_fn, char *dat_id, int tw, int th)
+{
+	DATAFILE *df;
+	int wit, hit, x, y, ct;
+	BITMAP *tmp;
 	
-	Tileset *ts = (Tileset *)malloc( sizeof(Tileset) );
+	df = load_datafile_object (dat_fn, dat_id);
+	if (!df){
+		return 0;
+	}
 	
-	return ts;
-}
-
-void tileset_set( Tileset *tileset, BITMAP *bm, int tw, int th ){
+	tmp = (BITMAP *)df->dat;
 	
-	int num_tiles, x, y, ct;
+	/* tiles per row */
+	wit = tmp->w / tw;
+	hit = tmp->h / th;
 	
-	num_tiles = (bm->w / tw) * (bm->h / th);
-	tileset->tiles = (BITMAP **)calloc( num_tiles, sizeof(BITMAP *) );
-	tileset->num_tiles = num_tiles;
+	/* Assign number of tiles in tileset */
+	ts->nt = wit * hit;
 	
-	for( y = 0, ct = 0; y < bm->h; y += th ){
-		for( x = 0; x < bm->w; x += tw, ct++ ){
-			tileset->tiles[ ct ] = create_bitmap( tw, th );
-			blit( bm, tileset->tiles[ct], x, y, 0, 0, tw, th );
+	/* Get tileset list this map uses */
+	ts->tiles = (BITMAP **)malloc (sizeof (BITMAP *) * (wit * hit));
+	
+	if (ts->nt == NULL)
+		return -1;
+	
+	for (y = 0, ct = 0; y < hit; y++){
+		for (x = 0; x < wit; x++, ct++ ){
+			ts->tiles[ct] = create_bitmap (tw, th);
+			blit (tmp, ts->tiles[ct], x*tw, y*th, 0, 0, tw, th);
 		}
 	}
-}
-
-void tileset_free( Tileset *tileset ){
 	
-	int ct;
-	for( ct = 0; ct < tileset->num_tiles; ct++ )
-		destroy_bitmap( tileset->tiles[ct] );
-		
-	free( tileset->tiles );
-	free( tileset );
+	unload_datafile_object (df);
 
+	return 1;
 }
+

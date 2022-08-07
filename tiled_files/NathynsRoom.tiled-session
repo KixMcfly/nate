@@ -1,0 +1,48 @@
+{
+    "activeFile": "NATEROOM.tmx",
+    "expandedProjectPaths": [
+    ],
+    "fileStates": {
+        "HALLWAY.tmx": {
+            "scale": 2,
+            "selectedLayer": 1,
+            "viewCenter": {
+                "x": 1.5,
+                "y": 169.5
+            }
+        },
+        "NATEROOM.tmx": {
+            "scale": 2,
+            "selectedLayer": 1,
+            "viewCenter": {
+                "x": 321.5,
+                "y": 169.5
+            }
+        },
+        "nateroom.tsx": {
+            "scaleInDock": 1.5,
+            "scaleInEditor": 1
+        }
+    },
+    "last.exportedFilePath": "C:/projects/nate/maps",
+    "last.imagePath": "C:/projects/nate/images",
+    "last.objectTypesPath": "C:/projects/nate/NateTiledFiles/propertytypes.json",
+    "last.worldFilePath": "C:/projects/nate/tiled_files",
+    "lastUsedTilesetExportFilter": "All Files (*)",
+    "loadedWorlds": [
+        "C:/projects/nate/tiled_files/nate_world.world"
+    ],
+    "map.lastUsedExportFilter": "Nathyn's Room Chunk Format (*.nat)",
+    "openFiles": [
+        "HALLWAY.tmx",
+        "NATEROOM.tmx",
+        "nateroom.tsx"
+    ],
+    "project": "NathynsRoom.tiled-project",
+    "property.type": "string",
+    "recentFiles": [
+        "HALLWAY.tmx",
+        "nateroom.tsx",
+        "NATEROOM.tmx"
+    ]
+}

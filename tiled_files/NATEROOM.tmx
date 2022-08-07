@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.8" tiledversion="1.8.4" orientation="orthogonal" renderorder="right-down" width="16" height="10" tilewidth="20" tileheight="20" infinite="0" nextlayerid="11" nextobjectid="114">
+ <editorsettings>
+  <export target="../maps/NATEROOM.nat" format="custom"/>
+ </editorsettings>
+ <properties>
+  <property name="name" value="Nathyn's Room"/>
+ </properties>
+ <tileset firstgid="1" source="nateroom.tsx"/>
+ <layer id="1" name="Tile Layer 1" width="16" height="10">
+  <data encoding="csv">
+1,2,3,4,5,6,7,8,9,10,11,12,13,82,82,82,
+17,18,19,20,21,22,23,24,25,26,27,28,29,82,82,82,
+33,34,35,36,37,38,39,40,41,42,43,44,45,82,82,82,
+49,50,51,52,53,54,55,56,57,58,59,60,61,82,82,82,
+65,66,67,68,69,70,71,72,73,74,75,76,77,82,82,82,
+81,82,83,84,85,86,87,88,89,90,91,92,93,82,82,82,
+97,98,99,100,101,102,103,104,105,106,107,108,109,82,82,82,
+113,114,115,116,117,118,119,120,121,122,123,124,125,82,82,82,
+129,130,131,132,133,134,135,136,137,138,139,140,141,82,82,82,
+145,146,147,148,149,150,151,152,153,154,155,156,157,82,82,82
+</data>
+ </layer>
+ <objectgroup id="10" name="triggers">
+  <object id="112" name="HALLWAY_NAT" type="CHGROOM" x="100" y="120" width="20" height="20">
+   <properties>
+    <property name="name" value="HALLWAY_NAT"/>
+    <property name="x" type="int" value="0"/>
+    <property name="y" type="int" value="6"/>
+   </properties>
+  </object>
+  <object id="113" name="HALLWAY_NAT" type="CHGROOM" x="160" y="120" width="20" height="20">
+   <properties>
+    <property name="name" value="HALLWAY_NAT"/>
+    <property name="x" type="int" value="1"/>
+    <property name="y" type="int" value="5"/>
+   </properties>
+  </object>
+ </objectgroup>
+</map>

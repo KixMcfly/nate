@@ -3,29 +3,35 @@ DEBUG = -Wall -g
 
 .PHONY: clean
 
-OBJECTS = nate.o graphics.o objects.o map.o tileset.o triggers.o
+objs = main.o tileset.o map.o draw.o sprite.o text.o node.o tools.o
 
 all: nate
 
-nate: $(OBJECTS)
-	$(CC) $(DEBUG) $(OBJECTS) -o $@ -lalleg
+nate: $(objs)
+	$(CC) $(DEBUG) $(objs) -o $@ -lalleg
 
-nate.o: nate.c nate.h
-	$(CC) $(DEBUG) -c $< -o $@
-	
-graphics.o: graphics.c graphics.h
-	$(CC) $(DEBUG) -c $< -o $@
-	
-objects.o: objects.c objects.h
-	$(CC) $(DEBUG) -c $< -o $@
-	
-map.o: map.c map.h
+main.o: main.c main.h
 	$(CC) $(DEBUG) -c $< -o $@
 	
 tileset.o: tileset.c tileset.h
 	$(CC) $(DEBUG) -c $< -o $@
+
+map.o: map.c map.h
+	$(CC) $(DEBUG) -c $< -o $@
 	
-triggers.o: triggers.c triggers.h
+draw.o: draw.c draw.h
+	$(CC) $(DEBUG) -c $< -o $@
+	
+sprite.o: sprite.c sprite.h
+	$(CC) $(DEBUG) -c $< -o $@
+	
+text.o: text.c text.h
+	$(CC) $(DEBUG) -c $< -o $@
+	
+node.o: node.c node.h
+	$(CC) $(DEBUG) -c $< -o $@
+	
+tools.o: tools.c tools.h
 	$(CC) $(DEBUG) -c $< -o $@
 
 clean:

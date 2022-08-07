@@ -1,0 +1,22 @@
+{
+    "automappingRulesFile": "",
+    "commands": [
+    ],
+    "extensionsPath": "../../../Users/Robot Dick/AppData/Local/Tiled/extensions",
+    "folders": [
+    ],
+    "objectTypesFile": "propertytypes.json",
+    "propertyTypes": [
+        {
+            "id": 1,
+            "name": "FLAGS",
+            "storageType": "int",
+            "type": "enum",
+            "values": [
+                "SOLID",
+                "GRASS"
+            ],
+            "valuesAsFlags": true
+        }
+    ]
+}

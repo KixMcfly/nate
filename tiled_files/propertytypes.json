@@ -1,0 +1,14 @@
+[
+    {
+        "color": "#ffaaff00",
+        "name": "FLAGS",
+        "properties": [
+            {
+                "name": "FLAGS",
+                "propertytype": "FLAGS",
+                "type": "int",
+                "value": 0
+            }
+        ]
+    }
+]

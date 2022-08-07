@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta http-equiv="X-UA-Compatible" content="ie=edge">
+		<title>Nathyn's Room Design Doc</title>
+		<style>
+			
+			table, th, td {
+				border: 1px solid black;
+			}
+			
+			h1, h3, p {
+
+				clear: left;
+			}
+			
+			/* Global */
+			body {
+				background-color: #170F07;
+				width: 50%;
+				margin: auto;
+				min-width: 700px;
+			}
+			
+			/* Style the tab */
+			.tab {
+				overflow: hidden;
+				border: none;
+				background-color: #256D92;
+			}
+			
+			/* Style the buttons that are used to open the tab content */
+			.tab button {
+				background-color: inherit;
+				color: #B9B9B9;
+				float: left;
+				border: none;
+				outline: none;
+				cursor: pointer;
+				padding: 14px 16px;
+				transition: 0.3s;
+			}
+			
+			/* Change background color of buttons on hover */
+			.tab button:hover {
+				background-color: #ddd;
+			}
+			
+			/* Create an active/current tablink class */
+			.tab button.active {
+				background-color: #ccc;
+			}
+			
+			/* Style the tab content */
+			.tabcontent {
+				display: none;
+				color: #B9B9B9;
+				padding: 6px 12px;
+				border: none;
+				border-top: none;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="tab">
+			<button class="tablinks" onclick="changeSection(event, 'intro')">Intro</button>
+			<button class="tablinks" onclick="changeSection(event, 'overview')">Overview</button>
+			<button class="tablinks" onclick="changeSection(event, 'gameplay')">Gameplay</button>
+		</div>
+
+		<!-- Tab content -->
+		<div id="intro" class="tabcontent">
+			<img style="float: right; clear: right; margin: 10px 0px 0px 0px;" src="data:image/png;base64,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" width="40%" height="40%"/>
+			<h1>Nathyn's Room</h1>
+			<h3><i>"Nathyn's Room Adventures And More!"</i></h3>
+			
+			<p>Nathyn's Room project team is: Shawn</p>
+			
+			<p>Last Updated: 4/26/2022</p>
+			
+		</div>
+		
+		<div id="overview" class="tabcontent">
+			<h1>Overview</h1>
+			
+		</div>
+		
+		<div id="gameplay" class="tabcontent">
+			<h1>Gameplay</h1>
+		</div>
+		<script>
+			
+			//Set intro as visible tab
+			introTab = document.getElementById("intro");
+			introTab.className += " active";
+			introTab.style.display = "block";
+			
+			function changeSection(evt, cityName) {
+				// Declare all variables
+				var i, tabcontent, tablinks;
+				
+				// Get all elements with class="tabcontent" and hide them
+				tabcontent = document.getElementsByClassName("tabcontent");
+				for (i = 0; i < tabcontent.length; i++) {
+					tabcontent[i].style.display = "none";
+				}
+				
+				// Get all elements with class="tablinks" and remove the class "active"
+				tablinks = document.getElementsByClassName("tablinks");
+				for (i = 0; i < tablinks.length; i++) {
+					tablinks[i].className = tablinks[i].className.replace(" active", "");
+				}
+				
+				// Show the current tab, and add an "active" class to the button that opened the tab
+				document.getElementById(cityName).style.display = "block";
+				evt.currentTarget.className += " active";
+			}
+		</script>
+  </body>
+</html>

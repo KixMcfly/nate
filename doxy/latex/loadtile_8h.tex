@@ -1,0 +1,78 @@
+\hypertarget{loadtile_8h}{}\doxysection{loadtile.\+h File Reference}
+\label{loadtile_8h}\index{loadtile.h@{loadtile.h}}
+
+
+Functions to load tilesets.  
+
+
+{\ttfamily \#include $<$allegro.\+h$>$}\newline
+\doxysubsection*{Data Structures}
+\begin{DoxyCompactItemize}
+\item 
+struct \mbox{\hyperlink{struct_t_i_l_e_s_e_t}{TILESET}}
+\begin{DoxyCompactList}\small\item\em Tileset object. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{struct_t_i_l_e_s_e_t}{TILESET}} $\ast$ \mbox{\hyperlink{loadtile_8h_ab0f30e4c06476470f887795a35c783f1}{new\+\_\+tileset}} (char $\ast$dat\+\_\+fn, char $\ast$dat\+\_\+id, int tw, int th)
+\begin{DoxyCompactList}\small\item\em loads a {\ttfamily BITMAP} from a {\ttfamily DATAFILE} object. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{loadtile_8h_aa6d6bd7ee24e62abb493afa17801ee07}{free\+\_\+tileset}} (\mbox{\hyperlink{struct_t_i_l_e_s_e_t}{TILESET}} $\ast$ts)
+\begin{DoxyCompactList}\small\item\em Free allocated {\ttfamily \mbox{\hyperlink{struct_t_i_l_e_s_e_t}{TILESET}}}. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Functions to load tilesets. 
+
+\begin{DoxyAuthor}{Author}
+Kix\+Mcfly 
+\end{DoxyAuthor}
+\begin{DoxyDate}{Date}
+5/12/2022
+\end{DoxyDate}
+Load an indexed version of a tileset 
+
+\doxysubsection{Function Documentation}
+\mbox{\Hypertarget{loadtile_8h_aa6d6bd7ee24e62abb493afa17801ee07}\label{loadtile_8h_aa6d6bd7ee24e62abb493afa17801ee07}} 
+\index{loadtile.h@{loadtile.h}!free\_tileset@{free\_tileset}}
+\index{free\_tileset@{free\_tileset}!loadtile.h@{loadtile.h}}
+\doxysubsubsection{\texorpdfstring{free\_tileset()}{free\_tileset()}}
+{\footnotesize\ttfamily void free\+\_\+tileset (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{struct_t_i_l_e_s_e_t}{TILESET}} $\ast$}]{ts }\end{DoxyParamCaption})}
+
+
+
+Free allocated {\ttfamily \mbox{\hyperlink{struct_t_i_l_e_s_e_t}{TILESET}}}. 
+
+Takes into consideration that {\ttfamily $\ast$ts} may be NULL, also ignores NULL tiles to avoid double free errors
+
+
+\begin{DoxyParams}{Parameters}
+{\em $\ast$ts} & {\ttfamily \mbox{\hyperlink{struct_t_i_l_e_s_e_t}{TILESET}}} to be freed \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{loadtile_8h_ab0f30e4c06476470f887795a35c783f1}\label{loadtile_8h_ab0f30e4c06476470f887795a35c783f1}} 
+\index{loadtile.h@{loadtile.h}!new\_tileset@{new\_tileset}}
+\index{new\_tileset@{new\_tileset}!loadtile.h@{loadtile.h}}
+\doxysubsubsection{\texorpdfstring{new\_tileset()}{new\_tileset()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{struct_t_i_l_e_s_e_t}{TILESET}} $\ast$ new\+\_\+tileset (\begin{DoxyParamCaption}\item[{char $\ast$}]{dat\+\_\+fn,  }\item[{char $\ast$}]{dat\+\_\+id,  }\item[{int}]{tw,  }\item[{int}]{th }\end{DoxyParamCaption})}
+
+
+
+loads a {\ttfamily BITMAP} from a {\ttfamily DATAFILE} object. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em $\ast$dat\+\_\+fn} & {\ttfamily DATAFILE} object to load {\ttfamily BITMAP} from. \\
+\hline
+{\em $\ast$dat\+\_\+id} & name of {\ttfamily BITMAP} in passed {\ttfamily DATAFILE} object \\
+\hline
+{\em Width} & of tiles to be parsed from {\ttfamily BITMAP} \\
+\hline
+{\em Height} & of tiles to be parsed from {\ttfamily BITMAP} \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Pointer to a newly allocated {\ttfamily \mbox{\hyperlink{struct_t_i_l_e_s_e_t}{TILESET}}} or NULL if error
+\end{DoxyReturn}
+\begin{DoxyNote}{Note}
+If accumulated tile width or tile height doesn\textquotesingle{}t add up with {\ttfamily BITMAP} dimentions, any left over pixels will be ignored. 
+\end{DoxyNote}

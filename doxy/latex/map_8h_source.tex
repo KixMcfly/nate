@@ -1,0 +1,32 @@
+\hypertarget{map_8h_source}{}\doxysection{map.\+h}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{1 \textcolor{preprocessor}{\#ifndef \_\_MAP\_H}}
+\DoxyCodeLine{2 \textcolor{preprocessor}{\#define \_\_MAP\_H}}
+\DoxyCodeLine{3 }
+\DoxyCodeLine{4 \textcolor{preprocessor}{\#include <allegro.h>}}
+\DoxyCodeLine{5 \textcolor{preprocessor}{\#include <string.h>}}
+\DoxyCodeLine{6 \textcolor{preprocessor}{\#include <stdio.h>}}
+\DoxyCodeLine{7 }
+\DoxyCodeLine{8 \textcolor{preprocessor}{\#include "{}loadtile.h"{}}}
+\DoxyCodeLine{9 }
+\DoxyCodeLine{10 \textcolor{keyword}{typedef} \textcolor{keyword}{struct }\{}
+\DoxyCodeLine{11     }
+\DoxyCodeLine{12     \textcolor{keywordtype}{char}            *name;}
+\DoxyCodeLine{13     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{short}  w;}
+\DoxyCodeLine{14     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{short}  h;}
+\DoxyCodeLine{15     }
+\DoxyCodeLine{16     \mbox{\hyperlink{struct_t_i_l_e_s_e_t}{TILESET}}          **ts\_lup;}
+\DoxyCodeLine{17     }
+\DoxyCodeLine{18     }
+\DoxyCodeLine{19 \} \mbox{\hyperlink{struct_m_a_p}{MAP}};}
+\DoxyCodeLine{20 }
+\DoxyCodeLine{21 \mbox{\hyperlink{struct_m_a_p}{MAP}} *}
+\DoxyCodeLine{22 load\_map (\textcolor{keywordtype}{char} *dat\_fn, \textcolor{keywordtype}{char} *dat\_id);}
+\DoxyCodeLine{23 }
+\DoxyCodeLine{24 \textcolor{keywordtype}{void}}
+\DoxyCodeLine{25 free\_map (\mbox{\hyperlink{struct_m_a_p}{MAP}} *map);}
+\DoxyCodeLine{26 }
+\DoxyCodeLine{27 \textcolor{preprocessor}{\#endif}}
+
+\end{DoxyCode}

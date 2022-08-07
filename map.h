@@ -1,30 +1,71 @@
-#ifndef MAP_H
-#define MAP_H
+#ifndef __MAP_H
+#define __MAP_H
+
+#define SOLID(b) (b & 0x01)
+#define GRASS(b) (b & 0x02)
+
+#include <allegro.h>
+#include <string.h>
+#include <stdio.h>
 
 #include "tileset.h"
+#include "obj.h"
+#include "node.h"
 
-#define TILE_NUM( t ) ( t & 0x00FF )
-#define TSET_NUM( t ) ( (t & 0xF0000) >> 16 )
-#define IS_SOLID( t ) ( t & 0x40000000 )
+enum {
+	SOLID
+};
 
-typedef struct {
-	
-	char *name;
-	Tileset **tsets;
-	unsigned char tran_r, tran_g, tran_b;
-	unsigned short tw, th, nt, nl;
-	unsigned long **td, mw, mh;
+/* Layer type */
+enum {
+	TILES,
+	OBJECTS
+};
 
-} Map;
+typedef struct MAP MAP;
+typedef struct LAYER LAYER;
+typedef struct TILE TILE;
 
-int is_solid( Map *m, int x, int y );
-Map *load_map( char *map_name );
-void draw_all_layers( BITMAP *d, Map *m );
-void mem_forw( unsigned char **mem, unsigned long num );
-char *get_string( unsigned char **mem, int num );
-unsigned char get_byte( unsigned char **mem );
-unsigned short get_word( unsigned char **mem );
-unsigned long get_dword( unsigned char **mem );
-void free_map( Map *m );
+int
+map_get_tw (MAP *m);
+
+int
+map_get_th (MAP *m);
+
+int
+map_get_w (MAP *m);
+
+int
+map_get_h (MAP *m);
+
+int
+map_get_nl (MAP *m);
+
+int
+map_get_nts (MAP *m);
+
+char *
+map_get_name (MAP *m);
+
+BITMAP *
+map_get_layer_img (MAP *m, int ln);
+
+int
+map_get_layer_type (MAP *m, int ln);
+
+NODE *
+map_get_node_head (MAP *m);
+
+MAP *
+map_new (void);
+
+unsigned char
+map_get_tile_flags (MAP *m, int ln, int x, int y);
+
+int
+load_map (MAP *m, char *dat_fn, char *dat_id);
+
+int
+map_free (MAP *map);
 
 #endif

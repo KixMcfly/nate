@@ -1,223 +1,326 @@
-#include <allegro.h>
-#include <stdio.h>
-#include <string.h>
 #include "map.h"
 
-#define DEBUG FALSE
-
-int is_solid( Map *m, int x, int y ){
+struct MAP{
 	
-	if( IS_SOLID( m->td[ 0 ][ y*m->mw+x ] ) )
-		return TRUE;
-	else
-		return FALSE;
+	char 			*name;
+	unsigned short 	w;
+	unsigned short 	h;
+	unsigned char   tw;
+	unsigned char	th;
+	int				nl;
+	int 			nts;
+
+	NODE			*so;
+	LAYER			*l_list;
+	TILESET			*ts_list;
+
+};
+
+struct LAYER{
+	
+	int type;
+	BITMAP *img;
+	void *data;
+	
+};
+
+struct TILE{
+	
+	unsigned short tn;
+	unsigned char ts;
+	unsigned char flags;
+	
+};
+
+int
+map_get_tw (MAP *m)
+{
+	return m->tw;
 }
 
-Map *load_map( char *map_name ){
-	
-	DATAFILE *map;
-	Map *new_m;
-	unsigned char *map_data;
-	unsigned char **map_p;
-	unsigned char *save;
-	int i;
-	
-	map = load_datafile_object( "nate.dat", map_name );
-	
-	if( !map ){
-		return NULL;
-	}
-	
-	map_data = malloc( map->size );
-	save = map_data;
-	new_m = malloc( sizeof(Map) );
-	
-	if( !new_m ){
-		printf( "Couldn't alloc memory for map!\n"  );
-		return NULL;
-	}
-	
-	memcpy( map_data, map->dat, map->size );
-	
-	unload_datafile_object( map );
-	
-	map_p = &map_data;
-	
-	#if DEBUG
-	mem_forw( map_p, 8 );
-	printf( "MAP VERSION MINOR: %u\n", get_byte(map_p) );
-	printf( "MAP VERSION MINOR: %u\n", get_byte(map_p) );
-	#else
-	mem_forw( map_p, 10 );
-	#endif
-	
-	new_m->name = get_string( map_p, get_byte(map_p) );
-	
-	new_m->tran_r = get_byte( map_p );
-	new_m->tran_g = get_byte( map_p );
-	new_m->tran_b = get_byte( map_p );
-	 
-	new_m->tw = get_word( map_p );
-	new_m->th = get_word( map_p );
+int
+map_get_th (MAP *m)
+{
+	return m->th;
+}
 
-	new_m->mw = get_dword( map_p );
-	new_m->mh = get_dword( map_p );
+int
+map_get_w (MAP *m)
+{
+	return m->w;
+}
+
+int
+map_get_h (MAP *m)
+{
+	return m->h;
+}
+
+int
+map_get_nl (MAP *m)
+{
+	return m->nl;
+}
+
+int
+map_get_nts (MAP *m)
+{
+	return m->nts;
+}
+
+char *
+map_get_name (MAP *m)
+{
+	return m->name;
+}
+
+BITMAP *
+map_get_layer_img (MAP *m, int ln)
+{
+	return m->l_list[ln].img;
+}
+
+int
+map_get_layer_type (MAP *m, int ln){
+	return m->l_list[ln].type;
+}
+
+unsigned char
+map_get_tile_flags (MAP *m, int ln, int x, int y)
+{
+	TILE *data = m->l_list[ln].data;
 	
-	new_m->nt = get_byte( map_p );
+	return data[x+m->w*y].flags;
+}
+
+NODE *
+map_get_node_head (MAP *m)
+{
+	return m->so;
+}
+
+MAP *
+map_new (void)
+{
+	return (MAP *)malloc (sizeof (MAP));
+}
+
+int
+load_map (MAP *m, char *dat_fn, char *dat_id)
+{
+	char *dat_fnid, *type, head[5];
+	TILE *t_data;
+	int size, i, co, noo, x, y, ntl;
+	PACKFILE *fp;
 	
-	/* Allocate tileset data  */
-	new_m->tsets = (Tileset **)malloc( new_m->nt * sizeof(Tileset *) );
+	/* Non moving objects */
+	m->so = NULL;
 	
-	if( !new_m->tsets ){
-		printf( "Couldn't alloc memory for tileset!\n" );
-		free( new_m->name );
-		free( new_m );
-		return NULL;
-		
+	/* Start map object list with none */
+	
+	size = strlen (dat_fn);
+	size += strlen (dat_id);
+	
+	/* 1 char for '#' and another for NULL term */
+	size += 2;
+
+	dat_fnid = (char *)malloc (size);
+	
+	if (!dat_fnid) return 0;
+	
+	sprintf (dat_fnid, "%s%s%s",  dat_fn, "#", dat_id);
+	
+	fp = pack_fopen (dat_fnid, F_READ);
+	free (dat_fnid);
+	
+	if (!fp) return -1;
+	
+	/* Ensure file is a NAT file */
+	pack_fread (head, 5, fp);
+
+	/* Map name */
+	size = pack_getc (fp);
+	m->name = (char *)malloc (size);
+	
+	if (m->name == NULL){
+		pack_fclose (fp);
+		return -2;
 	}
 	
-	for( i = 0; i < new_m->nt; i++ ){
+	pack_fread (m->name, size, fp);
+	
+	/* Map width and height in tiles */
+	m->w = (unsigned short) pack_igetw (fp);
+	m->h = (unsigned short) pack_igetw (fp);
+	
+	/* Tile width and height in pixels */
+	m->tw = (unsigned char) pack_getc (fp);
+	m->th = (unsigned char) pack_getc (fp);
+	
+	/* Get number of Tilesets */
+	size = pack_getc (fp);
+	m->nts = size;
+	m->ts_list = (TILESET *)malloc (size * sizeof (TILESET));
+
+	if (m->l_list == NULL){
+		free (m->name);
+		pack_fclose (fp);
+		return -3;
+	}
+
+	/* Load tilesets the map uses */
+	for (i = 0; i < size; i++){
 		
-		char *tsetn;
-		DATAFILE *dt;
-		BITMAP *bt;
-		mem_forw( map_p, 4 );
+		int len = pack_getc (fp);
+		char *ts_id = (char *)malloc (len);
+		int ret;
 		
-		tsetn = get_string( map_p, get_byte(map_p) );
-		dt = load_datafile_object( "nate.dat", tsetn );
+		pack_fread (ts_id, len, fp);
+
+		ret = load_tileset (&m->ts_list[i], dat_fn, ts_id, m->tw, m->th);
 		
-		free( tsetn );
-		bt = (BITMAP *)dt->dat;
+		free (ts_id);
 		
-		new_m->tsets[i] = new_tileset();
-		tileset_set( new_m->tsets[i], bt, new_m->tw, new_m->th );
-		
-		unload_datafile_object( dt );
+		if (ret != 1)
+			printf ("FAILED LOADING TILESET %d RETURN CODE %d\n", i, ret);
 		
 	}
-	
-	new_m->nl = get_byte( map_p );
-	new_m->td = (unsigned long **)malloc( new_m->nl * sizeof(long *) );
-	for( i = 0; i < new_m->nl; i++ ){
+
+	/* Get number of layers */
+	m->nl = pack_getc (fp);
+	m->l_list = (LAYER *)malloc (m->nl * sizeof (LAYER));
+
+	/* Parse layer data */
+	for (i = 0, ntl = 0; i < m->nl; i++){
 		
-		mem_forw( map_p, 3 );
-		new_m->td[ i ] = (unsigned long *)malloc( sizeof(long) * (new_m->mw * new_m->mh) );
-		long y, x;
-		for( y = 0; y < new_m->mh; y++ ){
-			for( x = 0; x < new_m->mw; x++ ){
-				
-				new_m->td[i][y * new_m->mw + x] = get_dword( map_p );
-				
-				//if( new_m->td[i][y * new_m->mw + x] )
-					//new_m->td[i][y * new_m->mw + x]--;
-				
-				#if DEBUG
-				printf( "%lx ", TILE_NUM(new_m->td[i][y * new_m->mw + x]) );
-				#endif
-			}
+		/* Get layer type */
+		m->l_list[i].type = pack_getc (fp);
+		
+		switch (m->l_list[i].type){
+			case TILES:
 			
-			#if DEBUG
-			printf("\n");
-			#endif
+				m->l_list[i].data = (TILE *)malloc((m->w*m->h) * sizeof (TILE));
+	
+				t_data = m->l_list[i].data;
+				/* Get layer data*/
+				int c;
+				for (c = 0; c < m->w*m->h; c++){
+					
+					t_data[c].tn = (unsigned short)pack_igetw (fp);
+					t_data[c].ts = pack_getc (fp);
+					t_data[c].flags = pack_getc (fp);
+					
+				}
+				
+				ntl++;
+			break;
+			case OBJECTS:
+
+				noo = pack_getc (fp);
+				
+				for (co = 0; co < noo; co++){
+					unsigned long x, y;
+					/* Type string length */
+					size = pack_getc (fp);
+					type = (char *)malloc (size);
+					pack_fread (type, size, fp);
+				
+					x = pack_igetl (fp);
+					y = pack_igetl (fp);
+				
+					if (!strcmp (type, "CHGROOM")){
+						
+						int len;
+						CHGROOM *room = (CHGROOM *) malloc (sizeof (CHGROOM));
+						
+						/* Get room name to change to */
+						len = pack_getc (fp);
+						pack_fread (room->name, len, fp);
+						
+						room->x = x;
+						room->y = y;
+						room->cx = pack_igetl (fp);
+						room->cy = pack_igetl (fp);
+						
+						/* Add object to map object list */
+						m->so = node_add (m->so, OBJ_CHGROOM, room);
+					}
+
+					free (type);
+				}
+			break;
+				
 		}
 	}
 	
-	#if DEBUG
-	printf( "MAP NAME: %s\n", new_m->name );
-	printf( "TILE WIDTH: %u\n", new_m->tw );
-	printf( "TILE HEIGHT: %u\n", new_m->th );
-	printf( "MAP WIDTH: %lu\n", new_m->mw );
-	printf( "MAP HEIGHT: %lu\n", new_m->mh );
-	printf( "R: %u\n", new_m->tran_r );
-	printf( "G: %u\n", new_m->tran_g );
-	printf( "B: %u\n", new_m->tran_b );
-	printf( "TILESETS: %u\n", new_m->nt );
-	printf( "LAYERS: %u\n", new_m->nl );
-	
-	while( !key[KEY_D] )
-		;
-	
-	#endif
-	
-	/* Restore original pointer position before freeing */
-	map_data = save;
-	free( map_data );
-	
-	return new_m;
-}
-
-void free_map( Map *m ){
-	
-	int i;
-	free( m->name );
-	
-	i = 0;
-	while( i < m->nt ){
-		tileset_free( m->tsets[i] );
-		i++;
-	}
-	
-	i = 0;
-	while( i < m->nl ){
-		free( m->td[i] );
-		i++;
-	}
-	
-	free( m->td );
-	free( m );
-}
-
-void draw_all_layers( BITMAP *d, Map *m ){
-	
-	unsigned long x, y, i, tx, ty, tn, ts;
-	
-	for( i = 0; i < m->nl; i++ )
-		for( y = 0, ty = 0; y < m->mh; y++, ty += m->th )
-			for( x = 0, tx = 0; x < m->mw; x++, tx += m->tw ){
-				tn = TILE_NUM(m->td[i][y*(m->mw)+x]);
-				ts = TSET_NUM(m->td[i][y*(m->mw)+x]);
-				
-				if( tn )
-					blit( m->tsets[ts]->tiles[--tn], d, 0, 0, tx, ty, m->tw, m->th );
-				else if( !i )
-					rectfill( d, tx, ty, tx + m->tw, ty + m->th, 0 );
+	/* Create buffers for layers */
+	for (i = 0; i < m->nl; i++){
+		
+		if (m->l_list[i].type == TILES){
+			
+			TILE *data = m->l_list[i].data;
+			
+			m->l_list[i].img = create_bitmap (m->w*m->tw, m->h*m->th);
+			
+			for (y = 0; y < m->h; y++){
+				for (x = 0; x < m->w; x++){
+					unsigned char ts = data[y*m->w+x].ts;
+					unsigned char tn = data[y*m->w+x].tn;
+					
+					blit (m->ts_list[ts].tiles[tn],
+						  m->l_list[i].img, 0, 0,
+						  x*m->tw, y*m->th, m->tw, m->th);
+				}
 			}
+		}else{
+			m->l_list[i].img = NULL;
+		}
+	}
+	
+	pack_fclose (fp);
 
+	return 1;
 }
 
-void mem_forw( unsigned char **mem, unsigned long num ){
-	
-	*mem += num;
-}
+int
+map_free (MAP *m)
+{
+	int i;
 
-char *get_string( unsigned char **mem, int num ){
-	
-	char *temp = calloc( num + 1, sizeof(char) );
-	memcpy( temp, *mem, num );
-	*mem += num;
-	return temp;
-}
+	if (m){
 
-unsigned char get_byte( unsigned char **mem ){
-	
-	unsigned char temp;
-	memcpy( &temp, *mem, sizeof(char) );
-	*mem += sizeof(char);
-	return temp;
-}
+		free (m->name);
+		
+		for (i = 0; i < m->nl; i++){
+			if (m->l_list[i].type == TILES){
+			
+				free (m->l_list[i].data);
+			
+				if (m->l_list[i].img)
+					destroy_bitmap (m->l_list[i].img);
+			}
+		}
+		
+		free (m->l_list);
+		
+		for (i = 0; i < m->nts; i++){
+			int ct;
+			for (ct = 0; ct < m->ts_list[i].nt; ct++)
+				destroy_bitmap (m->ts_list[i].tiles[ct]);
+				
+			free (m->ts_list[i].tiles);
+		}
 
-unsigned short get_word( unsigned char **mem ){
-	
-	unsigned short temp;
-	memcpy( &temp, *mem, sizeof(short) );
-	*mem += sizeof(short);
-	return temp;
-}
+		node_clear (m->so);
+		free (m->ts_list);
+		free (m);
+		
+		m = NULL;
+		
+		return TRUE;
+	}else{
 
-unsigned long get_dword( unsigned char **mem ){
+		return FALSE;
+	}
 	
-	unsigned long temp;
-	memcpy( &temp, *mem, sizeof(long) );
-	*mem += sizeof(long);
-	return temp;
 }
