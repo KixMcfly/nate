@@ -6,6 +6,8 @@ int main (void)
 	MAP *m = NULL;
 	NATE nate;
 	CHGROOM *cr = NULL;
+	BITMAP *title = NULL;
+	DATAFILE *df = NULL;
 	NODE *cn = NULL;
 	
 	int nl, cl, quit = FALSE;
@@ -13,19 +15,59 @@ int main (void)
 	/* Initialize Nate */
 	nate_init ();
 	
+	/* START MAIN MENU **********************/
+	
+	/* Title BMP */
+	df = load_datafile_object (NATE_DAT, "TITLE_BMP");
+	title = (BITMAP *)df->dat;
+	blit (title, get_backbuff (), 0, 0, 0, 0, title->w, title->h);
+	unload_datafile_object (df);
+	set_pal (NATE_DAT, "TITLE_PAL");
+	show_backbuff (0, 0);
+	
+	/* Load title MIDI*/
+	df = load_datafile_object (NATE_DAT, "TITLE_MID");
+	play_midi ((MIDI *)df->dat, TRUE);
+
+	/* Press any key */
+	while (!keypressed ())
+		;
+	
+	fade_out (10);
+		
+	/* Stop title midi */
+	stop_midi ();
+	unload_datafile_object (df);
+
+	/* END MAIN MENU ************************/
+	
 	/* Load nate font */
-	text_load_font_dat ("nate.DAT", "NATE_FNT");
+	text_load_font_dat (NATE_DAT, "NATE_FNT");
 	
 	/* set starting room */
-	set_pal ("nate.DAT", "NATE_PAL");
+	vsync ();
+	set_pal (NATE_DAT, "NATE_PAL");
 	m = map_new ();
-	load_map (m, "nate.DAT", "NATEROOM_NAT");
+	load_map (m, NATE_DAT, "NATEROOM_NAT");
 	nl = map_get_nl (m);
 
 	/* Init nate player data */
 	nate.s = sprite_new ();
-	sprite_keyframe_dat_div (nate.s, 3, 4, "nate.DAT", "NATESPR_BMP");
+	sprite_keyframe_dat_div (nate.s, 3, 4, NATE_DAT, "NATESPR_BMP");
 	nate_def (&nate);
+	
+	/* Get palette for fade in */
+	df = load_datafile_object (NATE_DAT, "NATE_PAL");
+	
+	for (cl = 0; cl < nl; cl++)
+		draw_map_layer (m, cl, 0, 0);
+		
+	nate_draw (&nate);
+	show_backbuff (0, 0);
+	
+	fade_in (df->dat, 20);
+	df = load_datafile_object (NATE_DAT, "NATEROOM_MID");
+	play_midi ((MIDI *)df->dat, TRUE);
 
 	while (!quit){
 
@@ -76,13 +118,18 @@ int main (void)
 				
 				if (nate.lx == cr->x && nate.ly == cr->y){
 					
+					/* List change room name */
 					text_print_center (get_backbuff (), cr->name);
-					//nate_set_xy (&nate, cr->cx, cr->cy);
-					//
-					//map_free (m);
-					//m = map_new ();
-					//load_map (m, "nate.DAT", cr->name);
-					//nl = map_get_nl (m);
+					
+					/* Change to room if use button is pressed */
+					if (key[KEY_SPACE]){
+						nate_set_xy (&nate, cr->cx, cr->cy);
+						
+						map_free (m);
+						m = map_new ();
+						load_map (m, NATE_DAT, cr->name);
+						nl = map_get_nl (m);
+					}
 					
 					break;
 				}

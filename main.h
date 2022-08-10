@@ -9,6 +9,8 @@
 #include "tools.h"
 #include "text.h"
 
+#define NATE_DAT "nate.DAT"
+
 /* Make EXE smaller by removing unused drivers */
 BEGIN_GFX_DRIVER_LIST
 	GFX_DRIVER_VGA
