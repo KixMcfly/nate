@@ -45,8 +45,6 @@ int main (void)
 	text_load_font_dat (NATE_DAT, "NATE_FNT");
 	
 	/* set starting room */
-	vsync ();
-	set_pal (NATE_DAT, "NATE_PAL");
 	m = map_new ();
 	load_map (m, NATE_DAT, "NATEROOM_NAT");
 	nl = map_get_nl (m);
@@ -59,13 +57,14 @@ int main (void)
 	/* Get palette for fade in */
 	df = load_datafile_object (NATE_DAT, "NATE_PAL");
 	
+	set_pal (NATE_DAT, "NATE_PAL");
 	for (cl = 0; cl < nl; cl++)
 		draw_map_layer (m, cl, 0, 0);
 		
 	nate_draw (&nate);
-	show_backbuff (0, 0);
 	
 	fade_in (df->dat, 20);
+	show_backbuff (0, 0);
 	df = load_datafile_object (NATE_DAT, "NATEROOM_MID");
 	play_midi ((MIDI *)df->dat, TRUE);
 
