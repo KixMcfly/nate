@@ -63,8 +63,9 @@ int main (void)
 		
 	nate_draw (&nate);
 	
-	fade_in (df->dat, 20);
 	show_backbuff (0, 0);
+	fade_in (df->dat, 20);
+	
 	df = load_datafile_object (NATE_DAT, "NATEROOM_MID");
 	play_midi ((MIDI *)df->dat, TRUE);
 
