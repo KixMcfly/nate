@@ -6,6 +6,7 @@
 #include "draw.h"
 #include "sprite.h"
 #include "node.h"
+#include "inv.h"
 #include "tools.h"
 #include "text.h"
 

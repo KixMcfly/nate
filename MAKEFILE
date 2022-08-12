@@ -3,7 +3,7 @@ DEBUG = -Wall -g
 
 .PHONY: clean
 
-objs = main.o tileset.o map.o draw.o sprite.o text.o node.o tools.o
+objs = main.o tileset.o map.o draw.o sprite.o text.o inv.o node.o tools.o
 
 all: nate
 
@@ -26,6 +26,9 @@ sprite.o: sprite.c sprite.h
 	$(CC) $(DEBUG) -c $< -o $@
 	
 text.o: text.c text.h
+	$(CC) $(DEBUG) -c $< -o $@
+	
+inv.o: inv.c inv.h
 	$(CC) $(DEBUG) -c $< -o $@
 	
 node.o: node.c node.h

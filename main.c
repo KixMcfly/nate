@@ -76,6 +76,9 @@ int main (void)
 	df = load_datafile_object (NATE_DAT, "NATEROOM_MID");
 	play_midi ((MIDI *)df->dat, TRUE);
 
+	inv_init ();
+	inv_log ();
+
 	while (!quit){
 
 		if (key[KEY_Q])
