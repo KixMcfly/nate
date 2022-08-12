@@ -6,8 +6,9 @@ int main (void)
 	MAP *m = NULL;
 	NATE nate;
 	CHGROOM *cr = NULL;
+	GENERIC *gn = NULL;
 	BITMAP *title = NULL;
-	DATAFILE *df = NULL;
+	DATAFILE *df = NULL, *snd_door = NULL;
 	NODE *cn = NULL;
 	
 	int nl, cl, quit = FALSE;
@@ -44,6 +45,11 @@ int main (void)
 	/* Load nate font */
 	text_load_font_dat (NATE_DAT, "NATE_FNT");
 	
+	/* Load sounds */
+	snd_door = load_datafile_object (NATE_DAT, "DOOR_WAV");
+	
+	log_print ("Sound Door Ret: %p\n", snd_door);
+	
 	/* set starting room */
 	m = map_new ();
 	load_map (m, NATE_DAT, "NATEROOM_NAT");
@@ -66,6 +72,7 @@ int main (void)
 	show_backbuff (0, 0);
 	fade_in (df->dat, 20);
 	
+	unload_datafile_object (df);
 	df = load_datafile_object (NATE_DAT, "NATEROOM_MID");
 	play_midi ((MIDI *)df->dat, TRUE);
 
@@ -103,17 +110,23 @@ int main (void)
 		}
 
 		/* Draw map layers */
-		for (cl = 0; cl < nl; cl++){
+		for (cl = 0; cl < nl; cl++)
 			draw_map_layer (m, cl, 0, 0);
-		}
 		
 		nate_process (&nate);
 
 		/* Check objects */
 		cn = map_get_node_head (m);
 		while (cn){
-			
-			if (node_get_type (cn) == OBJ_CHGROOM){
+
+			if (node_get_type (cn) == OBJ_COMPUTER){
+				
+				gn = node_get_data (cn);
+				if (nate.lx == gn->x && nate.ly == gn->y){
+					
+					text_print_center (get_backbuff (), "computer");
+				}
+			}else if (node_get_type (cn) == OBJ_CHGROOM){
 				cr = node_get_data (cn);
 				
 				if (nate.lx == cr->x && nate.ly == cr->y){
@@ -122,18 +135,16 @@ int main (void)
 					text_print_center (get_backbuff (), cr->name);
 					
 					/* Change to room if use button is pressed */
-					if (key[KEY_SPACE]){
+					if (key[KEY_LCONTROL]){
 						nate_set_xy (&nate, cr->cx, cr->cy);
-						
+						play_sample ((SAMPLE *)snd_door->dat, 255, 128, 600, NULL);
 						map_free (m);
 						m = map_new ();
 						load_map (m, NATE_DAT, cr->name);
 						nl = map_get_nl (m);
+						break;
 					}
-					
-					break;
 				}
-					
 			}
 			
 			cn = node_get_next (cn);
@@ -149,6 +160,11 @@ int main (void)
 			
 		elapsed_time = 10;
 	}
+	
+	/* Unload sounds */
+	unload_datafile_object (snd_door);
+	
+	unload_datafile_object (df);
 
 	/* Destroy Nate font */
 	text_destroy_font ();

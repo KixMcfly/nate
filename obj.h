@@ -6,9 +6,15 @@
 enum {
 	
 	OBJ_NONE,
+	OBJ_COMPUTER,
 	OBJ_CHGROOM
 	
 };
+
+typedef struct {
+	int x;
+	int y;
+} GENERIC;
 
 typedef struct {
 	int x;

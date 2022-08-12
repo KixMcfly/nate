@@ -7,16 +7,16 @@
             "scale": 2,
             "selectedLayer": 1,
             "viewCenter": {
-                "x": 1.5,
-                "y": 169.5
+                "x": -110,
+                "y": 90
             }
         },
         "NATEROOM.tmx": {
             "scale": 2,
             "selectedLayer": 1,
             "viewCenter": {
-                "x": 321.5,
-                "y": 169.5
+                "x": 210,
+                "y": 90
             }
         },
         "nateroom.tsx": {
@@ -24,7 +24,7 @@
             "scaleInEditor": 1
         }
     },
-    "last.exportedFilePath": "C:/projects/nate/maps",
+    "last.exportedFilePath": "C:/projects/nate/tiled_files",
     "last.imagePath": "C:/projects/nate/images",
     "last.objectTypesPath": "C:/projects/nate/NateTiledFiles/propertytypes.json",
     "last.worldFilePath": "C:/projects/nate/tiled_files",

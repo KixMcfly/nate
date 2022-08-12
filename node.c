@@ -82,5 +82,7 @@ node_clear (NODE *head)
 
 	}
 	
+	head = NULL;
+	
 	return n_del;
 }

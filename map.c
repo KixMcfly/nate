@@ -110,7 +110,7 @@ load_map (MAP *m, char *dat_fn, char *dat_id)
 {
 	char *dat_fnid, *type, head[5];
 	TILE *t_data;
-	int size, i, co, noo, x, y, ntl;
+	int size, i, co, noo, x, y, ntl, len;
 	PACKFILE *fp;
 	
 	/* Non moving objects */
@@ -228,9 +228,14 @@ load_map (MAP *m, char *dat_fn, char *dat_id)
 					x = pack_igetl (fp);
 					y = pack_igetl (fp);
 				
-					if (!strcmp (type, "CHGROOM")){
+					if (!strcmp (type, "COMPUTER")){
+						GENERIC *gen = (GENERIC *) malloc (sizeof (GENERIC));
+						gen->x = x;
+						gen->y = y;
+						m->so = node_add (m->so, OBJ_COMPUTER, gen);
 						
-						int len;
+					}else if (!strcmp (type, "CHGROOM")){
+
 						CHGROOM *room = (CHGROOM *) malloc (sizeof (CHGROOM));
 						
 						/* Get room name to change to */
@@ -295,6 +300,7 @@ map_free (MAP *m)
 			if (m->l_list[i].type == TILES){
 			
 				free (m->l_list[i].data);
+				m->l_list[i].data = NULL;
 			
 				if (m->l_list[i].img)
 					destroy_bitmap (m->l_list[i].img);
@@ -309,10 +315,12 @@ map_free (MAP *m)
 				destroy_bitmap (m->ts_list[i].tiles[ct]);
 				
 			free (m->ts_list[i].tiles);
+			m->ts_list[i].tiles = NULL;
 		}
 
 		node_clear (m->so);
 		free (m->ts_list);
+		m->ts_list = NULL;
 		free (m);
 		
 		m = NULL;
