@@ -15,7 +15,7 @@ INVITEM inv[MAX_INV];
 
 char *inv_list[INV_NUM] = {
 	
-	"",
+	"NONE",
 	/* VALUE */
 	"MONEY",
 	

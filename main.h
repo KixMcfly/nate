@@ -32,9 +32,19 @@ END_MIDI_DRIVER_LIST
 BEGIN_JOYSTICK_DRIVER_LIST
 END_JOYSTICK_DRIVER_LIST
 
+/* Timer chain */
 volatile int elapsed_time;
 void __inc_elapsed_time(){ elapsed_time--; };
 END_OF_FUNCTION( __inc_elapsed_time );
+
+/* Keyboard callback */
+volatile int key_up, key_down, scanc;
+void key_callback (int sc)
+{
+	scanc = sc & 0x80;
+	if (sc & 0x80) key_up = 1; else key_down = 1;
+} END_OF_FUNCTION(key_callback)
+
 
 enum {
 	DOWN,

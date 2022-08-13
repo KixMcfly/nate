@@ -8,10 +8,10 @@ int main (void)
 	CHGROOM *cr = NULL;
 	GENERIC *gn = NULL;
 	BITMAP *title = NULL;
-	DATAFILE *df = NULL, *snd_door = NULL;
+	DATAFILE *df = NULL, *snd_door = NULL, *inv_bmp = NULL;
 	NODE *cn = NULL;
 	
-	int nl, cl, quit = FALSE;
+	int nl, cl, quit = FALSE, show_inv = FALSE;
 	unsigned char solid;
 	/* Initialize Nate */
 	nate_init ();
@@ -48,8 +48,6 @@ int main (void)
 	/* Load sounds */
 	snd_door = load_datafile_object (NATE_DAT, "DOOR_WAV");
 	
-	log_print ("Sound Door Ret: %p\n", snd_door);
-	
 	/* set starting room */
 	m = map_new ();
 	load_map (m, NATE_DAT, "NATEROOM_NAT");
@@ -59,6 +57,9 @@ int main (void)
 	nate.s = sprite_new ();
 	sprite_keyframe_dat_div (nate.s, 3, 4, NATE_DAT, "NATESPR_BMP");
 	nate_def (&nate);
+	
+	/* Inv BMP */
+	inv_bmp = load_datafile_object (NATE_DAT, "INVMENU_BMP");
 	
 	/* Get palette for fade in */
 	df = load_datafile_object (NATE_DAT, "NATE_PAL");
@@ -77,7 +78,6 @@ int main (void)
 	play_midi ((MIDI *)df->dat, TRUE);
 
 	inv_init ();
-	inv_log ();
 
 	while (!quit){
 
@@ -111,10 +111,28 @@ int main (void)
 				nate.sx = 20;
 			nate.dir = RIGHT;
 		}
+		
+		if (key[KEY_ESC]){
+			if (show_inv)
+				show_inv = FALSE;
+			else
+				show_inv = TRUE;
+		}
+		
+		if (key[KEY_T]){
+			log_print ("LAST SCANCODE: %d\n", scanc);
+		}
 
-		/* Draw map layers */
-		for (cl = 0; cl < nl; cl++)
-			draw_map_layer (m, cl, 0, 0);
+		if (!show_inv){
+			/* Draw map layers */
+			for (cl = 0; cl < nl; cl++)
+				draw_map_layer (m, cl, 0, 0);
+		
+			/* draw nathyn on backbuff */
+			nate_draw (&nate);
+		}else{
+			blit ((BITMAP *)inv_bmp->dat, get_backbuff (), 0, 0, 0, 0, 320, 200);
+		}
 		
 		nate_process (&nate);
 
@@ -153,9 +171,6 @@ int main (void)
 			cn = node_get_next (cn);
 		}
 		
-		/* draw nathyn on backbuff */
-		nate_draw (&nate);
-		
 		show_backbuff (0, 0);
 		
 		while (elapsed_time > 0)
@@ -164,9 +179,13 @@ int main (void)
 		elapsed_time = 10;
 	}
 	
+	/* Unload BMPS */
+	unload_datafile_object (inv_bmp);
+	
 	/* Unload sounds */
 	unload_datafile_object (snd_door);
 	
+	/* Unload music */
 	unload_datafile_object (df);
 
 	/* Destroy Nate font */
@@ -286,6 +305,8 @@ nate_init (void)
         allegro_exit ();
         return;
     }	
+	keyboard_lowlevel_callback = key_callback;
+	set_keyboard_rate (0, 0);
 
     set_color_depth( 8 );
     if (set_gfx_mode (GFX_AUTODETECT, 320, 200, 0, 0)) {
@@ -293,7 +314,7 @@ nate_init (void)
    	    allegro_message ("Unable to set 320x200 graphics mode: %s\n", 
 			allegro_error);
 		
-		readkey ();	
+		readkey ();
    	    remove_keyboard ();
    	    
    	    allegro_exit();
