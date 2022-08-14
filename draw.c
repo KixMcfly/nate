@@ -1,6 +1,7 @@
 #include "draw.h"
 
 static BITMAP *backbuff = NULL;
+static int fd = TRUE;
 
 void
 show_backbuff (int x, int y)
@@ -77,4 +78,23 @@ draw_map_layer (MAP *m, int ln, int x, int y)
 	img = NULL;
 	
 	return 1;
+}
+
+int faded (void)
+{
+	return fd;
+}
+
+void
+fadein (void *pal, int spd)
+{
+	fade_in (pal, spd);
+	fd = FALSE;
+}
+
+void
+fadeout (int spd)
+{
+	fade_out (spd);
+	fd = TRUE;
 }

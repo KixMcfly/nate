@@ -37,9 +37,14 @@ text_destroy_font (void)
 void
 text_print_center (BITMAP *b, char *t)
 {
-	int len = text_length (font_sis, t);
-	int slen = strlen (t), x;
-	int tx = b->w / 2 - len / 2;
+	int len, slen, tx, x; 
+	
+	if (!t)
+		return;
+		
+	len = text_length (font_sis, t);
+	slen = strlen (t);
+	tx = b->w / 2 - len / 2;
 	
 	blit (border, b, 0, 0, tx-21, 1, 20, 20);
 	for (x = 0; x < slen-1; x++)

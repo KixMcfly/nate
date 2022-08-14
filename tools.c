@@ -20,3 +20,13 @@ log_print (char *log_o, ...)
 	fclose (ol);
 	
 }
+
+char *
+strtmp (char *str)
+{
+	static char tmp[100];
+	
+	strcpy (tmp, str);
+	
+	return tmp;
+}

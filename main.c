@@ -8,10 +8,11 @@ int main (void)
 	CHGROOM *cr = NULL;
 	GENERIC *gn = NULL;
 	BITMAP *title = NULL;
-	DATAFILE *df = NULL, *snd_door = NULL, *inv_bmp = NULL;
+	DATAFILE *df = NULL, *pal = NULL, *snd_door = NULL, *inv_bmp = NULL;
 	NODE *cn = NULL;
+	char *text_msg = NULL;
 	
-	int nl, cl, quit = FALSE, show_inv = FALSE;
+	int nl, cl, quit = FALSE;
 	unsigned char solid;
 	/* Initialize Nate */
 	nate_init ();
@@ -34,7 +35,7 @@ int main (void)
 	while (!keypressed ())
 		;
 	
-	fade_out (10);
+	fadeout (10);
 		
 	/* Stop title midi */
 	stop_midi ();
@@ -62,18 +63,8 @@ int main (void)
 	inv_bmp = load_datafile_object (NATE_DAT, "INVMENU_BMP");
 	
 	/* Get palette for fade in */
-	df = load_datafile_object (NATE_DAT, "NATE_PAL");
-	
-	set_pal (NATE_DAT, "NATE_PAL");
-	for (cl = 0; cl < nl; cl++)
-		draw_map_layer (m, cl, 0, 0);
-		
-	nate_draw (&nate);
-	
-	show_backbuff (0, 0);
-	fade_in (df->dat, 20);
-	
-	unload_datafile_object (df);
+	pal = load_datafile_object (NATE_DAT, "NATE_PAL");
+
 	df = load_datafile_object (NATE_DAT, "NATEROOM_MID");
 	play_midi ((MIDI *)df->dat, TRUE);
 
@@ -113,25 +104,12 @@ int main (void)
 		}
 		
 		if (key[KEY_ESC]){
-			if (show_inv)
-				show_inv = FALSE;
+			if (!invmenu_vis ())
+				invmenu_show ();
 			else
-				show_inv = TRUE;
-		}
-		
-		if (key[KEY_T]){
-			log_print ("LAST SCANCODE: %d\n", scanc);
-		}
+				invmenu_hide ();
 
-		if (!show_inv){
-			/* Draw map layers */
-			for (cl = 0; cl < nl; cl++)
-				draw_map_layer (m, cl, 0, 0);
-		
-			/* draw nathyn on backbuff */
-			nate_draw (&nate);
-		}else{
-			blit ((BITMAP *)inv_bmp->dat, get_backbuff (), 0, 0, 0, 0, 320, 200);
+			fadeout (20);
 		}
 		
 		nate_process (&nate);
@@ -144,25 +122,24 @@ int main (void)
 				
 				gn = node_get_data (cn);
 				if (nate.lx == gn->x && nate.ly == gn->y){
-					
-					text_print_center (get_backbuff (), "computer");
+
 				}
 			}else if (node_get_type (cn) == OBJ_CHGROOM){
 				cr = node_get_data (cn);
 				
 				if (nate.lx == cr->x && nate.ly == cr->y){
 					
-					/* List change room name */
-					text_print_center (get_backbuff (), cr->name);
+					text_msg = strtmp (cr->name);
 					
 					/* Change to room if use button is pressed */
 					if (key[KEY_LCONTROL]){
 						nate_set_xy (&nate, cr->cx, cr->cy);
-						play_sample ((SAMPLE *)snd_door->dat, 255, 128, 600, NULL);
+						play_sample ((SAMPLE *)snd_door->dat, 255, 128, 1000, NULL);
 						map_free (m);
 						m = map_new ();
-						load_map (m, NATE_DAT, cr->name);
+						load_map (m, NATE_DAT, text_msg);
 						nl = map_get_nl (m);
+						fadeout (10);
 						break;
 					}
 				}
@@ -171,8 +148,26 @@ int main (void)
 			cn = node_get_next (cn);
 		}
 		
-		show_backbuff (0, 0);
+		if (!invmenu_vis ()){
+			/* Draw map layers */
+			for (cl = 0; cl < nl; cl++)
+				draw_map_layer (m, cl, 0, 0);
 		
+			/* draw nathyn on backbuff */
+			nate_draw (&nate);
+			
+			text_print_center (get_backbuff (), text_msg);
+			text_msg = NULL;
+		}else{
+			blit ((BITMAP *)inv_bmp->dat, get_backbuff (), 0, 0, 0, 0, 320, 200);
+			rect(BITMAP *bmp, int x1, int y1, int x2, int y2, int color);
+		}
+		
+		show_backbuff (0, 0);
+
+		if (faded ())
+			fadein (pal->dat, 64);
+
 		while (elapsed_time > 0)
 			;
 			
@@ -193,6 +188,9 @@ int main (void)
 
 	/* free nate sprite */
 	sprite_free (nate.s);
+
+	/* free pal */
+	unload_datafile_object (pal);
 
 	map_free (m);
 
@@ -305,8 +303,8 @@ nate_init (void)
         allegro_exit ();
         return;
     }	
-	keyboard_lowlevel_callback = key_callback;
-	set_keyboard_rate (0, 0);
+	//keyboard_lowlevel_callback = key_callback;
+	//set_keyboard_rate (0, 0);
 
     set_color_depth( 8 );
     if (set_gfx_mode (GFX_AUTODETECT, 320, 200, 0, 0)) {

@@ -18,6 +18,15 @@ enum {
 	INV_NUM
 };
 
+int
+invmenu_vis (void);
+
+void
+invmenu_show (void);
+
+void
+invmenu_hide (void);
+
 void
 inv_init (void);
 

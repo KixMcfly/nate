@@ -5,8 +5,12 @@
 #include <stdio.h>
 #include <stdarg.h>
 #include <time.h>
+#include <string.h>
 
 void
 log_print (char *log_o, ...);
+
+char *
+strtmp (char *str);
 
 #endif /* __TOOLS_H */

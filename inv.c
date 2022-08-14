@@ -2,18 +2,36 @@
 
 #define MAX_ITEMBOX 		100
 #define MAX_INV				8
+#define SEL_W				52
+#define SEL_H				43
+#define SEL_C				14
 
 typedef struct {
 	
 	int id;
 	int num;
-	
+
 } INVITEM;
 
-INVITEM itembox[MAX_ITEMBOX];
-INVITEM inv[MAX_INV];
+typedef struct {
+	
+	int vis;
+	int sp;
+	int sw;
+	int sh;
+	
+} INVMENU;
 
-char *inv_list[INV_NUM] = {
+static INVMENU invmenu;
+static INVITEM itembox[MAX_ITEMBOX];
+static INVITEM inv[MAX_INV];
+
+/* X and Y pos of sel rec */
+int pos_lookup[MAX_INV][2] = {{212, 5},   {264, 5},  {212, 48},
+						      {264, 48},  {212, 91}, {264, 91},
+						      {212, 134}, {264, 134}};
+
+static char *inv_list[INV_NUM] = {
 	
 	"NONE",
 	/* VALUE */
@@ -25,9 +43,30 @@ char *inv_list[INV_NUM] = {
 	
 };
 
+int
+invmenu_vis (void)
+{
+	return invmenu.vis;
+}
+
+void
+invmenu_show (void)
+{
+	invmenu.vis = 1;
+}
+
+void
+invmenu_hide (void)
+{
+	invmenu.vis = 0;
+}
+
 void
 inv_init (void)
 {
+	invmenu.sp = 0;
+	invmenu.vis = 0;
+	
 	int i;	
 	for (i = 0; i < MAX_ITEMBOX; i++){
 		itembox[i].id = INV_NONE;
@@ -74,3 +113,8 @@ inv_log (void)
 	}
 }
 
+void
+inv_sel_draw (void)
+{
+	
+}
