@@ -34,9 +34,9 @@ int main (void)
 	/* Press any key */
 	while (!keypressed ())
 		;
-	
+
 	fadeout (10);
-		
+
 	/* Stop title midi */
 	stop_midi ();
 	unload_datafile_object (df);
@@ -64,43 +64,57 @@ int main (void)
 	
 	/* Get palette for fade in */
 	pal = load_datafile_object (NATE_DAT, "NATE_PAL");
-
+	
 	df = load_datafile_object (NATE_DAT, "NATEROOM_MID");
-	play_midi ((MIDI *)df->dat, TRUE);
+	//play_midi ((MIDI *)df->dat, TRUE);
 
 	inv_init ();
 
 	while (!quit){
-
+	
 		if (key[KEY_Q])
 			quit = TRUE;
 			
 		if (key[KEY_UP]){
-			solid = SOLID(map_get_tile_flags (m, 0, nate.x, nate.y-1));
-			if (!nate.sy && !nate.sx && !solid && nate.y-1 > 0)
-				nate.sy = -20;
-			nate.dir = UP;
+			if (!invmenu_vis ()){
+				solid = SOLID(map_get_tile_flags (m, 0, nate.x, nate.y-1));
+				if (!nate.sy && !nate.sx && !solid && nate.y-1 > 0)
+					nate.sy = -20;
+				nate.dir = UP;
+			}else
+				invmenu_sel_up ();
 		}
-
+		
 		if (key[KEY_DOWN]){
-			solid = SOLID(map_get_tile_flags (m, 0, nate.x, nate.y+1));
-			if (!nate.sy && !nate.sx && !solid && nate.y+1 < map_get_h (m))
-				nate.sy = 20;
-			nate.dir = DOWN;
+			
+			if (!invmenu_vis ()){
+				solid = SOLID(map_get_tile_flags (m, 0, nate.x, nate.y+1));
+				if (!nate.sy && !nate.sx && !solid && nate.y+1 < map_get_h (m))
+					nate.sy = 20;
+				nate.dir = DOWN;
+			}else
+				invmenu_sel_down ();
 		}
 			
 		if (key[KEY_LEFT]){
-			solid = SOLID(map_get_tile_flags (m, 0, nate.x-1, nate.y));
-			if (!nate.sx && !nate.sy && !solid && nate.x-1 != -1)
-				nate.sx = -20;
-			nate.dir = LEFT;
+			
+			if (!invmenu_vis ()){
+				solid = SOLID(map_get_tile_flags (m, 0, nate.x-1, nate.y));
+				if (!nate.sx && !nate.sy && !solid && nate.x-1 != -1)
+					nate.sx = -20;
+				nate.dir = LEFT;
+			}else
+				invmenu_sel_left ();
 		}
 			
 		if (key[KEY_RIGHT]){
-			solid = SOLID(map_get_tile_flags (m, 0, nate.x+1, nate.y));
-			if (!nate.sx && !nate.sy && !solid && nate.x+1 < map_get_w (m))
-				nate.sx = 20;
-			nate.dir = RIGHT;
+			if (!invmenu_vis ()){
+				solid = SOLID(map_get_tile_flags (m, 0, nate.x+1, nate.y));
+				if (!nate.sx && !nate.sy && !solid && nate.x+1 < map_get_w (m))
+					nate.sx = 20;
+				nate.dir = RIGHT;
+			}else
+				invmenu_sel_right ();
 		}
 		
 		if (key[KEY_ESC]){
@@ -108,21 +122,22 @@ int main (void)
 				invmenu_show ();
 			else
 				invmenu_hide ();
-
+		
 			fadeout (20);
 		}
 		
+		invmenu_process ();
 		nate_process (&nate);
 
 		/* Check objects */
 		cn = map_get_node_head (m);
 		while (cn){
-
+		
 			if (node_get_type (cn) == OBJ_COMPUTER){
 				
 				gn = node_get_data (cn);
 				if (nate.lx == gn->x && nate.ly == gn->y){
-
+		
 				}
 			}else if (node_get_type (cn) == OBJ_CHGROOM){
 				cr = node_get_data (cn);
@@ -139,7 +154,7 @@ int main (void)
 						m = map_new ();
 						load_map (m, NATE_DAT, text_msg);
 						nl = map_get_nl (m);
-						fadeout (10);
+						fadeout (5);
 						break;
 					}
 				}
@@ -147,7 +162,7 @@ int main (void)
 			
 			cn = node_get_next (cn);
 		}
-		
+
 		if (!invmenu_vis ()){
 			/* Draw map layers */
 			for (cl = 0; cl < nl; cl++)
@@ -159,15 +174,19 @@ int main (void)
 			text_print_center (get_backbuff (), text_msg);
 			text_msg = NULL;
 		}else{
+			
+			int px = invmenu_get_x (), py = invmenu_get_y ();
+			int px2 = px + invmenu_get_w (), py2 = py + invmenu_get_h ();
+			
 			blit ((BITMAP *)inv_bmp->dat, get_backbuff (), 0, 0, 0, 0, 320, 200);
-			rect(BITMAP *bmp, int x1, int y1, int x2, int y2, int color);
+			rect(get_backbuff (), px, py, px2, py2, invmenu_get_c ());
 		}
 		
 		show_backbuff (0, 0);
-
+		
 		if (faded ())
 			fadein (pal->dat, 64);
-
+		
 		while (elapsed_time > 0)
 			;
 			
@@ -181,17 +200,18 @@ int main (void)
 	unload_datafile_object (snd_door);
 	
 	/* Unload music */
+	stop_midi ();
 	unload_datafile_object (df);
-
+	
 	/* Destroy Nate font */
 	text_destroy_font ();
-
+	
 	/* free nate sprite */
 	sprite_free (nate.s);
-
+	
 	/* free pal */
 	unload_datafile_object (pal);
-
+	
 	map_free (m);
 
 	nate_exit ();
@@ -302,9 +322,7 @@ nate_init (void)
 			allegro_error);
         allegro_exit ();
         return;
-    }	
-	//keyboard_lowlevel_callback = key_callback;
-	//set_keyboard_rate (0, 0);
+    }
 
     set_color_depth( 8 );
     if (set_gfx_mode (GFX_AUTODETECT, 320, 200, 0, 0)) {
