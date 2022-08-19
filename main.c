@@ -12,7 +12,7 @@ int main (void)
 	NODE *cn = NULL;
 	char *text_msg = NULL;
 	
-	int nl, cl, quit = FALSE;
+	int nl, cl, quit = FALSE, cam_x = 0, cam_y = 0;
 	unsigned char solid;
 	/* Initialize Nate */
 	nate_init ();
@@ -126,8 +126,61 @@ int main (void)
 			fadeout (20);
 		}
 		
+		/* Nate inventory managment */
+		
 		invmenu_process ();
-		nate_process (&nate);
+		
+		/* NATE ANIMATION SPEED CONTROL */
+		nate.ar--;
+		if (nate.ar <= 0){
+			nate.cf++;
+	
+			if (nate.cf >= sprite_keyframe_get_num_frames (nate.s, nate.dir))
+				nate.cf = 0;
+				
+			nate.ar = sprite_keyframe_get_frame_rest (nate.s, nate.dir, nate.cf);
+		}
+		
+		/* Controls nates x / y grid snapping */
+		
+		/* Snap left */
+		if (nate.sx < 0){
+			nate.lx--;
+			nate.sx++;
+	
+			if ()
+	
+			if (nate.sx == 0){
+				nate.x--;
+			}
+		}
+		
+		/* Snap right */
+		if (nate.sx > 0){
+			nate.lx++;
+			nate.sx--;
+	
+			if (nate.sx == 0)
+				nate.x++;
+		}
+		
+		/* Snap up */
+		if (nate.sy < 0){
+			nate.ly--;
+			nate.sy++;
+	
+			if (nate.sy == 0)
+				nate.y--;
+		}
+		
+		/* Snap down */
+		if (nate.sy > 0){
+			nate.ly++;
+			nate.sy--;
+	
+			if (nate.sy == 0)
+				nate.y++;
+		}
 
 		/* Check objects */
 		cn = map_get_node_head (m);
@@ -155,6 +208,10 @@ int main (void)
 						load_map (m, NATE_DAT, text_msg);
 						nl = map_get_nl (m);
 						fadeout (5);
+						
+						/* Set camera based on nate location */
+						nate_focus_camera (nate.x, nate.y, &cam_x, &cam_y);
+						
 						break;
 					}
 				}
@@ -220,6 +277,18 @@ int main (void)
 END_OF_MAIN()
 
 void
+nate_focus_camera (MAP *m, int nx, int ny, int *cam_x, int *cam_y)
+{
+	int mw, mh;
+	
+	if (!m)
+		return;
+		
+	mw = map_get_w (m);
+	mh = map_get_h (m);
+}
+
+void
 nate_draw (NATE *n)
 {
 	sprite_draw (n->s, get_backbuff (), n->dir, n->cf, n->lx, n->ly-20);
@@ -248,61 +317,6 @@ nate_def (NATE *n)
 	n->ar = 0;
 	n->dir = DOWN;
 	n->cf = 0;
-}
-
-void
-nate_process (NATE *n)
-{
-	
-	/* Animate speed control */
-	n->ar--;
-	if (n->ar <= 0){
-		n->cf++;
-
-		if (n->cf >= sprite_keyframe_get_num_frames (n->s, n->dir))
-			n->cf = 0;
-			
-		n->ar = sprite_keyframe_get_frame_rest (n->s, n->dir, n->cf);
-	}
-	
-	/* Controls nates x / y grid snapping */
-	
-	/* Snap left */
-	if (n->sx < 0){
-		n->lx--;
-		n->sx++;
-
-		if (n->sx == 0){
-			n->x--;
-		}
-	}
-	
-	/* Snap right */
-	if (n->sx > 0){
-		n->lx++;
-		n->sx--;
-
-		if (n->sx == 0)
-			n->x++;
-	}
-	
-	/* Snap up */
-	if (n->sy < 0){
-		n->ly--;
-		n->sy++;
-
-		if (n->sy == 0)
-			n->y--;
-	}
-	
-	/* Snap down */
-	if (n->sy > 0){
-		n->ly++;
-		n->sy--;
-
-		if (n->sy == 0)
-			n->y++;
-	}
 }
 
 void

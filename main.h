@@ -61,6 +61,9 @@ typedef struct {
 } NATE;
 
 void
+nate_focus_camera (MAP *m, int nx, int ny, int *cam_x, int *cam_y);
+
+void
 nate_set_xy (NATE *n, int x, int y);
 
 void
@@ -68,9 +71,6 @@ nate_def (NATE *n);
 
 void
 nate_draw (NATE *n);
-
-void
-nate_process (NATE *n);
 
 void
 nate_init (void);
