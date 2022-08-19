@@ -10,7 +10,15 @@
 #include "tools.h"
 #include "text.h"
 
-#define NATE_DAT "nate.DAT"
+#define CAMERA_W 			320
+#define CAMERA_H 			200
+
+#define TILE_W				20
+#define TILE_H				20
+
+#define NATE_DAT 			"nate.DAT"
+
+
 
 /* Make EXE smaller by removing unused drivers */
 BEGIN_GFX_DRIVER_LIST

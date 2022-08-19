@@ -79,7 +79,7 @@ int main (void)
 			if (!invmenu_vis ()){
 				solid = SOLID(map_get_tile_flags (m, 0, nate.x, nate.y-1));
 				if (!nate.sy && !nate.sx && !solid && nate.y-1 > 0)
-					nate.sy = -20;
+					nate.sy = -TILE_W;
 				nate.dir = UP;
 			}else
 				invmenu_sel_up ();
@@ -90,7 +90,7 @@ int main (void)
 			if (!invmenu_vis ()){
 				solid = SOLID(map_get_tile_flags (m, 0, nate.x, nate.y+1));
 				if (!nate.sy && !nate.sx && !solid && nate.y+1 < map_get_h (m))
-					nate.sy = 20;
+					nate.sy = TILE_W;
 				nate.dir = DOWN;
 			}else
 				invmenu_sel_down ();
@@ -101,7 +101,7 @@ int main (void)
 			if (!invmenu_vis ()){
 				solid = SOLID(map_get_tile_flags (m, 0, nate.x-1, nate.y));
 				if (!nate.sx && !nate.sy && !solid && nate.x-1 != -1)
-					nate.sx = -20;
+					nate.sx = -TILE_W;
 				nate.dir = LEFT;
 			}else
 				invmenu_sel_left ();
@@ -111,7 +111,7 @@ int main (void)
 			if (!invmenu_vis ()){
 				solid = SOLID(map_get_tile_flags (m, 0, nate.x+1, nate.y));
 				if (!nate.sx && !nate.sy && !solid && nate.x+1 < map_get_w (m))
-					nate.sx = 20;
+					nate.sx = TILE_W;
 				nate.dir = RIGHT;
 			}else
 				invmenu_sel_right ();
@@ -284,14 +284,27 @@ nate_focus_camera (MAP *m, int nx, int ny, int *cam_x, int *cam_y)
 	if (!m)
 		return;
 		
-	mw = map_get_w (m);
-	mh = map_get_h (m);
+	mw = map_get_w (m) * map_get_tw (m);
+	mh = map_get_h (m) * map_get_th (m);
+	
+	if (mw < CAMERA_W)
+		*cam_x = CAMERA_W / 2 - mw / 2;
+	else {
+		
+	}
+		
+	if (mh < CAMERA_H)
+		*cam_y = CAMERA_H / 2 - mh / 2;
+	
+	
+	
+	
 }
 
 void
 nate_draw (NATE *n)
 {
-	sprite_draw (n->s, get_backbuff (), n->dir, n->cf, n->lx, n->ly-20);
+	sprite_draw (n->s, get_backbuff (), n->dir, n->cf, n->lx, n->ly-TILE_W);
 }
 
 void
@@ -299,8 +312,8 @@ nate_set_xy (NATE *n, int x, int y)
 {
 	n->x = x;
 	n->y = y;
-	n->lx = n->x * 20;
-	n->ly = n->y * 20;
+	n->lx = n->x * TILE_W;
+	n->ly = n->y * TILE_H;
 	n->sx = 0;
 	n->sy = 0;
 }
@@ -310,8 +323,8 @@ nate_def (NATE *n)
 {
 	n->x = 5;
 	n->y = 5;
-	n->lx = 5 * 20;
-	n->ly = 5 * 20;
+	n->lx = 5 * TILE_W;
+	n->ly = 5 * TILE_H;
 	n->sx = 0;
 	n->sy = 0;
 	n->ar = 0;
