@@ -5,10 +5,10 @@
     "fileStates": {
         "HALLWAY.tmx": {
             "scale": 2,
-            "selectedLayer": 0,
+            "selectedLayer": 1,
             "viewCenter": {
-                "x": 314,
-                "y": 114.5
+                "x": -106.5,
+                "y": 89.5
             }
         },
         "HOTEL.TSX": {
@@ -19,7 +19,7 @@
             "scale": 2,
             "selectedLayer": 1,
             "viewCenter": {
-                "x": 343.5,
+                "x": 213.5,
                 "y": 89.5
             }
         },
@@ -29,12 +29,12 @@
         }
     },
     "last.exportedFilePath": "C:/projects/nate/tiled_files",
-    "last.imagePath": "C:/projects/nate/images",
+    "last.imagePath": "/home/shawn/projects/nate/images",
     "last.objectTypesPath": "C:/projects/nate/NateTiledFiles/propertytypes.json",
-    "last.worldFilePath": "C:/projects/nate/tiled_files",
+    "last.worldFilePath": "/home/shawn/projects/nate/tiled_files",
     "lastUsedTilesetExportFilter": "All Files (*)",
     "loadedWorlds": [
-        "C:/projects/nate/tiled_files/nate_world.world"
+        "/home/shawn/projects/nate/tiled_files/nate_world.world"
     ],
     "map.lastUsedExportFilter": "Nathyn's Room Chunk Format (*.nat)",
     "openFiles": [

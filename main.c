@@ -284,21 +284,17 @@ nate_focus_camera (MAP *m, int nx, int ny, int *cam_x, int *cam_y)
 	if (!m)
 		return;
 		
-	mw = map_get_w (m) * map_get_tw (m);
-	mh = map_get_h (m) * map_get_th (m);
+	mw = map_get_w (m);
+	mh = map_get_h (m);
 	
-	if (mw < CAMERA_W)
+	if (mw < CAMERA_W / TILE_W)
 		*cam_x = CAMERA_W / 2 - mw / 2;
 	else {
-		
+		*cam_y = (nate.x * TILE_W) 
 	}
 		
-	if (mh < CAMERA_H)
+	if (mh < CAMERA_H / TILE_H)
 		*cam_y = CAMERA_H / 2 - mh / 2;
-	
-	
-	
-	
 }
 
 void

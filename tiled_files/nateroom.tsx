@@ -1,122 +1,122 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<tileset version="1.8" tiledversion="1.8.4" name="nateroom" tilewidth="20" tileheight="20" tilecount="160" columns="16">
- <image source="../images/NATE.bmp" width="320" height="200"/>
- <tile id="51" type="FLAGS">
+<tileset version="1.9" tiledversion="1.9.1" name="nateroom" tilewidth="20" tileheight="20" tilecount="160" columns="16">
+ <image source="../images/nate.bmp" width="320" height="200"/>
+ <tile id="51" class="FLAGS">
   <properties>
    <property name="FLAGS" type="int" propertytype="FLAGS" value="1"/>
   </properties>
  </tile>
- <tile id="52" type="FLAGS">
+ <tile id="52" class="FLAGS">
   <properties>
    <property name="FLAGS" type="int" propertytype="FLAGS" value="1"/>
   </properties>
  </tile>
- <tile id="53" type="FLAGS">
+ <tile id="53" class="FLAGS">
   <properties>
    <property name="FLAGS" type="int" propertytype="FLAGS" value="1"/>
   </properties>
  </tile>
- <tile id="54" type="FLAGS">
+ <tile id="54" class="FLAGS">
   <properties>
    <property name="FLAGS" type="int" propertytype="FLAGS" value="1"/>
   </properties>
  </tile>
- <tile id="55" type="FLAGS">
+ <tile id="55" class="FLAGS">
   <properties>
    <property name="FLAGS" type="int" propertytype="FLAGS" value="1"/>
   </properties>
  </tile>
- <tile id="56" type="FLAGS">
+ <tile id="56" class="FLAGS">
   <properties>
    <property name="FLAGS" type="int" propertytype="FLAGS" value="1"/>
   </properties>
  </tile>
- <tile id="57" type="FLAGS">
+ <tile id="57" class="FLAGS">
   <properties>
    <property name="FLAGS" type="int" propertytype="FLAGS" value="1"/>
   </properties>
  </tile>
- <tile id="58" type="FLAGS">
+ <tile id="58" class="FLAGS">
   <properties>
    <property name="FLAGS" type="int" propertytype="FLAGS" value="1"/>
   </properties>
  </tile>
- <tile id="59" type="FLAGS">
+ <tile id="59" class="FLAGS">
   <properties>
    <property name="FLAGS" type="int" propertytype="FLAGS" value="1"/>
   </properties>
  </tile>
- <tile id="67" type="FLAGS">
+ <tile id="67" class="FLAGS">
   <properties>
    <property name="FLAGS" type="int" propertytype="FLAGS" value="1"/>
   </properties>
  </tile>
- <tile id="75" type="FLAGS">
+ <tile id="75" class="FLAGS">
   <properties>
    <property name="FLAGS" type="int" propertytype="FLAGS" value="1"/>
   </properties>
  </tile>
- <tile id="82" type="FLAGS">
+ <tile id="82" class="FLAGS">
   <properties>
    <property name="FLAGS" type="int" propertytype="FLAGS" value="1"/>
   </properties>
  </tile>
- <tile id="83" type="FLAGS">
+ <tile id="83" class="FLAGS">
   <properties>
    <property name="FLAGS" type="int" propertytype="FLAGS" value="1"/>
   </properties>
  </tile>
- <tile id="84" type="FLAGS">
+ <tile id="84" class="FLAGS">
   <properties>
    <property name="FLAGS" type="int" propertytype="FLAGS" value="1"/>
   </properties>
  </tile>
- <tile id="90" type="FLAGS">
+ <tile id="90" class="FLAGS">
   <properties>
    <property name="FLAGS" type="int" propertytype="FLAGS" value="1"/>
   </properties>
  </tile>
- <tile id="91" type="FLAGS">
+ <tile id="91" class="FLAGS">
   <properties>
    <property name="FLAGS" type="int" propertytype="FLAGS" value="1"/>
   </properties>
  </tile>
- <tile id="98" type="FLAGS">
+ <tile id="98" class="FLAGS">
   <properties>
    <property name="FLAGS" type="int" propertytype="FLAGS" value="1"/>
   </properties>
  </tile>
- <tile id="106" type="FLAGS">
+ <tile id="106" class="FLAGS">
   <properties>
    <property name="FLAGS" type="int" propertytype="FLAGS" value="1"/>
   </properties>
  </tile>
- <tile id="114" type="FLAGS">
+ <tile id="114" class="FLAGS">
   <properties>
    <property name="FLAGS" type="int" propertytype="FLAGS" value="1"/>
   </properties>
  </tile>
- <tile id="122" type="FLAGS">
+ <tile id="122" class="FLAGS">
   <properties>
    <property name="FLAGS" type="int" propertytype="FLAGS" value="1"/>
   </properties>
  </tile>
- <tile id="130" type="FLAGS">
+ <tile id="130" class="FLAGS">
   <properties>
    <property name="FLAGS" type="int" propertytype="FLAGS" value="1"/>
   </properties>
  </tile>
- <tile id="138" type="FLAGS">
+ <tile id="138" class="FLAGS">
   <properties>
    <property name="FLAGS" type="int" propertytype="FLAGS" value="1"/>
   </properties>
  </tile>
- <tile id="146" type="FLAGS">
+ <tile id="146" class="FLAGS">
   <properties>
    <property name="FLAGS" type="int" propertytype="FLAGS" value="1"/>
   </properties>
  </tile>
- <tile id="154" type="FLAGS">
+ <tile id="154" class="FLAGS">
   <properties>
    <property name="FLAGS" type="int" propertytype="FLAGS" value="1"/>
   </properties>
