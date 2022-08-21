@@ -18,8 +18,6 @@
 
 #define NATE_DAT 			"nate.DAT"
 
-
-
 /* Make EXE smaller by removing unused drivers */
 BEGIN_GFX_DRIVER_LIST
 	GFX_DRIVER_VGA
@@ -57,10 +55,6 @@ typedef struct {
 	
 	int x;
 	int y;
-	int lx;
-	int ly;
-	int sx;
-	int sy;
 	int dir;
 	int cf;
 	int ar;

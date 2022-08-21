@@ -1,14 +1,17 @@
 {
-    "activeFile": "HALLWAY.tmx",
+    "activeFile": "NATEROOM.tmx",
     "expandedProjectPaths": [
     ],
     "fileStates": {
         "HALLWAY.tmx": {
+            "expandedObjectLayers": [
+                5
+            ],
             "scale": 2,
             "selectedLayer": 1,
             "viewCenter": {
-                "x": -106.5,
-                "y": 89.5
+                "x": -81.5,
+                "y": 47.5
             }
         },
         "HOTEL.TSX": {
@@ -16,11 +19,14 @@
             "scaleInEditor": 1
         },
         "NATEROOM.tmx": {
+            "expandedObjectLayers": [
+                10
+            ],
             "scale": 2,
             "selectedLayer": 1,
             "viewCenter": {
-                "x": 213.5,
-                "y": 89.5
+                "x": 238.5,
+                "y": 47.5
             }
         },
         "nateroom.tsx": {
@@ -28,7 +34,7 @@
             "scaleInEditor": 1
         }
     },
-    "last.exportedFilePath": "C:/projects/nate/tiled_files",
+    "last.exportedFilePath": "/home/shawn/projects/nate/maps",
     "last.imagePath": "/home/shawn/projects/nate/images",
     "last.objectTypesPath": "C:/projects/nate/NateTiledFiles/propertytypes.json",
     "last.worldFilePath": "/home/shawn/projects/nate/tiled_files",
@@ -46,10 +52,10 @@
     "project": "NathynsRoom.tiled-project",
     "property.type": "string",
     "recentFiles": [
+        "HALLWAY.tmx",
         "HOTEL.TSX",
         "nateroom.tsx",
-        "NATEROOM.tmx",
-        "HALLWAY.tmx"
+        "NATEROOM.tmx"
     ],
     "tileset.lastUsedFormat": "tsx",
     "tileset.tileSize": {
