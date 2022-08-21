@@ -1,9 +1,6 @@
 #ifndef __MAP_H
 #define __MAP_H
 
-#define SOLID(b) (b & 0x01)
-#define GRASS(b) (b & 0x02)
-
 #include <allegro.h>
 #include <string.h>
 #include <stdio.h>
@@ -37,6 +34,12 @@ map_get_w (MAP *m);
 
 int
 map_get_h (MAP *m);
+
+int
+map_get_lw (MAP *m);
+
+int
+map_get_lh (MAP *m);
 
 int
 map_get_nl (MAP *m);

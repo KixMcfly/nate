@@ -18,6 +18,12 @@
 
 #define NATE_DAT 			"nate.DAT"
 
+#define LX(x)				(x / TILE_W)
+#define LY(y)				(y / TILE_H)
+
+#define SOLID(b)			(b & 0x01)
+#define GRASS(b)			(b & 0x02)
+
 /* Make EXE smaller by removing unused drivers */
 BEGIN_GFX_DRIVER_LIST
 	GFX_DRIVER_VGA

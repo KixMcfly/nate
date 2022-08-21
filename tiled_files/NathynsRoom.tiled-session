@@ -4,14 +4,11 @@
     ],
     "fileStates": {
         "HALLWAY.tmx": {
-            "expandedObjectLayers": [
-                5
-            ],
             "scale": 2,
             "selectedLayer": 1,
             "viewCenter": {
-                "x": -81.5,
-                "y": 47.5
+                "x": 380,
+                "y": 99.75
             }
         },
         "HOTEL.TSX": {
@@ -19,14 +16,11 @@
             "scaleInEditor": 1
         },
         "NATEROOM.tmx": {
-            "expandedObjectLayers": [
-                10
-            ],
             "scale": 2,
-            "selectedLayer": 1,
+            "selectedLayer": 0,
             "viewCenter": {
-                "x": 238.5,
-                "y": 47.5
+                "x": 314,
+                "y": 47
             }
         },
         "nateroom.tsx": {

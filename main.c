@@ -13,7 +13,6 @@ int main (void)
 	char *text_msg = NULL;
 	
 	int nl, cl, quit = FALSE, cam_x = 0, cam_y = 0;
-	unsigned char solid;
 	/* Initialize Nate */
 	nate_init ();
 	
@@ -77,9 +76,11 @@ int main (void)
 			
 		if (key[KEY_UP]){
 			if (!invmenu_vis ()){
-				solid = SOLID(map_get_tile_flags (m, 0, nate.x, nate.y-1));
-				if (nate.y-1 > 0)
-					nate.y--;
+					
+				
+						nate.y--;
+					
+					
 				nate.dir = UP;
 			}else
 				invmenu_sel_up ();
@@ -88,20 +89,27 @@ int main (void)
 		if (key[KEY_DOWN]){
 			
 			if (!invmenu_vis ()){
-				solid = SOLID(map_get_tile_flags (m, 0, nate.x, nate.y+1));
-				if (nate.y+1 < map_get_h (m))
-					nate.y++;
+				
+				if (!SOLID(map_get_tile_flags (m, 0, LX(nate.x+TILE_W), LY(nate.y)+1)) &&
+					nate.y+1 < map_get_lh (m)){
+						nate.y++;
+					}
+
 				nate.dir = DOWN;
 			}else
 				invmenu_sel_down ();
+				
+			
 		}
 			
 		if (key[KEY_LEFT]){
 			
 			if (!invmenu_vis ()){
-				solid = SOLID(map_get_tile_flags (m, 0, nate.x-1, nate.y));
-				if (nate.x-1 != -1)
-					nate.x--;
+					
+				
+						nate.x--;
+					
+					
 				nate.dir = LEFT;
 			}else
 				invmenu_sel_left ();
@@ -109,9 +117,11 @@ int main (void)
 			
 		if (key[KEY_RIGHT]){
 			if (!invmenu_vis ()){
-				solid = SOLID(map_get_tile_flags (m, 0, nate.x+1, nate.y));
-				if (nate.x+1 < map_get_w (m))
-					nate.x++;
+									
+				
+						nate.x++;
+					
+				
 				nate.dir = RIGHT;
 			}else
 				invmenu_sel_right ();
@@ -260,7 +270,7 @@ nate_focus_camera (MAP *m, int nx, int ny, int *cam_x, int *cam_y)
 		*cam_y = CAMERA_H / 2 - mh / 2;
 	else if (mh == CAMERA_H / TILE_H)
 		*cam_y = 0;
-	else 
+	else
 		for (*cam_y = 0; *cam_y + 100 != ny; *cam_y += TILE_H)
 			;
 
@@ -269,7 +279,7 @@ nate_focus_camera (MAP *m, int nx, int ny, int *cam_x, int *cam_y)
 void
 nate_draw (NATE *n)
 {
-	sprite_draw (n->s, get_backbuff (), n->dir, n->cf, n->x, n->y-TILE_W);
+	sprite_draw (n->s, get_backbuff (), n->dir, n->cf, n->x, n->y-TILE_H);
 }
 
 void

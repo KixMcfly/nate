@@ -5,6 +5,8 @@ struct MAP{
 	char 			*name;
 	unsigned short 	w;
 	unsigned short 	h;
+	int				lw;
+	int 			lh;
 	unsigned char   tw;
 	unsigned char	th;
 	int				nl;
@@ -60,6 +62,18 @@ int
 map_get_nl (MAP *m)
 {
 	return m->nl;
+}
+
+int
+map_get_lw (MAP *m)
+{
+	return m->lw;
+}
+
+int
+map_get_lh (MAP *m)
+{
+	return m->lh;
 }
 
 int
@@ -156,6 +170,10 @@ load_map (MAP *m, char *dat_fn, char *dat_id)
 	/* Tile width and height in pixels */
 	m->tw = (unsigned char) pack_getc (fp);
 	m->th = (unsigned char) pack_getc (fp);
+	
+	/* Logical / physical width and height of map */
+	m->lw = m->w * m->tw;
+	m->lh = m->h * m->th;
 	
 	/* Get number of Tilesets */
 	size = pack_getc (fp);
