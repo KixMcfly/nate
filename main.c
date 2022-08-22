@@ -12,7 +12,7 @@ int main (void)
 	NODE *cn = NULL;
 	char *text_msg = NULL;
 	
-	int nl, cl, quit = FALSE, cam_x = 0, cam_y = 0;
+	int nl, cl, quit = FALSE, cam_x = 0, cam_y = 0, cam_dx = 0, cam_dy = 0;
 	/* Initialize Nate */
 	nate_init ();
 	
@@ -61,7 +61,11 @@ int main (void)
 	grid_set_w (20);
 	grid_set_h (20);
 	
+	grid_snap_queue_add (&cam_x, &cam_y, &cam_dx, &cam_dy);
 	grid_snap_queue_add (&nate.x, &nate.y, &nate.dx, &nate.dy);
+	
+	
+	nate_focus_camera (m, nate.x, nate.y, &cam_x, &cam_y);
 	
 	/* Inv BMP */
 	inv_bmp = load_datafile_object (NATE_DAT, "INVMENU_BMP");
@@ -70,7 +74,7 @@ int main (void)
 	pal = load_datafile_object (NATE_DAT, "NATE_PAL");
 	
 	df = load_datafile_object (NATE_DAT, "NATEROOM_MID");
-	play_midi ((MIDI *)df->dat, TRUE);
+	//play_midi ((MIDI *)df->dat, TRUE);
 
 	inv_init ();
 
@@ -145,19 +149,25 @@ int main (void)
 		/* Nate inventory managment */
 		invmenu_process ();
 		
-		/* Camera adjust */
-		if (nate.x - cam_x < 60)
-			cam_x -= 2;
-			
-		if (nate.x - cam_x > 240)
-			cam_x += 2 ;
-			
-		if (nate.y - cam_y < 60)
-			cam_y -= 2;
-			
-		if (nate.y - cam_y > 140)
-			cam_y += 2;
 		
+		
+		/* Camera adjust */
+		if (nate.x - cam_x <= 60){
+			grid_snap_left (&cam_x, &cam_y, &cam_dx);
+
+			log_print ("CAMERA X: %d Y: %d\n", cam_x, cam_y);
+		
+		}
+			
+		if (nate.x - cam_x >= 220)
+			grid_snap_right (&cam_x, &cam_y, &cam_dx);
+			
+		if (cam_y - nate.y <= 40)
+			grid_snap_up (&cam_x, &cam_y, &cam_dy);
+			
+		if (cam_y - nate.y >= 160)
+			grid_snap_down (&cam_x, &cam_y, &cam_dy);
+			
 		/* Snap all queued coord to grid */
 		grid_snap_queue_proc ();
 
@@ -192,7 +202,7 @@ int main (void)
 					/* Change to room if use button is pressed */
 					if (key[KEY_LCONTROL]){
 						nate_set_xy (&nate, cr->cx * TILE_W, cr->cy * TILE_H);
-						play_sample ((SAMPLE *)snd_door->dat, 255, 128, 1000, NULL);
+						//play_sample ((SAMPLE *)snd_door->dat, 255, 128, 1000, NULL);
 						map_free (m);
 						m = map_new ();
 						load_map (m, NATE_DAT, text_msg);
@@ -241,8 +251,6 @@ int main (void)
 		elapsed_time = 10;
 	}
 	
-	grid_snap_queue_free ();
-	
 	/* Unload BMPS */
 	unload_datafile_object (inv_bmp);
 	
@@ -288,14 +296,16 @@ nate_focus_camera (MAP *m, int nx, int ny, int *cam_x, int *cam_y)
 	else
 		for (*cam_x = 0; *cam_x + 160 <= nx; *cam_x += tw)
 			;
-		
-	log_print ("%d\n", CAMERA_H / 2 - mh / 2);	
+	
+	
 	
 	if (mh < CAMERA_H / th)
 		*cam_y = mh / 2 - CAMERA_H / 2;
-	else
-		for (*cam_y = 0; *cam_y + 100 <= ny; *cam_y += th)
+	else{
+		for (*cam_y = 0; *cam_y + 100 <= ny && *cam_y + CAMERA_H != mh * TILE_H; *cam_y += th)
 			;
+			log_print ("cam_y = %d\n", *cam_y);
+		}
 
 }
 
@@ -349,7 +359,7 @@ nate_init (void)
 	}
     
     if (install_sound (DIGI_AUTODETECT, MIDI_AUTODETECT, NULL)){
-        allegro_message ("Error initialising sound: %s\n", 
+        allegro_message ("Error initialising sound: %s\n",
 				allegro_error);
         install_sound (DIGI_NONE, MIDI_NONE, NULL);
         readkey ();

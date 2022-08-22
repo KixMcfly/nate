@@ -119,14 +119,20 @@ void
 grid_snap_queue_proc (void)
 {
 	GRID *cur = head;
+	int num = 0;
 	
 	while (cur){
-		
 		/* Snap X */
 		
 		if (*(cur->x) % grid_w > 0){
+			
+			
+			
+			
 			if (*(cur->dx) == -1){
 				*(cur->x) -= 1;
+				
+				
 				
 			}else if (*(cur->dx) == 1){
 				*(cur->x) += 1;
@@ -142,5 +148,6 @@ grid_snap_queue_proc (void)
 		}
 		
 		cur = cur->next;
+		num++;
 	}
 }

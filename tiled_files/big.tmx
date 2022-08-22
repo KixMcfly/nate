@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.9" tiledversion="1.9.1" orientation="orthogonal" renderorder="right-down" width="30" height="120" tilewidth="20" tileheight="20" infinite="0" nextlayerid="3" nextobjectid="1">
+<map version="1.8" tiledversion="1.8.4" orientation="orthogonal" renderorder="right-down" width="30" height="120" tilewidth="20" tileheight="20" infinite="0" nextlayerid="3" nextobjectid="1">
  <editorsettings>
   <export target="../maps/big.nat" format="custom"/>
  </editorsettings>
@@ -131,5 +131,5 @@
 7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7
 </data>
  </layer>
- <objectgroup id="2" name="triggers"/>
+ <objectgroup id="2" name="triggers" offsetx="8.96652" offsety="40.3493"/>
 </map>

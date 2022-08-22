@@ -18,8 +18,8 @@
             "fileName": "big.tmx",
             "height": 2400,
             "width": 600,
-            "x": 780,
-            "y": -2840
+            "x": 860,
+            "y": -2400
         }
     ],
     "onlyShowAdjacentMaps": false,
