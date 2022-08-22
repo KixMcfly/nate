@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.9" tiledversion="1.9.1" orientation="orthogonal" renderorder="right-down" width="38" height="10" tilewidth="20" tileheight="20" infinite="0" nextlayerid="8" nextobjectid="156">
+<map version="1.9" tiledversion="1.9.1" orientation="orthogonal" renderorder="right-down" width="38" height="10" tilewidth="20" tileheight="20" infinite="0" nextlayerid="8" nextobjectid="165">
  <editorsettings>
   <export target="HALLWAY.nat" format="custom"/>
  </editorsettings>
@@ -10,7 +10,7 @@
  <tileset firstgid="161" source="HOTEL.TSX"/>
  <layer id="1" name="Tile Layer 1" width="38" height="10">
   <data encoding="csv">
-199,210,199,199,199,199,199,199,199,199,199,199,199,199,199,199,199,199,199,199,199,199,199,199,199,199,199,199,199,199,199,199,199,199,199,199,199,199,
+199,199,199,199,199,199,199,199,199,199,199,199,199,199,199,199,199,199,199,199,199,199,199,199,199,199,199,199,199,199,199,199,199,199,199,199,199,199,
 199,210,199,199,199,199,199,199,199,199,199,199,210,210,210,210,210,210,199,199,199,199,199,199,199,199,199,199,199,199,199,199,199,199,199,199,199,199,
 199,226,209,210,211,210,210,210,210,211,199,199,226,226,226,226,226,243,199,210,210,210,211,210,210,210,210,211,210,210,210,199,199,199,199,199,199,199,
 199,167,225,226,227,226,226,226,226,227,199,199,183,183,183,183,183,259,199,226,226,226,227,226,226,226,226,227,226,226,226,209,210,210,212,215,209,212,
@@ -22,5 +22,18 @@
 199,167,167,167,167,167,167,167,167,167,167,167,167,167,167,167,167,167,167,167,167,167,167,167,167,167,167,167,167,167,167,167,167,167,167,167,167,167
 </data>
  </layer>
- <objectgroup id="5" name="triggers"/>
+ <objectgroup id="5" name="triggers">
+  <object id="162" name="BIG_NAT" class="CHGROOM" x="180" y="60" width="20" height="20">
+   <properties>
+    <property name="name" value="BIG_NAT"/>
+    <property name="x" type="int" value="13"/>
+   </properties>
+  </object>
+  <object id="164" x="350" y="70">
+   <properties>
+    <property name="Dr. Douche" value="3"/>
+    <property name="name" value="VENDING"/>
+   </properties>
+  </object>
+ </objectgroup>
 </map>

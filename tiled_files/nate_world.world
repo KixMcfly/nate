@@ -4,7 +4,7 @@
             "fileName": "HALLWAY.tmx",
             "height": 200,
             "width": 760,
-            "x": 640,
+            "x": 660,
             "y": 0
         },
         {
@@ -13,6 +13,13 @@
             "width": 320,
             "x": 320,
             "y": 0
+        },
+        {
+            "fileName": "big.tmx",
+            "height": 2400,
+            "width": 600,
+            "x": 780,
+            "y": -2840
         }
     ],
     "onlyShowAdjacentMaps": false,

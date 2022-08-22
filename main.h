@@ -7,6 +7,7 @@
 #include "sprite.h"
 #include "node.h"
 #include "inv.h"
+#include "grid.h"
 #include "tools.h"
 #include "text.h"
 
@@ -51,17 +52,19 @@ END_OF_FUNCTION( __inc_elapsed_time );
 
 
 enum {
-	DOWN,
-	UP,
-	LEFT,
-	RIGHT
+	KF_DOWN,
+	KF_UP,
+	KF_LEFT,
+	KF_RIGHT
 };
 
 typedef struct {
 	
 	int x;
 	int y;
-	int dir;
+	int dx;
+	int dy;
+	int ckf;
 	int cf;
 	int ar;
 	SPRITE *s;
@@ -76,9 +79,6 @@ nate_set_xy (NATE *n, int x, int y);
 
 void
 nate_def (NATE *n);
-
-void
-nate_draw (NATE *n);
 
 void
 nate_init (void);

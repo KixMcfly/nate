@@ -1,14 +1,21 @@
 {
+    "Map/SizeTest": {
+        "height": 4300,
+        "width": 2
+    },
     "activeFile": "NATEROOM.tmx",
     "expandedProjectPaths": [
     ],
     "fileStates": {
         "HALLWAY.tmx": {
-            "scale": 2,
+            "expandedObjectLayers": [
+                5
+            ],
+            "scale": 1.7844166666666668,
             "selectedLayer": 1,
             "viewCenter": {
-                "x": 380,
-                "y": 99.75
+                "x": 311.30621585018446,
+                "y": 39.788913276981276
             }
         },
         "HOTEL.TSX": {
@@ -16,11 +23,22 @@
             "scaleInEditor": 1
         },
         "NATEROOM.tmx": {
+            "expandedObjectLayers": [
+                10
+            ],
             "scale": 2,
-            "selectedLayer": 0,
+            "selectedLayer": 1,
             "viewCenter": {
-                "x": 314,
-                "y": 47
+                "x": 160.25,
+                "y": 70.5
+            }
+        },
+        "big.tmx": {
+            "scale": 1.7844166666666668,
+            "selectedLayer": 1,
+            "viewCenter": {
+                "x": 194.74151216550692,
+                "y": 985.1959090272264
             }
         },
         "nateroom.tsx": {
@@ -37,6 +55,9 @@
         "/home/shawn/projects/nate/tiled_files/nate_world.world"
     ],
     "map.lastUsedExportFilter": "Nathyn's Room Chunk Format (*.nat)",
+    "map.lastUsedFormat": "tmx",
+    "map.tileHeight": 20,
+    "map.tileWidth": 20,
     "openFiles": [
         "HALLWAY.tmx",
         "NATEROOM.tmx",

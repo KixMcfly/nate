@@ -5,18 +5,23 @@
     "extensionsPath": "../../../Users/Robot Dick/AppData/Local/Tiled/extensions",
     "folders": [
     ],
-    "objectTypesFile": "propertytypes.json",
     "propertyTypes": [
         {
-            "id": 1,
-            "name": "FLAGS",
-            "storageType": "int",
-            "type": "enum",
-            "values": [
-                "SOLID",
-                "GRASS"
+            "color": "#ffaaff00",
+            "id": 2,
+            "members": [
+                {
+                    "name": "FLAGS",
+                    "type": "int",
+                    "value": 0
+                }
             ],
-            "valuesAsFlags": true
+            "name": "FLAGS",
+            "type": "class",
+            "useAs": [
+                "object",
+                "tile"
+            ]
         }
     ]
 }

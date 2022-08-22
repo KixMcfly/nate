@@ -26,7 +26,7 @@ int main (void)
 	set_pal (NATE_DAT, "TITLE_PAL");
 	show_backbuff (0, 0);
 	
-	/* Load title MIDI*/
+	/* Load title MIDI */
 	df = load_datafile_object (NATE_DAT, "TITLE_MID");
 	play_midi ((MIDI *)df->dat, TRUE);
 
@@ -58,6 +58,11 @@ int main (void)
 	sprite_keyframe_dat_div (nate.s, 3, 4, NATE_DAT, "NATESPR_BMP");
 	nate_def (&nate);
 	
+	grid_set_w (20);
+	grid_set_h (20);
+	
+	grid_snap_queue_add (&nate.x, &nate.y, &nate.dx, &nate.dy);
+	
 	/* Inv BMP */
 	inv_bmp = load_datafile_object (NATE_DAT, "INVMENU_BMP");
 	
@@ -76,12 +81,13 @@ int main (void)
 			
 		if (key[KEY_UP]){
 			if (!invmenu_vis ()){
-					
 				
-						nate.y--;
-					
-					
-				nate.dir = UP;
+				if (!SOLID(map_get_tile_flags (m, 0, LX(nate.x), LY(nate.y)-1)) &&
+					LY(nate.y) - 1 > -1){
+						grid_snap_up (&nate.x, &nate.y, &nate.dy);
+					}
+
+				nate.ckf = KF_UP;
 			}else
 				invmenu_sel_up ();
 		}
@@ -90,39 +96,39 @@ int main (void)
 			
 			if (!invmenu_vis ()){
 				
-				if (!SOLID(map_get_tile_flags (m, 0, LX(nate.x+TILE_W), LY(nate.y)+1)) &&
-					nate.y+1 < map_get_lh (m)){
-						nate.y++;
+				if (!SOLID(map_get_tile_flags (m, 0, LX(nate.x), LY(nate.y)+1)) &&
+					LY(nate.y) + 1 < map_get_h (m)){
+						grid_snap_down (&nate.x, &nate.y, &nate.dy);
 					}
 
-				nate.dir = DOWN;
+				nate.ckf = KF_DOWN;
 			}else
 				invmenu_sel_down ();
-				
-			
 		}
 			
 		if (key[KEY_LEFT]){
 			
 			if (!invmenu_vis ()){
 					
-				
-						nate.x--;
+				if (!SOLID(map_get_tile_flags (m, 0, LX(nate.x)-1, LY(nate.y))) &&
+					LX(nate.x)-1 > -1){
+						grid_snap_left (&nate.x, &nate.y, &nate.dx);
+					}
 					
-					
-				nate.dir = LEFT;
+				nate.ckf = KF_LEFT;
 			}else
 				invmenu_sel_left ();
 		}
 			
 		if (key[KEY_RIGHT]){
 			if (!invmenu_vis ()){
-									
+
+				if (!SOLID(map_get_tile_flags (m, 0, LX(nate.x)+1, LY(nate.y))) &&
+					LX(nate.x) + 1 < map_get_w (m)){
+						grid_snap_right (&nate.x, &nate.y, &nate.dx);
+					}
 				
-						nate.x++;
-					
-				
-				nate.dir = RIGHT;
+				nate.ckf = KF_RIGHT;
 			}else
 				invmenu_sel_right ();
 		}
@@ -137,18 +143,33 @@ int main (void)
 		}
 		
 		/* Nate inventory managment */
-		
 		invmenu_process ();
 		
+		/* Camera adjust */
+		if (nate.x - cam_x < 60)
+			cam_x -= 2;
+			
+		if (nate.x - cam_x > 240)
+			cam_x += 2 ;
+			
+		if (nate.y - cam_y < 60)
+			cam_y -= 2;
+			
+		if (nate.y - cam_y > 140)
+			cam_y += 2;
+		
+		/* Snap all queued coord to grid */
+		grid_snap_queue_proc ();
+
 		/* NATE ANIMATION SPEED CONTROL */
 		nate.ar--;
 		if (nate.ar <= 0){
 			nate.cf++;
 	
-			if (nate.cf >= sprite_keyframe_get_num_frames (nate.s, nate.dir))
+			if (nate.cf >= sprite_keyframe_get_num_frames (nate.s, nate.ckf))
 				nate.cf = 0;
 				
-			nate.ar = sprite_keyframe_get_frame_rest (nate.s, nate.dir, nate.cf);
+			nate.ar = sprite_keyframe_get_frame_rest (nate.s, nate.ckf, nate.cf);
 		}
 
 		/* Check objects */
@@ -170,7 +191,7 @@ int main (void)
 					
 					/* Change to room if use button is pressed */
 					if (key[KEY_LCONTROL]){
-						nate_set_xy (&nate, cr->cx, cr->cy);
+						nate_set_xy (&nate, cr->cx * TILE_W, cr->cy * TILE_H);
 						play_sample ((SAMPLE *)snd_door->dat, 255, 128, 1000, NULL);
 						map_free (m);
 						m = map_new ();
@@ -195,7 +216,7 @@ int main (void)
 				draw_map_layer (m, cl, -cam_x, -cam_y);
 		
 			/* draw nathyn on backbuff */
-			nate_draw (&nate);
+			sprite_draw (nate.s, get_backbuff (), nate.ckf, nate.cf, nate.x-cam_x, nate.y-cam_y-TILE_H);
 			
 			text_print_center (get_backbuff (), text_msg);
 			text_msg = NULL;
@@ -211,7 +232,6 @@ int main (void)
 		show_backbuff (0, 0);
 		
 		if (faded ()){
-			log_print ("CAM X: %d - CAM Y: %d\n", cam_x, cam_y);
 			fadein (pal->dat, 64);
 		}
 		
@@ -220,6 +240,8 @@ int main (void)
 			
 		elapsed_time = 10;
 	}
+	
+	grid_snap_queue_free ();
 	
 	/* Unload BMPS */
 	unload_datafile_object (inv_bmp);
@@ -250,7 +272,7 @@ END_OF_MAIN()
 void
 nate_focus_camera (MAP *m, int nx, int ny, int *cam_x, int *cam_y)
 {
-	int mw, mh;
+	int mw, mh, tw, th;
 	
 	if (!m)
 		return;
@@ -258,28 +280,23 @@ nate_focus_camera (MAP *m, int nx, int ny, int *cam_x, int *cam_y)
 	mw = map_get_w (m);
 	mh = map_get_h (m);
 	
-	if (mw < CAMERA_W / TILE_W)
+	tw = map_get_tw (m);
+	th = map_get_th (m);
+	
+	if (mw < CAMERA_W / tw)
 		*cam_x = CAMERA_W / 2 - mw / 2;
-	else if (mw == CAMERA_W / TILE_W)
-		*cam_x = 0;
 	else
-		for (*cam_x = 0; *cam_x + 160 != nx; *cam_x += TILE_W)
+		for (*cam_x = 0; *cam_x + 160 <= nx; *cam_x += tw)
 			;
 		
-	if (mh < CAMERA_H / TILE_H)
-		*cam_y = CAMERA_H / 2 - mh / 2;
-	else if (mh == CAMERA_H / TILE_H)
-		*cam_y = 0;
+	log_print ("%d\n", CAMERA_H / 2 - mh / 2);	
+	
+	if (mh < CAMERA_H / th)
+		*cam_y = mh / 2 - CAMERA_H / 2;
 	else
-		for (*cam_y = 0; *cam_y + 100 != ny; *cam_y += TILE_H)
+		for (*cam_y = 0; *cam_y + 100 <= ny; *cam_y += th)
 			;
 
-}
-
-void
-nate_draw (NATE *n)
-{
-	sprite_draw (n->s, get_backbuff (), n->dir, n->cf, n->x, n->y-TILE_H);
 }
 
 void
@@ -295,7 +312,7 @@ nate_def (NATE *n)
 	n->x = 5 * TILE_W;
 	n->y = 5 * TILE_H;
 	n->ar = 0;
-	n->dir = DOWN;
+	n->ckf = KF_DOWN;
 	n->cf = 0;
 }
 
