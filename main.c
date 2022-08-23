@@ -190,8 +190,12 @@ int main (void)
 				
 				vn = node_get_data (cn);
 
-				if (nate.x == gn->x && nate.y == gn->y){
-					text_msg = strtmp ("Vending machine!");
+				if (nate.x == vn->x && nate.y == vn->y){
+					
+					if (key[KEY_LCONTROL]){
+						
+					}else
+						text_msg = strtmp ("Vending machine!");
 				}
 				
 			}else if (node_get_type (cn) == OBJ_CHGROOM){

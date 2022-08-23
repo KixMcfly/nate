@@ -275,10 +275,13 @@ load_map (MAP *m, char *dat_fn, char *dat_id)
 						vend->y = y;
 						
 						int ci;
-						for (ci = 0; ci < 20; ci++){
+						for (ci = 0; ci < 2; ci++){
 							
 							vend->inv_list[ci] = pack_igetl (fp);
+							log_print ("%d\n", vend->inv_list[ci]);
 						}
+						
+						
 						/* Add object to map object list */
 						m->so = node_add (m->so, OBJ_VENDING, vend);
 					}

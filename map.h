@@ -8,6 +8,7 @@
 #include "tileset.h"
 #include "obj.h"
 #include "node.h"
+#include "tools.h"
 
 enum {
 	SOLID
