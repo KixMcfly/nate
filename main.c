@@ -7,6 +7,7 @@ int main (void)
 	NATE nate;
 	CHGROOM *cr = NULL;
 	GENERIC *gn = NULL;
+	VENDING *vn = NULL;
 	BITMAP *title = NULL;
 	DATAFILE *df = NULL, *pal = NULL, *snd_door = NULL, *inv_bmp = NULL;
 	NODE *cn = NULL;
@@ -185,6 +186,14 @@ int main (void)
 				if (nate.x == gn->x && nate.y == gn->y){
 		
 				}
+			}else if (node_get_type (cn) == OBJ_VENDING){
+				
+				vn = node_get_data (cn);
+
+				if (nate.x == gn->x && nate.y == gn->y){
+					text_msg = strtmp ("Vending machine!");
+				}
+				
 			}else if (node_get_type (cn) == OBJ_CHGROOM){
 				cr = node_get_data (cn);
 				

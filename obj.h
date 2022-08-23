@@ -7,7 +7,8 @@ enum {
 	
 	OBJ_NONE,
 	OBJ_COMPUTER,
-	OBJ_CHGROOM
+	OBJ_CHGROOM,
+	OBJ_VENDING
 	
 };
 
@@ -23,5 +24,11 @@ typedef struct {
 	int cy;
 	char name[MAX_NAME_LEN];
 } CHGROOM;
+
+typedef struct {
+	int x;
+	int y;
+	int inv_list[20];
+} VENDING;
 
 #endif /* __OBJ_H */

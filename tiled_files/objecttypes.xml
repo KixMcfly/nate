@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objecttypes>
+ <objecttype name="VENDING" color="#39a400">
+  <property name="ITEM01" type="int" propertytype="INV_LIST" default="0"/>
+  <property name="ITEM02" type="int" propertytype="INV_LIST" default="0"/>
+  <property name="ITEM03" type="int" propertytype="INV_LIST" default="0"/>
+  <property name="ITEM04" type="int" propertytype="INV_LIST" default="0"/>
+  <property name="ITEM05" type="int" propertytype="INV_LIST" default="0"/>
+  <property name="ITEM06" type="int" propertytype="INV_LIST" default="0"/>
+  <property name="ITEM07" type="int" propertytype="INV_LIST" default="0"/>
+  <property name="ITEM08" type="int" propertytype="INV_LIST" default="0"/>
+  <property name="ITEM09" type="int" propertytype="INV_LIST" default="0"/>
+  <property name="ITEM10" type="int" propertytype="INV_LIST" default="0"/>
+  <property name="ITEM11" type="int" propertytype="INV_LIST" default="0"/>
+  <property name="ITEM12" type="int" propertytype="INV_LIST" default="0"/>
+  <property name="ITEM13" type="int" propertytype="INV_LIST" default="0"/>
+  <property name="ITEM14" type="int" propertytype="INV_LIST" default="0"/>
+  <property name="ITEM15" type="int" propertytype="INV_LIST" default="0"/>
+  <property name="ITEM16" type="int" propertytype="INV_LIST" default="0"/>
+  <property name="ITEM17" type="int" propertytype="INV_LIST" default="0"/>
+  <property name="ITEM18" type="int" propertytype="INV_LIST" default="0"/>
+  <property name="ITEM19" type="int" propertytype="INV_LIST" default="0"/>
+  <property name="ITEM20" type="int" propertytype="INV_LIST" default="0"/>
+ </objecttype>
+</objecttypes>

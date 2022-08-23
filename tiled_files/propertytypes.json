@@ -9,5 +9,90 @@
             "GRASS"
         ],
         "valuesAsFlags": true
+    },
+    {
+        "id": 15,
+        "members": [
+            {
+                "name": "COUNT",
+                "type": "int",
+                "value": 0
+            },
+            {
+                "name": "ID",
+                "propertyType": "INV_LIST",
+                "type": "int",
+                "value": 3
+            }
+        ],
+        "name": "INV_DRDOUCHE",
+        "type": "class"
+    },
+    {
+        "id": 14,
+        "name": "INV_LIST",
+        "storageType": "int",
+        "type": "enum",
+        "values": [
+            "INV_NONE",
+            "INV_MONEY",
+            "INV_NUGGETS",
+            "INV_DRDOUCHE"
+        ],
+        "valuesAsFlags": false
+    },
+    {
+        "id": 13,
+        "members": [
+            {
+                "name": "COUNT",
+                "type": "int",
+                "value": 0
+            },
+            {
+                "name": "ID",
+                "propertyType": "INV_LIST",
+                "type": "int",
+                "value": 1
+            }
+        ],
+        "name": "INV_MONEY",
+        "type": "class"
+    },
+    {
+        "id": 12,
+        "members": [
+            {
+                "name": "COUNT",
+                "type": "int",
+                "value": 0
+            },
+            {
+                "name": "ID",
+                "propertyType": "INV_LIST",
+                "type": "int",
+                "value": 0
+            }
+        ],
+        "name": "INV_NONE",
+        "type": "class"
+    },
+    {
+        "id": 11,
+        "members": [
+            {
+                "name": "COUNT",
+                "type": "int",
+                "value": 0
+            },
+            {
+                "name": "ID",
+                "propertyType": "INV_LIST",
+                "type": "int",
+                "value": 2
+            }
+        ],
+        "name": "INV_NUGGETS",
+        "type": "class"
     }
 ]

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.9" tiledversion="1.9.1" orientation="orthogonal" renderorder="right-down" width="38" height="10" tilewidth="20" tileheight="20" infinite="0" nextlayerid="8" nextobjectid="169">
+<map version="1.8" tiledversion="1.8.4" orientation="orthogonal" renderorder="right-down" width="38" height="10" tilewidth="20" tileheight="20" infinite="0" nextlayerid="8" nextobjectid="173">
  <editorsettings>
-  <export target="HALLWAY.nat" format="custom"/>
+  <export target="../maps/HALLWAY.nat" format="custom"/>
  </editorsettings>
  <properties>
   <property name="name" value="Hotel Floor 10"/>
@@ -23,11 +23,10 @@
 </data>
  </layer>
  <objectgroup id="5" name="triggers">
-  <object id="168" name="HALLWAY_NAT" class="CHGROOM" x="180" y="60" width="20" height="20">
+  <object id="172" name="VENDING" type="VENDING" x="340" y="80" width="20" height="20">
    <properties>
-    <property name="name" value="HALLWAY_NAT"/>
-    <property name="x" type="int" value="37"/>
-    <property name="y" type="int" value="9"/>
+    <property name="ITEM08" type="int" propertytype="INV_LIST" value="1"/>
+    <property name="ITEM12" type="int" propertytype="INV_LIST" value="3"/>
    </properties>
   </object>
  </objectgroup>

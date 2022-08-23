@@ -267,6 +267,20 @@ load_map (MAP *m, char *dat_fn, char *dat_id)
 						
 						/* Add object to map object list */
 						m->so = node_add (m->so, OBJ_CHGROOM, room);
+					}else if (!strcmp (type, "VENDING")){
+						
+						VENDING *vend = (VENDING *) malloc (sizeof (VENDING));
+						
+						vend->x = x;
+						vend->y = y;
+						
+						int ci;
+						for (ci = 0; ci < 20; ci++){
+							
+							vend->inv_list[ci] = pack_igetl (fp);
+						}
+						/* Add object to map object list */
+						m->so = node_add (m->so, OBJ_VENDING, vend);
 					}
 
 					free (type);
