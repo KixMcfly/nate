@@ -7,20 +7,36 @@
     ],
     "propertyTypes": [
         {
-            "color": "#ffaaff00",
-            "id": 2,
+            "id": 5,
+            "name": "FLAGS",
+            "storageType": "int",
+            "type": "enum",
+            "values": [
+                "SOLID",
+                "GRASS"
+            ],
+            "valuesAsFlags": true
+        },
+        {
+            "color": "#ff57a45c",
+            "id": 7,
             "members": [
                 {
-                    "name": "FLAGS",
+                    "name": "INV_NONE",
                     "type": "int",
                     "value": 0
+                },
+                {
+                    "name": "INV_NUGGETS",
+                    "type": "int",
+                    "value": 2
                 }
             ],
-            "name": "FLAGS",
+            "name": "VENDING",
             "type": "class",
             "useAs": [
-                "object",
-                "tile"
+                "property",
+                "object"
             ]
         }
     ]

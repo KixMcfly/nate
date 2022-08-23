@@ -1,14 +1,13 @@
 [
     {
-        "color": "#ffaaff00",
+        "id": 5,
         "name": "FLAGS",
-        "properties": [
-            {
-                "name": "FLAGS",
-                "propertytype": "FLAGS",
-                "type": "int",
-                "value": 0
-            }
-        ]
+        "storageType": "int",
+        "type": "enum",
+        "values": [
+            "SOLID",
+            "GRASS"
+        ],
+        "valuesAsFlags": true
     }
 ]

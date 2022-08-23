@@ -63,8 +63,7 @@ int main (void)
 	
 	grid_snap_queue_add (&cam_x, &cam_y, &cam_dx, &cam_dy);
 	grid_snap_queue_add (&nate.x, &nate.y, &nate.dx, &nate.dy);
-	
-	
+
 	nate_focus_camera (m, nate.x, nate.y, &cam_x, &cam_y);
 	
 	/* Inv BMP */
@@ -148,26 +147,20 @@ int main (void)
 		
 		/* Nate inventory managment */
 		invmenu_process ();
-		
-		
-		
-		/* Camera adjust */
-		if (nate.x - cam_x <= 60){
-			grid_snap_left (&cam_x, &cam_y, &cam_dx);
 
-			log_print ("CAMERA X: %d Y: %d\n", cam_x, cam_y);
-		
-		}
+		/* Camera adjust */
+		if (nate.x - cam_x <= 60 && cam_x > 0)
+			grid_snap_left (&cam_x, &cam_y, &cam_dx);
 			
-		if (nate.x - cam_x >= 220)
+		if (nate.x - cam_x >= 220 && cam_x + SCREEN_W < map_get_lw (m))
 			grid_snap_right (&cam_x, &cam_y, &cam_dx);
 			
-		if (cam_y - nate.y <= 40)
+		if (nate.y - cam_y <= 80 && cam_y)
 			grid_snap_up (&cam_x, &cam_y, &cam_dy);
 			
-		if (cam_y - nate.y >= 160)
+		if (nate.y - cam_y >= 120 && cam_y + SCREEN_H < map_get_lh (m))
 			grid_snap_down (&cam_x, &cam_y, &cam_dy);
-			
+	
 		/* Snap all queued coord to grid */
 		grid_snap_queue_proc ();
 
@@ -251,6 +244,8 @@ int main (void)
 		elapsed_time = 10;
 	}
 	
+	log_print ("============================\n");
+	
 	/* Unload BMPS */
 	unload_datafile_object (inv_bmp);
 	
@@ -296,15 +291,12 @@ nate_focus_camera (MAP *m, int nx, int ny, int *cam_x, int *cam_y)
 	else
 		for (*cam_x = 0; *cam_x + 160 <= nx; *cam_x += tw)
 			;
-	
-	
-	
+
 	if (mh < CAMERA_H / th)
 		*cam_y = mh / 2 - CAMERA_H / 2;
 	else{
 		for (*cam_y = 0; *cam_y + 100 <= ny && *cam_y + CAMERA_H != mh * TILE_H; *cam_y += th)
 			;
-			log_print ("cam_y = %d\n", *cam_y);
 		}
 
 }

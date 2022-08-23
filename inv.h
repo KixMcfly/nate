@@ -19,7 +19,7 @@ enum {
 };
 
 void
-invmenu_process ();
+invmenu_process (void);
 
 int
 invmenu_vis (void);

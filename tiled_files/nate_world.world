@@ -1,13 +1,6 @@
 {
     "maps": [
         {
-            "fileName": "HALLWAY.tmx",
-            "height": 200,
-            "width": 760,
-            "x": 660,
-            "y": 0
-        },
-        {
             "fileName": "NATEROOM.tmx",
             "height": 200,
             "width": 320,
@@ -15,11 +8,11 @@
             "y": 0
         },
         {
-            "fileName": "big.tmx",
-            "height": 2400,
-            "width": 600,
-            "x": 860,
-            "y": -2400
+            "fileName": "HALLWAY.tmx",
+            "height": 200,
+            "width": 760,
+            "x": 640,
+            "y": 0
         }
     ],
     "onlyShowAdjacentMaps": false,
