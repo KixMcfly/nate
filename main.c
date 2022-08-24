@@ -14,6 +14,7 @@ int main (void)
 	char *text_msg = NULL;
 	
 	int nl, cl, quit = FALSE, cam_x = 0, cam_y = 0, cam_dx = 0, cam_dy = 0;
+	int vend_vis = FALSE;
 	/* Initialize Nate */
 	nate_init ();
 	
@@ -138,10 +139,17 @@ int main (void)
 		}
 		
 		if (key[KEY_ESC]){
-			if (!invmenu_vis ())
-				invmenu_show ();
-			else
-				invmenu_hide ();
+
+			if (vend_vis){
+				vend_free_dat ();
+				vend_vis = FALSE;
+			}else {
+				
+				if (!invmenu_vis ())
+					invmenu_show ();
+				else
+					invmenu_hide ();
+			}
 		
 			fadeout (20);
 		}
@@ -178,7 +186,7 @@ int main (void)
 
 		/* Check objects */
 		cn = map_get_node_head (m);
-		while (cn){
+		while (cn && !vend_vis && !invmenu_vis ()){
 		
 			if (node_get_type (cn) == OBJ_COMPUTER){
 				
@@ -193,7 +201,8 @@ int main (void)
 				if (nate.x == vn->x && nate.y == vn->y){
 					
 					if (key[KEY_LCONTROL]){
-						
+						vend_vis = TRUE;
+						vend_init_dat (vn, NATE_DAT, "VEND_BMP", "ITEMS_BMP");
 					}else
 						text_msg = strtmp ("Vending machine!");
 				}
@@ -208,7 +217,7 @@ int main (void)
 					/* Change to room if use button is pressed */
 					if (key[KEY_LCONTROL]){
 						nate_set_xy (&nate, cr->cx * TILE_W, cr->cy * TILE_H);
-						//play_sample ((SAMPLE *)snd_door->dat, 255, 128, 1000, NULL);
+						play_sample ((SAMPLE *)snd_door->dat, 255, 128, 1000, NULL);
 						map_free (m);
 						m = map_new ();
 						load_map (m, NATE_DAT, text_msg);
@@ -226,7 +235,12 @@ int main (void)
 			cn = node_get_next (cn);
 		}
 
-		if (!invmenu_vis ()){
+
+		if (vend_vis){
+
+			vend_draw_backbuff (get_backbuff ());
+			
+		}else if (!invmenu_vis ()){
 			/* Draw map layers */
 			for (cl = 0; cl < nl; cl++)
 				draw_map_layer (m, cl, -cam_x, -cam_y);
@@ -236,13 +250,15 @@ int main (void)
 			
 			text_print_center (get_backbuff (), text_msg);
 			text_msg = NULL;
-		}else{
+			
+		}else if (invmenu_vis ()){
 			
 			int px = invmenu_get_x (), py = invmenu_get_y ();
 			int px2 = px + invmenu_get_w (), py2 = py + invmenu_get_h ();
 			
 			blit ((BITMAP *)inv_bmp->dat, get_backbuff (), 0, 0, 0, 0, 320, 200);
 			rect(get_backbuff (), px, py, px2, py2, invmenu_get_c ());
+			
 		}
 		
 		show_backbuff (0, 0);

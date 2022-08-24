@@ -7,6 +7,7 @@
 #include "sprite.h"
 #include "node.h"
 #include "inv.h"
+#include "vend.h"
 #include "grid.h"
 #include "tools.h"
 #include "text.h"
