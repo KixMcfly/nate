@@ -14,7 +14,7 @@ int main (void)
 	char *text_msg = NULL;
 	
 	int nl, cl, quit = FALSE, cam_x = 0, cam_y = 0, cam_dx = 0, cam_dy = 0;
-	int vend_vis = FALSE;
+
 	/* Initialize Nate */
 	nate_init ();
 	
@@ -85,7 +85,13 @@ int main (void)
 			quit = TRUE;
 			
 		if (key[KEY_UP]){
-			if (!invmenu_vis ()){
+			
+			if (invmenu_vis ()){
+				invmenu_sel_up ();
+			}else if (vend_vis ()){
+				
+				vend_move_up ();
+			}else{
 				
 				if (!SOLID(map_get_tile_flags (m, 0, LX(nate.x), LY(nate.y)-1)) &&
 					LY(nate.y) - 1 > -1){
@@ -93,56 +99,68 @@ int main (void)
 					}
 
 				nate.ckf = KF_UP;
-			}else
-				invmenu_sel_up ();
+			}
 		}
 		
 		if (key[KEY_DOWN]){
 			
-			if (!invmenu_vis ()){
+			if (invmenu_vis ()){
 				
+				invmenu_sel_down ();
+			}else if (vend_vis ()){
+				
+				vend_move_down ();
+			}else{
 				if (!SOLID(map_get_tile_flags (m, 0, LX(nate.x), LY(nate.y)+1)) &&
 					LY(nate.y) + 1 < map_get_h (m)){
 						grid_snap_down (&nate.x, &nate.y, &nate.dy);
 					}
 
 				nate.ckf = KF_DOWN;
-			}else
-				invmenu_sel_down ();
+			}
 		}
 			
 		if (key[KEY_LEFT]){
 			
-			if (!invmenu_vis ()){
+			if (invmenu_vis ()){
 					
+				invmenu_sel_left ();
+				
+			}else if (vend_vis ()){
+				vend_move_left ();
+			}else {
 				if (!SOLID(map_get_tile_flags (m, 0, LX(nate.x)-1, LY(nate.y))) &&
 					LX(nate.x)-1 > -1){
 						grid_snap_left (&nate.x, &nate.y, &nate.dx);
 					}
 					
 				nate.ckf = KF_LEFT;
-			}else
-				invmenu_sel_left ();
+			}
 		}
 			
 		if (key[KEY_RIGHT]){
-			if (!invmenu_vis ()){
+			if (invmenu_vis ()){
 
+				invmenu_sel_right ();
+				
+			}else if (vend_vis ()){
+				
+				vend_move_right ();
+				
+			}else{
 				if (!SOLID(map_get_tile_flags (m, 0, LX(nate.x)+1, LY(nate.y))) &&
 					LX(nate.x) + 1 < map_get_w (m)){
 						grid_snap_right (&nate.x, &nate.y, &nate.dx);
 					}
 				
 				nate.ckf = KF_RIGHT;
-			}else
-				invmenu_sel_right ();
+			}
 		}
 		
 		if (key[KEY_ESC]){
 
-			if (vend_vis){
+			if (vend_vis ()){
 				vend_free_dat ();
-				vend_vis = FALSE;
 			}else {
 				
 				if (!invmenu_vis ())
@@ -186,7 +204,7 @@ int main (void)
 
 		/* Check objects */
 		cn = map_get_node_head (m);
-		while (cn && !vend_vis && !invmenu_vis ()){
+		while (cn && !vend_vis () && !invmenu_vis ()){
 		
 			if (node_get_type (cn) == OBJ_COMPUTER){
 				
@@ -201,7 +219,6 @@ int main (void)
 				if (nate.x == vn->x && nate.y == vn->y){
 					
 					if (key[KEY_LCONTROL]){
-						vend_vis = TRUE;
 						vend_init_dat (vn, NATE_DAT, "VEND_BMP", "ITEMS_BMP");
 					}else
 						text_msg = strtmp ("Vending machine!");
@@ -236,9 +253,9 @@ int main (void)
 		}
 
 
-		if (vend_vis){
+		if (vend_vis ()){
 
-			vend_draw_backbuff (get_backbuff ());
+			vend_draw_backbuff (vn, get_backbuff ());
 			
 		}else if (!invmenu_vis ()){
 			/* Draw map layers */

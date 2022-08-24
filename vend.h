@@ -8,19 +8,22 @@ int
 vend_buy_item (int *cash);
 
 void
-vend_move_up (VENDING *v);
+vend_move_up (void);
 
 void
-vend_move_down (VENDING *v);
+vend_move_down (void);
 
 void
-vend_move_left (VENDING *v);
+vend_move_left (void);
 
 void
-vend_move_right (VENDING *v);
+vend_move_right (void);
+
+int
+vend_vis (void);
 
 void
-vend_draw_backbuff (BITMAP *bf);
+vend_draw_backbuff (VENDING *vend, BITMAP *bf);
 
 int
 vend_init_dat (VENDING *v, char *dfn, char *vb, char *ib);
