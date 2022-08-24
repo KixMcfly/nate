@@ -1,0 +1,1 @@
+vend_fnt.bmp 0x30 0x39

@@ -7,9 +7,12 @@
 #define SW				41
 #define SH				31
 #define SC				13
+#define PR_MAX			9
 
 static DATAFILE *vend_bmp = NULL;
 static DATAFILE *items_bmp = NULL;
+
+static FONT *vend_font = NULL;
 
 static int ps[MAX_VEND][2] = 
 
@@ -23,7 +26,7 @@ static int ic[20] =
 
 			{0,				/* INV_NONE */
 			 0,				/* INV MONEY */
-			 20,			/* INV_DRDOUCHE */
+			 999,			/* INV_DRDOUCHE */
 			 15,			/* INV_NUGGETS */
 			 0,
 			 0,
@@ -40,19 +43,18 @@ static int ic[20] =
 			 0,
 			 0,
 			 0,
-			 0
-			};
+			 0};
 
 static int vv = FALSE;
 static int vp = 0;
-static int si = 0;
+static int pr = 0;
 
 int
 vend_buy_item (int *cash)
 {
-	if (*cash >= ic[si]){
-		*cash -= ic[si];
-		return si;
+	if (*cash >= ic[vend->inv_list[vp]] && vend->inv_list[vp] > 0){
+		*cash -= ic[vend->inv_list[vp]];
+		return vend->inv_list[vp];
 	}else
 		return 0;
 }
@@ -60,29 +62,37 @@ vend_buy_item (int *cash)
 void
 vend_move_up (void)
 {
-	if (vp > 3)
+	if (vp > 3 && !pr){
 		vp -= 4;
+		pr = PR_MAX;
+	}
 }
 
 void
 vend_move_down (void)
 {
-	if (vp < 17)
+	if (vp < 16 && !pr){
 		vp += 4;
+		pr = PR_MAX;
+	}
 }
 
 void
 vend_move_left (void)
 {
-	if (vp > 0 && vp > 4 && vp > 8 && vp > 12 && vp > 16)
+	if ((vp > 0 || vp > 4 || vp > 8 || vp > 12 || vp > 16) && !pr){
 		vp--;
+		pr = PR_MAX;
+	}
 }
 
 void
 vend_move_right (void)
 {
-	if (vp < 3 && vp < 7 && vp < 11 && vp < 15 && vp < 19)
+	if ((vp < 3 || vp < 7 || vp < 11 || vp < 15 || vp < 19) && !pr){
 		vp++;
+		pr = PR_MAX;
+	}
 }
 
 int
@@ -106,11 +116,20 @@ vend_draw_backbuff (VENDING *vend, BITMAP *bf)
 		masked_blit (i, bf, vend->inv_list[ci]*SW, 0, ps[ci][X], ps[ci][Y], SW, SH);
 	
 	rect(bf, ps[vp][X], ps[vp][Y], ps[vp][X]+SW, ps[vp][Y]+SH, SC);
+	
+	/* draw cost on vending LCD */
+	if (ic[vend->inv_list[vp]])
+		textprintf_ex (bf, vend_font, 32, 53, 116, -1, "%d", ic[vend->inv_list[vp]]);
+	
+	if (pr)
+		pr--;
 }
 
 int
 vend_init_dat (VENDING *v, char *dfn, char *vb, char *ib)
 {
+	
+	char *names[] = { "VEND_FNT", NULL };
 	
 	vend_bmp = load_datafile_object (dfn, vb);
 	
@@ -125,8 +144,19 @@ vend_init_dat (VENDING *v, char *dfn, char *vb, char *ib)
 		return -1;
 	}
 	
-	si = v->inv_list[vp];
+	vend_font = load_dat_font (dfn, NULL, names);
+	
+	if (!vend_font){
+		unload_datafile_object (vend_bmp);
+		unload_datafile_object (items_bmp);
+		vend_bmp = NULL;
+		items_bmp = NULL;
+		
+		return -2;
+	}
+
 	vv = TRUE;
+	pr = 0;
 	
 	return vv;
 }
@@ -144,5 +174,11 @@ vend_free_dat (void)
 		items_bmp = NULL;
 	}
 	
+	if (vend_font){
+		destroy_font (vend_font);
+		vend_font = NULL;
+	}
+	
 	vv = FALSE;
+	pr = 0;
 }

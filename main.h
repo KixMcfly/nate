@@ -68,6 +68,9 @@ typedef struct {
 	int ckf;
 	int cf;
 	int ar;
+	int energy;
+	int thirst;
+	int food;
 	SPRITE *s;
 	
 } NATE;

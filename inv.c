@@ -120,7 +120,7 @@ invmenu_sel_down (void)
 void
 invmenu_sel_right (void)
 {
-	if ((invmenu.sp == 0 || invmenu.sp == 2 || invmenu.sp == 6) &&
+	if ((invmenu.sp == 0 || invmenu.sp == 2 || invmenu.sp == 4 || invmenu.sp == 6) &&
 	    !invmenu.rest){
 		invmenu.sp++;
 		invmenu.rest = SEL_R;
@@ -130,7 +130,7 @@ invmenu_sel_right (void)
 void
 invmenu_sel_left (void)
 {
-	if ((invmenu.sp == 1 || invmenu.sp == 3 || invmenu.sp == 7) &&
+	if ((invmenu.sp == 1 || invmenu.sp == 3 || invmenu.sp == 5 || invmenu.sp == 7) &&
 		!invmenu.rest){
 		invmenu.sp--;
 		invmenu.rest = SEL_R;
