@@ -236,16 +236,12 @@ load_map (MAP *m, char *dat_fn, char *dat_id)
 
 				noo = pack_getc (fp);
 				
-				log_print ("NUMBER OF ROOM OBJECTS: %d\n", noo);
-				
 				for (co = 0; co < noo; co++){
 					unsigned long x, y;
 					/* Type string length */
 					size = pack_getc (fp);
 					type = (char *)malloc (size);
 					pack_fread (type, size, fp);
-				
-					log_print ("OBJECT TYPE: %s\n", type);
 				
 					x = pack_igetl (fp);
 					y = pack_igetl (fp);
@@ -269,8 +265,6 @@ load_map (MAP *m, char *dat_fn, char *dat_id)
 						room->cx = pack_igetl (fp);
 						room->cy = pack_igetl (fp);
 						
-						log_print ("FOUND CHANGE ROOM: %s\n", room->name);
-						
 						/* Add object to map object list */
 						m->so = node_add (m->so, OBJ_CHGROOM, room);
 					}else if (!strcmp (type, "VENDING")){
@@ -279,13 +273,11 @@ load_map (MAP *m, char *dat_fn, char *dat_id)
 						
 						vend->x = x;
 						vend->y = y;
-						
-						log_print ("FOUND VENDING!\n");
+
 						int ci;
 						for (ci = 0; ci < 20; ci++){
 							
 							vend->inv_list[ci] = pack_igetl (fp);
-							log_print ("VENDING ITEM %d\n", vend->inv_list[ci]);
 							
 						}
 						

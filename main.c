@@ -72,7 +72,7 @@ int main (void)
 	pal = load_datafile_object (NATE_DAT, "NATE_PAL");
 	
 	df = load_datafile_object (NATE_DAT, "NATEROOM_MID");
-	//play_midi ((MIDI *)df->dat, TRUE);
+	play_midi ((MIDI *)df->dat, TRUE);
 
 	while (!quit){
 	
@@ -81,12 +81,12 @@ int main (void)
 			
 		if (key[KEY_UP]){
 			
-			//if (invmenu_vis ()){
-			//	//invmenu_sel_up ();
-			//}else if (vend_vis ()){
-			//	
-			//	//vend_move_up ();
-			//}else{
+			if (invmenu_vis ()){
+				invmenu_sel_up ();
+			}else if (vend_vis ()){
+				
+				vend_move_up ();
+			}else{
 				
 				if (!SOLID(map_get_tile_flags (m, 0, LX(nate.x), LY(nate.y)-1)) &&
 					LY(nate.y) - 1 > -1){
@@ -94,75 +94,75 @@ int main (void)
 					}
 
 				nate.ckf = KF_UP;
-			//}
+			}
 		}
 		
 		if (key[KEY_DOWN]){
 			
-			//if (invmenu_vis ()){
-			//	
-			//	//invmenu_sel_down ();
-			//}else if (vend_vis ()){
-			//	
-			//	//vend_move_down ();
-			//}else{
+			if (invmenu_vis ()){
+				
+				invmenu_sel_down ();
+			}else if (vend_vis ()){
+				
+				vend_move_down ();
+			}else{
 				if (!SOLID(map_get_tile_flags (m, 0, LX(nate.x), LY(nate.y)+1)) &&
 					LY(nate.y) + 1 < map_get_h (m)){
 						grid_snap_down (&nate.x, &nate.y, &nate.dy);
 					}
 
 				nate.ckf = KF_DOWN;
-			//}
+			}
 		}
 			
 		if (key[KEY_LEFT]){
 			
-			//if (invmenu_vis ()){
-			//		
-			//	//invmenu_sel_left ();
-			//	
-			//}else if (vend_vis ()){
-			//	//vend_move_left ();
-			//}else {
+			if (invmenu_vis ()){
+					
+				invmenu_sel_left ();
+				
+			}else if (vend_vis ()){
+				vend_move_left ();
+			}else {
 				if (!SOLID(map_get_tile_flags (m, 0, LX(nate.x)-1, LY(nate.y))) &&
 					LX(nate.x)-1 > -1){
 						grid_snap_left (&nate.x, &nate.y, &nate.dx);
 					}
 					
 				nate.ckf = KF_LEFT;
-			//}
+			}
 		}
 			
 		if (key[KEY_RIGHT]){
-			//if (invmenu_vis ()){
-			//
-			//	//invmenu_sel_right ();
-			//	
-			//}else if (vend_vis ()){
+			if (invmenu_vis ()){
+			
+				invmenu_sel_right ();
 				
-				//vend_move_right ();
+			}else if (vend_vis ()){
 				
-			//}else{
+				vend_move_right ();
+				
+			}else{
 				if (!SOLID(map_get_tile_flags (m, 0, LX(nate.x)+1, LY(nate.y))) &&
 					LX(nate.x) + 1 < map_get_w (m)){
 						grid_snap_right (&nate.x, &nate.y, &nate.dx);
 					}
 				
 				nate.ckf = KF_RIGHT;
-			//}
+			}
 		}
 		
 		if (key[KEY_ESC]){
 
-			//if (vend_vis ()){
-				//vend_free_dat ();
-			//}else {
+		if (vend_vis ()){
+				vend_free_dat ();
+			}else {
 
-				//if (!invmenu_vis ())
-					//invmenu_init (NATE_DAT, "INVMENU_BMP", "ITEMS_BMP", "INV_FNT");
-				//else
-					//invmenu_free ();
-			//}
+				if (!invmenu_vis ())
+					invmenu_init (NATE_DAT, "INVMENU_BMP", "ITEMS_BMP", "INV_FNT");
+				else
+					invmenu_free ();
+			}
 		
 			fadeout (20);
 		}
@@ -210,12 +210,12 @@ int main (void)
 
 				if (nate.x == vn->x && nate.y == vn->y){
 					
-					//if (key[KEY_LCONTROL]){
-					//	vend_init_dat (vn, NATE_DAT, "VEND_BMP", "ITEMS_BMP");
-					//}else
-					//	text_msg = strtmp ("Vending machine!");
-					//	
-					//break;
+					if (key[KEY_LCONTROL]){
+						vend_init_dat (vn, NATE_DAT, "VEND_BMP", "ITEMS_BMP");
+					}else
+						text_msg = strtmp ("Vending machine!");
+						
+					break;
 				}
 				
 			}else if (node_get_type (cn) == OBJ_CHGROOM){
@@ -232,6 +232,7 @@ int main (void)
 						map_free (m);
 						m = map_new ();
 						load_map (m, NATE_DAT, text_msg);
+						
 						nl = map_get_nl (m);
 						fadeout (5);
 						
@@ -247,20 +248,20 @@ int main (void)
 		}
 
 
-		//if (vend_vis ()){
-		//
-		//	int cash = 1000;
-		//
-		//	if (key[KEY_LCONTROL])
-		//		inv_add (vend_buy_item (vn, &cash), 1);
-		//
-		//	vend_draw_backbuff (vn, get_backbuff ());
-		//	
-		//}else if (invmenu_vis ()){
-		//
-		//	invmenu_draw_backbuff (get_backbuff ());
-		//	
-		//}else{
+		if (vend_vis ()){
+		
+			int cash = 1000;
+		
+			if (key[KEY_LCONTROL])
+				inv_add (vend_buy_item (vn, &cash), 1);
+		
+			vend_draw_backbuff (vn, get_backbuff ());
+			
+		}else if (invmenu_vis ()){
+		
+			invmenu_draw_backbuff (get_backbuff ());
+			
+		}else{
 			/* Draw map layers */
 			for (cl = 0; cl < nl; cl++)
 				draw_map_layer (m, cl, -cam_x, -cam_y);
@@ -270,7 +271,7 @@ int main (void)
 			
 			text_print_center (get_backbuff (), text_msg);
 			
-		//}
+		}
 		
 		text_msg = NULL;
 		
