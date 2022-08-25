@@ -14,6 +14,8 @@ static DATAFILE *items_bmp = NULL;
 
 static FONT *vend_font = NULL;
 
+static DATAFILE *vend_wav = NULL;
+
 static int ps[MAX_VEND][2] = 
 
 			{{95, 7},   {139, 7},  {183, 7}, {227, 7},
@@ -52,9 +54,13 @@ static int pr = 0;
 int
 vend_buy_item (VENDING *vend, int *cash)
 {
-	if (*cash >= ic[vend->inv_list[vp]] && vend->inv_list[vp] > 0){
-		*cash -= ic[vend->inv_list[vp]];
+	
+	if (*cash >= ic[vend->inv_list[vp]] && vend->inv_list[vp] > 0 && !pr){
+		//*cash -= ic[vend->inv_list[vp]];
+		pr = 50;
+		play_sample ((SAMPLE *)vend_wav->dat, 255, 128, 1000, NULL);
 		return vend->inv_list[vp];
+		
 	}else
 		return 0;
 }
@@ -154,6 +160,20 @@ vend_init_dat (VENDING *v, char *dfn, char *vb, char *ib)
 		
 		return -2;
 	}
+	
+	vend_wav = load_datafile_object (dfn, "VEND_WAV");
+	
+	if (!vend_wav){
+		unload_datafile_object (vend_bmp);
+		unload_datafile_object (items_bmp);
+		destroy_font (vend_font);
+		vend_bmp = NULL;
+		items_bmp = NULL;
+		vend_font = NULL;
+		
+		return -3;
+	}
+		
 
 	vv = TRUE;
 	pr = 0;
@@ -177,6 +197,11 @@ vend_free_dat (void)
 	if (vend_font){
 		destroy_font (vend_font);
 		vend_font = NULL;
+	}
+	
+	if (vend_wav){
+		unload_datafile_object (vend_wav);
+		vend_wav = NULL;
 	}
 	
 	vv = FALSE;

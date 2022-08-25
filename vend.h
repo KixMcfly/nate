@@ -3,6 +3,7 @@
 
 #include <allegro.h>
 #include "obj.h"
+#include "tools.h"
 
 int
 vend_buy_item (VENDING *vend, int *cash);

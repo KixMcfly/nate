@@ -8,7 +8,7 @@
 #define SEL_R				13
 
 #define X					0
-#define Y					0
+#define Y					1
 
 typedef struct {
 	
@@ -78,7 +78,7 @@ invmenu_draw_backbuff (BITMAP *bf)
 	for (ci = 0; ci < MAX_INV; ci++){
 		
 		if (inv[ci].id ){
-			blit ((BITMAP *)items_bmp->dat, bf, inv[ci].id * 41, 0, ip_lookup[ci][X], ip_lookup[ci][Y], 41, 31);
+			masked_blit ((BITMAP *)items_bmp->dat, bf, inv[ci].id * 41, 0, ip_lookup[ci][X], ip_lookup[ci][Y], 41, 31);
 			textprintf_right_ex (bf, inv_fnt, inp_lookup[ci][X], inp_lookup[ci][Y], -1, -1, "%d", inv[ci].num);
 		}
 	}
@@ -141,7 +141,7 @@ invmenu_init (char *dfn, char *invb, char *itemb, char *fdn)
 	
 	inv_bmp = load_datafile_object (dfn, invb);
 	items_bmp = load_datafile_object (dfn, itemb);
-	inv_fnt = load_dat_font (fdn, NULL, names);
+	inv_fnt = load_dat_font (dfn, NULL, names);
 	
 	invmenu.vis = TRUE;
 }

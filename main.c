@@ -196,7 +196,7 @@ int main (void)
 
 		/* Check objects */
 		cn = map_get_node_head (m);
-		while (cn){
+		while (cn && !vend_vis () && !invmenu_vis ()){
 		
 			if (node_get_type (cn) == OBJ_COMPUTER){
 				
