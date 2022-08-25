@@ -50,7 +50,7 @@ static int vp = 0;
 static int pr = 0;
 
 int
-vend_buy_item (int *cash)
+vend_buy_item (VENDING *vend, int *cash)
 {
 	if (*cash >= ic[vend->inv_list[vp]] && vend->inv_list[vp] > 0){
 		*cash -= ic[vend->inv_list[vp]];

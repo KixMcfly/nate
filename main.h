@@ -6,8 +6,8 @@
 #include "draw.h"
 #include "sprite.h"
 #include "node.h"
-#include "inv.h"
-#include "vend.h"
+//#include "inv.h"
+//#include "vend.h"
 #include "grid.h"
 #include "tools.h"
 #include "text.h"
@@ -68,9 +68,6 @@ typedef struct {
 	int ckf;
 	int cf;
 	int ar;
-	int energy;
-	int thirst;
-	int food;
 	SPRITE *s;
 	
 } NATE;

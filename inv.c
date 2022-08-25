@@ -7,6 +7,9 @@
 #define SEL_C				14
 #define SEL_R				13
 
+#define X					0
+#define Y					0
+
 typedef struct {
 	
 	int id;
@@ -22,14 +25,31 @@ typedef struct {
 	
 } INVMENU;
 
-static INVMENU invmenu;
-static INVITEM itembox[MAX_ITEMBOX];
-static INVITEM inv[MAX_INV];
+static INVMENU invmenu = {.vis = FALSE, .sp = 0, .rest = 0};
+static INVITEM itembox[MAX_ITEMBOX] = {{0}};
+static INVITEM inv[MAX_INV] = {{0}};
+
+static DATAFILE *inv_bmp = NULL;
+static DATAFILE *items_bmp = NULL;
+static FONT *inv_fnt = NULL;
 
 /* X and Y pos of sel rec */
-static int pos_lookup[MAX_INV][2] = {{212, 5},   {264, 5},  {212, 48},
-									 {264, 48},  {212, 91}, {264, 91},
-									 {212, 134}, {264, 134}};
+static int pos_lookup[MAX_INV][2] = {{212, 5},	{264, 5},
+									{212, 48},	{264, 48},
+									{212, 91},	{264, 91},
+									{212, 134}, {264, 134}};
+									 
+/* X and Y pos of inv placement */
+static int ip_lookup[MAX_INV][2] = {{217, 15},	{269, 15},  
+									{217, 58},	{269, 58}, 
+									{217, 101}, {269, 101},
+									{217, 144}, {269, 144}};
+									
+/* X and Y pos of inv count placement */
+static int inp_lookup[MAX_INV][2] = {{261, 7},	{313, 7},  
+									{261, 50},	{313, 50}, 
+									{261, 93}, 	{313, 93},
+									{261, 136}, {313, 136}};
 
 static char *inv_list[INV_NUM] = {
 	
@@ -44,8 +64,28 @@ static char *inv_list[INV_NUM] = {
 };
 
 void
-invmenu_process ()
-{
+invmenu_draw_backbuff (BITMAP *bf)
+{ 
+	
+	int px = pos_lookup[invmenu.sp][X], py = pos_lookup[invmenu.sp][Y];
+	int px2 = px + SEL_W, py2 = py + SEL_H;
+	int ci;
+	
+	/* Draw inv menu */		
+	blit ((BITMAP *)inv_bmp->dat, bf, 0, 0, 0, 0, 320, 200);
+	
+	/* Draw items */
+	for (ci = 0; ci < MAX_INV; ci++){
+		
+		if (inv[ci].id ){
+			blit ((BITMAP *)items_bmp->dat, bf, inv[ci].id * 41, 0, ip_lookup[ci][X], ip_lookup[ci][Y], 41, 31);
+			textprintf_right_ex (bf, inv_fnt, inp_lookup[ci][X], inp_lookup[ci][Y], -1, -1, "%d", inv[ci].num);
+		}
+	}
+	
+	rect(bf, px, py, px2, py2, SEL_C);
+	
+	
 	if (invmenu.rest)
 		invmenu.rest--;
 }
@@ -54,49 +94,6 @@ int
 invmenu_vis (void)
 {
 	return invmenu.vis;
-}
-
-void
-invmenu_show (void)
-{
-	invmenu.vis = 1;
-	invmenu.rest = 0;
-}
-
-void
-invmenu_hide (void)
-{
-	invmenu.vis = 0;
-}
-
-int
-invmenu_get_x (void)
-{
-	return pos_lookup[invmenu.sp][0];
-}
-
-int
-invmenu_get_y (void)
-{
-	return pos_lookup[invmenu.sp][1];
-}
-
-int
-invmenu_get_w (void)
-{
-	return SEL_W;
-}
-
-int
-invmenu_get_h (void)
-{
-	return SEL_H;
-}
-
-int
-invmenu_get_c (void)
-{
-	return SEL_C;
 }
 
 void
@@ -138,22 +135,37 @@ invmenu_sel_left (void)
 }
 
 void
-inv_init (void)
+invmenu_init (char *dfn, char *invb, char *itemb, char *fdn)
 {
+	char *names[] = {fdn, NULL};
+	
+	inv_bmp = load_datafile_object (dfn, invb);
+	items_bmp = load_datafile_object (dfn, itemb);
+	inv_fnt = load_dat_font (fdn, NULL, names);
+	
+	invmenu.vis = TRUE;
+}
+
+void
+invmenu_free (void)
+{
+
+	if (inv_bmp)
+		unload_datafile_object (inv_bmp);
+		
+	if (items_bmp)
+		unload_datafile_object (items_bmp);
+		
+	if (inv_fnt)
+		destroy_font (inv_fnt);
+		
+	inv_bmp = NULL;
+	items_bmp = NULL;
+	inv_fnt = NULL;
+	
+	invmenu.vis = FALSE;
 	invmenu.sp = 0;
-	invmenu.vis = 0;
 	invmenu.rest = 0;
-	
-	int i;
-	for (i = 0; i < MAX_ITEMBOX; i++){
-		itembox[i].id = INV_NONE;
-		itembox[i].num = 0;
-	}
-	
-	for (i = 0; i < MAX_INV; i++){
-		inv[i].id = INV_NONE;
-		inv[i].num = 0;
-	}
 }
 
 int

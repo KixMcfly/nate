@@ -9,7 +9,7 @@ int main (void)
 	GENERIC *gn = NULL;
 	VENDING *vn = NULL;
 	BITMAP *title = NULL;
-	DATAFILE *df = NULL, *pal = NULL, *snd_door = NULL, *inv_bmp = NULL;
+	DATAFILE *df = NULL, *pal = NULL, *snd_door = NULL;
 	NODE *cn = NULL;
 	char *text_msg = NULL;
 	
@@ -68,16 +68,11 @@ int main (void)
 
 	nate_focus_camera (m, nate.x, nate.y, &cam_x, &cam_y);
 	
-	/* Inv BMP */
-	inv_bmp = load_datafile_object (NATE_DAT, "INVMENU_BMP");
-	
 	/* Get palette for fade in */
 	pal = load_datafile_object (NATE_DAT, "NATE_PAL");
 	
 	df = load_datafile_object (NATE_DAT, "NATEROOM_MID");
 	//play_midi ((MIDI *)df->dat, TRUE);
-
-	inv_init ();
 
 	while (!quit){
 	
@@ -86,12 +81,12 @@ int main (void)
 			
 		if (key[KEY_UP]){
 			
-			if (invmenu_vis ()){
-				invmenu_sel_up ();
-			}else if (vend_vis ()){
-				
-				vend_move_up ();
-			}else{
+			//if (invmenu_vis ()){
+			//	//invmenu_sel_up ();
+			//}else if (vend_vis ()){
+			//	
+			//	//vend_move_up ();
+			//}else{
 				
 				if (!SOLID(map_get_tile_flags (m, 0, LX(nate.x), LY(nate.y)-1)) &&
 					LY(nate.y) - 1 > -1){
@@ -99,81 +94,78 @@ int main (void)
 					}
 
 				nate.ckf = KF_UP;
-			}
+			//}
 		}
 		
 		if (key[KEY_DOWN]){
 			
-			if (invmenu_vis ()){
-				
-				invmenu_sel_down ();
-			}else if (vend_vis ()){
-				
-				vend_move_down ();
-			}else{
+			//if (invmenu_vis ()){
+			//	
+			//	//invmenu_sel_down ();
+			//}else if (vend_vis ()){
+			//	
+			//	//vend_move_down ();
+			//}else{
 				if (!SOLID(map_get_tile_flags (m, 0, LX(nate.x), LY(nate.y)+1)) &&
 					LY(nate.y) + 1 < map_get_h (m)){
 						grid_snap_down (&nate.x, &nate.y, &nate.dy);
 					}
 
 				nate.ckf = KF_DOWN;
-			}
+			//}
 		}
 			
 		if (key[KEY_LEFT]){
 			
-			if (invmenu_vis ()){
-					
-				invmenu_sel_left ();
-				
-			}else if (vend_vis ()){
-				vend_move_left ();
-			}else {
+			//if (invmenu_vis ()){
+			//		
+			//	//invmenu_sel_left ();
+			//	
+			//}else if (vend_vis ()){
+			//	//vend_move_left ();
+			//}else {
 				if (!SOLID(map_get_tile_flags (m, 0, LX(nate.x)-1, LY(nate.y))) &&
 					LX(nate.x)-1 > -1){
 						grid_snap_left (&nate.x, &nate.y, &nate.dx);
 					}
 					
 				nate.ckf = KF_LEFT;
-			}
+			//}
 		}
 			
 		if (key[KEY_RIGHT]){
-			if (invmenu_vis ()){
-
-				invmenu_sel_right ();
+			//if (invmenu_vis ()){
+			//
+			//	//invmenu_sel_right ();
+			//	
+			//}else if (vend_vis ()){
 				
-			}else if (vend_vis ()){
+				//vend_move_right ();
 				
-				vend_move_right ();
-				
-			}else{
+			//}else{
 				if (!SOLID(map_get_tile_flags (m, 0, LX(nate.x)+1, LY(nate.y))) &&
 					LX(nate.x) + 1 < map_get_w (m)){
 						grid_snap_right (&nate.x, &nate.y, &nate.dx);
 					}
 				
 				nate.ckf = KF_RIGHT;
-			}
+			//}
 		}
 		
 		if (key[KEY_ESC]){
 
-			if (vend_vis ()){
-				vend_free_dat ();
-			}else {
-				
-				if (!invmenu_vis ())
-					invmenu_show ();
-				else
-					invmenu_hide ();
-			}
+			//if (vend_vis ()){
+				//vend_free_dat ();
+			//}else {
+
+				//if (!invmenu_vis ())
+					//invmenu_init (NATE_DAT, "INVMENU_BMP", "ITEMS_BMP", "INV_FNT");
+				//else
+					//invmenu_free ();
+			//}
 		
 			fadeout (20);
 		}
-		
-		/* Nate inventory managment */
-		invmenu_process ();
 
 		/* Camera adjust */
 		if (nate.x - cam_x <= 60 && cam_x > 0)
@@ -204,7 +196,7 @@ int main (void)
 
 		/* Check objects */
 		cn = map_get_node_head (m);
-		while (cn && !vend_vis () && !invmenu_vis ()){
+		while (cn){
 		
 			if (node_get_type (cn) == OBJ_COMPUTER){
 				
@@ -218,10 +210,12 @@ int main (void)
 
 				if (nate.x == vn->x && nate.y == vn->y){
 					
-					if (key[KEY_LCONTROL]){
-						vend_init_dat (vn, NATE_DAT, "VEND_BMP", "ITEMS_BMP");
-					}else
-						text_msg = strtmp ("Vending machine!");
+					//if (key[KEY_LCONTROL]){
+					//	vend_init_dat (vn, NATE_DAT, "VEND_BMP", "ITEMS_BMP");
+					//}else
+					//	text_msg = strtmp ("Vending machine!");
+					//	
+					//break;
 				}
 				
 			}else if (node_get_type (cn) == OBJ_CHGROOM){
@@ -253,11 +247,20 @@ int main (void)
 		}
 
 
-		if (vend_vis ()){
-
-			vend_draw_backbuff (vn, get_backbuff ());
-			
-		}else if (!invmenu_vis ()){
+		//if (vend_vis ()){
+		//
+		//	int cash = 1000;
+		//
+		//	if (key[KEY_LCONTROL])
+		//		inv_add (vend_buy_item (vn, &cash), 1);
+		//
+		//	vend_draw_backbuff (vn, get_backbuff ());
+		//	
+		//}else if (invmenu_vis ()){
+		//
+		//	invmenu_draw_backbuff (get_backbuff ());
+		//	
+		//}else{
 			/* Draw map layers */
 			for (cl = 0; cl < nl; cl++)
 				draw_map_layer (m, cl, -cam_x, -cam_y);
@@ -266,17 +269,10 @@ int main (void)
 			sprite_draw (nate.s, get_backbuff (), nate.ckf, nate.cf, nate.x-cam_x, nate.y-cam_y-TILE_H);
 			
 			text_print_center (get_backbuff (), text_msg);
-			text_msg = NULL;
 			
-		}else if (invmenu_vis ()){
-			
-			int px = invmenu_get_x (), py = invmenu_get_y ();
-			int px2 = px + invmenu_get_w (), py2 = py + invmenu_get_h ();
-			
-			blit ((BITMAP *)inv_bmp->dat, get_backbuff (), 0, 0, 0, 0, 320, 200);
-			rect(get_backbuff (), px, py, px2, py2, invmenu_get_c ());
-			
-		}
+		//}
+		
+		text_msg = NULL;
 		
 		show_backbuff (0, 0);
 		
@@ -289,11 +285,6 @@ int main (void)
 			
 		elapsed_time = 10;
 	}
-	
-	log_print ("============================\n");
-	
-	/* Unload BMPS */
-	unload_datafile_object (inv_bmp);
 	
 	/* Unload sounds */
 	unload_datafile_object (snd_door);

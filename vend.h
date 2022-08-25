@@ -5,7 +5,7 @@
 #include "obj.h"
 
 int
-vend_buy_item (int *cash);
+vend_buy_item (VENDING *vend, int *cash);
 
 void
 vend_move_up (void);

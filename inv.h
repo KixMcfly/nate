@@ -1,6 +1,7 @@
 #ifndef __INV_H
 #define __INV_H
 
+#include <allegro.h>
 #include <stdio.h>
 #include <string.h>
 #include "tools.h"
@@ -19,31 +20,10 @@ enum {
 };
 
 void
-invmenu_process (void);
+invmenu_draw_backbuff (BITMAP *bf);
 
 int
 invmenu_vis (void);
-
-void
-invmenu_show (void);
-
-void
-invmenu_hide (void);
-
-int
-invmenu_get_x (void);
-
-int
-invmenu_get_y (void);
-
-int
-invmenu_get_w (void);
-
-int
-invmenu_get_h (void);
-
-int
-invmenu_get_c (void);
 
 void
 invmenu_sel_up (void);
@@ -58,12 +38,16 @@ void
 invmenu_sel_left (void);
 
 void
-inv_init (void);
+invmenu_init (char *dfn, char *invb, char *itemb, char *fdn);
+
+void
+invmenu_free (void);
 
 int
 inv_add (int id, int amt);
 
 void
 inv_log (void);
+
 
 #endif
