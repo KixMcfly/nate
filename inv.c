@@ -70,22 +70,28 @@ static char *inv_list[INV_NUM][2] = {
 static void
 text_area_draw (BITMAP *b, char *s, int x, int y)
 {
-	int sl = strlen (s), fh = text_height (inv_fnt), i, yo;
+	int sl = strlen (s), fh = text_height (inv_fnt), i=0, sp, xo;
 	char tmp[19];
 	
-	for (i = 0, yo = 0; i < sl; i += TEXT_MAX_W, yo += fh){
+	//for (i = 0, yo = 0, xo; i < sl; yo += fh, i += TEXT_MAX_W){
+	//	
+	//	
+	//}
+	
+	while (i+xo < TEXT_MAX_W){
 		
-		/* if string is in the middle of a word, back pointer up */
-		while (i){
-			if (s[i-1] == ' ')
-				break;
+		if (s[i+xo] == ' ')
+			sp = i+xo;
 			
-			i--;
+		xo++;	
+			
+		if (i+xo == TEXT_MAX_W){
+			
 		}
-		
-		strncpy(tmp, s + i, TEXT_MAX_W);
-		textout_ex(b, inv_fnt, tmp, x, y+yo, -1, -1);
+			
 	}
+	
+	strncpy(tmp, s + i, TEXT_MAX_W);	
 }
 
 void
