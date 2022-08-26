@@ -46,8 +46,4 @@ invmenu_free (void);
 int
 inv_add (int id, int amt);
 
-void
-inv_log (void);
-
-
 #endif

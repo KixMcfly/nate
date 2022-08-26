@@ -51,15 +51,15 @@ static int inp_lookup[MAX_INV][2] = {{261, 7},	{313, 7},
 									{261, 93}, 	{313, 93},
 									{261, 136}, {313, 136}};
 
-static char *inv_list[INV_NUM] = {
+static char *inv_list[INV_NUM][2] = {
 	
-	"NONE",
+	{"NONE", "LOL"},
 	/* VALUE */
-	"MONEY",
+	{"NATE BUCKS", "Big daddy money"},
 	
 	/* FOOD */
-	"NUGGETS",
-	"DR. DOUCHE"
+	{"NUGGETS", "Yummy chicken nuggets"},
+	{"DR. DOUCHE", "Remember, DO THE DOUCHE!"}
 	
 };
 
@@ -84,6 +84,16 @@ invmenu_draw_backbuff (BITMAP *bf)
 	}
 	
 	rect(bf, px, py, px2, py2, SEL_C);
+	
+	if (!inv[invmenu.sp].num){
+		rectfill(bf, 9, 9, 200, 88, 48);
+	}else{
+		
+		char *name  = inv_list[inv[invmenu.sp].id][0];
+		char *desc  = inv_list[inv[invmenu.sp].id][1];
+		
+		textprintf_ex (bf, inv_fnt, 14, 14, -1, -1, "%s:\n%s", name, desc);
+	}
 	
 	
 	if (invmenu.rest)
@@ -190,14 +200,4 @@ inv_add (int id, int amt)
 	}
 	
 	return 0;
-}
-
-void
-inv_log (void)
-{
-	int i;
-	for (i = 0; i < MAX_INV; i++){
-		
-		log_print ("ITEM: %s AMOUNT: %d\n", inv_list[ inv[i].id ], inv[i].num);
-	}
 }
