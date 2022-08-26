@@ -63,35 +63,37 @@ static char *inv_list[INV_NUM][2] = {
 	
 	/* FOOD */
 	{"NUGGETS", "DDDDDDDDDDD"},
-	{"DR. DOUCHE", "Remember, DO THE DOUCHE!"}
+	{"DR. DOUCHE", "Remember, DO THE DOUCHE! And don't forget to drink much SODA"}
 	
 };
 
 static void
 text_area_draw (BITMAP *b, char *s, int x, int y)
 {
-	int sl = strlen (s), fh = text_height (inv_fnt), i=0, sp, xo;
-	char tmp[19];
+	int fh = text_height (inv_fnt), xo = 0;
+	char *token, *ts = NULL;
 	
-	//for (i = 0, yo = 0, xo; i < sl; yo += fh, i += TEXT_MAX_W){
-	//	
-	//	
-	//}
+	ts = (char *) malloc (strlen (s) + 1);
+	strcpy (ts, s);
 	
-	while (i+xo < TEXT_MAX_W){
+	token = strtok (ts, " ");
+	
+	while (token){
+
+		textout_ex(b, inv_fnt, token, x+xo, y, -1, -1);
 		
-		if (s[i+xo] == ' ')
-			sp = i+xo;
-			
-		xo++;	
-			
-		if (i+xo == TEXT_MAX_W){
-			
+		xo += text_length (inv_fnt, token) + 4;
+		
+		if (x+xo > 158){
+			xo = 0;
+			y += 11;
 		}
-			
+
+		token = strtok (NULL, " ");
 	}
 	
-	strncpy(tmp, s + i, TEXT_MAX_W);	
+	free (ts);
+	//strncpy(tmp, s + i, TEXT_MAX_W);	
 }
 
 void
@@ -116,7 +118,7 @@ invmenu_draw_backbuff (BITMAP *bf)
 	
 	rect(bf, px, py, px2, py2, SEL_C);
 	
-	if (!inv[invmenu.sp].num){
+	if (!inv[invmenu.sp].id){
 		rectfill(bf, 9, 9, 200, 88, 48);
 	}else{
 		
