@@ -275,11 +275,11 @@ int main (void)
 		
 		text_msg = NULL;
 		
+		/* Blit backbuff to CRT */
 		show_backbuff (0, 0);
 		
-		if (faded ()){
+		if (faded ())
 			fadein (pal->dat, 64);
-		}
 		
 		while (elapsed_time > 0)
 			;

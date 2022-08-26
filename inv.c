@@ -10,6 +10,10 @@
 #define X					0
 #define Y					1
 
+#define TEXT_MAX_W			18
+#define TEXT_X				9
+#define TEXT_Y				9
+
 typedef struct {
 	
 	int id;
@@ -58,10 +62,31 @@ static char *inv_list[INV_NUM][2] = {
 	{"NATE BUCKS", "Big daddy money"},
 	
 	/* FOOD */
-	{"NUGGETS", "Yummy chicken nuggets"},
+	{"NUGGETS", "DDDDDDDDDDD"},
 	{"DR. DOUCHE", "Remember, DO THE DOUCHE!"}
 	
 };
+
+static void
+text_area_draw (BITMAP *b, char *s, int x, int y)
+{
+	int sl = strlen (s), fh = text_height (inv_fnt), i, yo;
+	char tmp[19];
+	
+	for (i = 0, yo = 0; i < sl; i += TEXT_MAX_W, yo += fh){
+		
+		/* if string is in the middle of a word, back pointer up */
+		while (i){
+			if (s[i-1] == ' ')
+				break;
+			
+			i--;
+		}
+		
+		strncpy(tmp, s + i, TEXT_MAX_W);
+		textout_ex(b, inv_fnt, tmp, x, y+yo, -1, -1);
+	}
+}
 
 void
 invmenu_draw_backbuff (BITMAP *bf)
@@ -92,7 +117,8 @@ invmenu_draw_backbuff (BITMAP *bf)
 		char *name  = inv_list[inv[invmenu.sp].id][0];
 		char *desc  = inv_list[inv[invmenu.sp].id][1];
 		
-		textprintf_ex (bf, inv_fnt, 14, 14, -1, -1, "%s:\n%s", name, desc);
+		textout_ex(bf, inv_fnt, name, 14, 14, -1, -1);
+		text_area_draw (bf, desc, 14, 24);
 	}
 	
 	
