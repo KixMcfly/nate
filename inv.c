@@ -93,7 +93,6 @@ text_area_draw (BITMAP *b, char *s, int x, int y)
 	}
 	
 	free (ts);
-	//strncpy(tmp, s + i, TEXT_MAX_W);	
 }
 
 void
