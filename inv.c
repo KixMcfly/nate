@@ -31,7 +31,15 @@ typedef struct {
 
 static INVMENU invmenu = {.vis = FALSE, .sp = 0, .rest = 0};
 static INVITEM itembox[MAX_ITEMBOX] = {{0}};
-static INVITEM inv[MAX_INV] = {{0}};
+static INVITEM inv[MAX_INV] = {	{.id = INV_MONEY, .num = 40},
+								{.id = INV_NONE, .num = 0},
+								{.id = INV_NONE, .num = 0},
+								{.id = INV_NONE, .num = 0},
+								{.id = INV_NONE, .num = 0},
+								{.id = INV_MONEY, .num = 20},
+								{.id = INV_NONE, .num = 0},
+								{.id = INV_NONE, .num = 0}
+							};
 
 static DATAFILE *inv_bmp = NULL;
 static DATAFILE *items_bmp = NULL;
@@ -45,7 +53,7 @@ static int pos_lookup[MAX_INV][2] = {{212, 5},	{264, 5},
 									 
 /* X and Y pos of inv placement */
 static int ip_lookup[MAX_INV][2] = {{217, 15},	{269, 15},  
-									{217, 58},	{269, 58}, 
+									{217, 58},	{269, 58},
 									{217, 101}, {269, 101},
 									{217, 144}, {269, 144}};
 									
@@ -62,8 +70,8 @@ static char *inv_list[INV_NUM][2] = {
 	{"NATE BUCKS", "Big daddy money"},
 	
 	/* FOOD */
-	{"NUGGETS", "DDDDDDDDDDD"},
-	{"DR. DOUCHE", "Remember, DO THE DOUCHE! And don't forget to drink much SODA"}
+	{"NUGGETS", "Yummy nuggets"},
+	{"DR. DOUCHE", "Remember, DO THE DOUCHE! And don't forget to drink much SODA!"}
 	
 };
 
@@ -95,6 +103,8 @@ text_area_draw (BITMAP *b, char *s, int x, int y)
 	free (ts);
 }
 
+
+
 void
 invmenu_draw_backbuff (BITMAP *bf)
 { 
@@ -124,7 +134,7 @@ invmenu_draw_backbuff (BITMAP *bf)
 		char *name  = inv_list[inv[invmenu.sp].id][0];
 		char *desc  = inv_list[inv[invmenu.sp].id][1];
 		
-		textout_ex(bf, inv_fnt, name, 14, 14, -1, -1);
+		textprintf_ex (bf, inv_fnt, 14, 14, -1, -1, "%s:", name);
 		text_area_draw (bf, desc, 14, 24);
 	}
 	
@@ -209,6 +219,54 @@ invmenu_free (void)
 	invmenu.vis = FALSE;
 	invmenu.sp = 0;
 	invmenu.rest = 0;
+}
+
+int
+inv_get_item_total (int id)
+{
+	int ci, t;
+	
+	for (ci = 0, t = 0; ci < MAX_INV; ci++)
+		if (id == inv[ci].id)
+			t += inv[ci].num;
+			
+	return t;
+}
+
+int
+inv_sub (int id, int amt)
+{
+	int ci, t;
+	
+	/* Check if enough across all inv spaces */
+	for (ci = 0, t = 0; ci < MAX_INV; ci++){
+		
+		if (inv[ci].id == id)
+			t += inv[ci].num;
+	}
+	
+	if (t < amt)
+		return -1;
+
+	for (ci = 0; ci < MAX_INV && amt; ci++){
+		if (inv[ci].id == id){
+			
+			if (inv[ci].num >= amt){
+				inv[ci].num -= amt;
+				t -= amt;
+				amt = 0;
+			}else{
+				amt -= inv[ci].num;
+				t -= inv[ci].num;
+				inv[ci].num = 0;
+			}		
+		}
+		
+		if (!inv[ci].num)
+			inv[ci].id = INV_NONE;
+	}
+	
+	return t;
 }
 
 int

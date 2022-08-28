@@ -6,7 +6,10 @@
 #include "tools.h"
 
 int
-vend_buy_item (VENDING *vend, int *cash);
+vend_get_cost (int id);
+
+void
+vend_draw_backbuff (VENDING *vend, int money, BITMAP *bf)
 
 void
 vend_move_up (void);

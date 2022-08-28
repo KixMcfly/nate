@@ -154,14 +154,14 @@ int main (void)
 		
 		if (key[KEY_ESC]){
 
-		if (vend_vis ()){
-				vend_free_dat ();
+			if (vend_vis ()){
+					vend_free_dat ();
 			}else {
-
-				if (!invmenu_vis ())
-					invmenu_init (NATE_DAT, "INVMENU_BMP", "ITEMS_BMP", "INV_FNT");
-				else
-					invmenu_free ();
+	
+					if (!invmenu_vis ())
+						invmenu_init (NATE_DAT, "INVMENU_BMP", "ITEMS_BMP", "INV_FNT");
+					else
+						invmenu_free ();
 			}
 		
 			fadeout (20);
@@ -228,7 +228,7 @@ int main (void)
 					/* Change to room if use button is pressed */
 					if (key[KEY_LCONTROL]){
 						nate_set_xy (&nate, cr->cx * TILE_W, cr->cy * TILE_H);
-						play_sample ((SAMPLE *)snd_door->dat, 255, 128, 1000, NULL);
+						play_sample ((SAMPLE *)snd_door->dat, 155, 128, 1000, NULL);
 						map_free (m);
 						m = map_new ();
 						load_map (m, NATE_DAT, text_msg);
@@ -249,13 +249,18 @@ int main (void)
 
 
 		if (vend_vis ()){
+			
+			int tc = inv_get_item_total (INV_MONEY);
+			int ib;
 		
-			int cash = 1000;
+			if (key[KEY_LCONTROL]){
+				
+				ib = vend_buy_item (vn, tc);
+				inv_add (ib, 1);
+				inv_sub (INV_MONEY, vend_get_cost (ib));
+			}
 		
-			if (key[KEY_LCONTROL])
-				inv_add (vend_buy_item (vn, &cash), 1);
-		
-			vend_draw_backbuff (vn, get_backbuff ());
+			vend_draw_backbuff (vn, tc, get_backbuff ());
 			
 		}else if (invmenu_vis ()){
 		

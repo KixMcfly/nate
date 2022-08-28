@@ -16,6 +16,8 @@ static FONT *vend_font = NULL;
 
 static DATAFILE *vend_wav = NULL;
 
+static int hide_msg = TRUE;
+
 static int ps[MAX_VEND][2] = 
 
 			{{95, 7},   {139, 7},  {183, 7}, {227, 7},
@@ -28,8 +30,8 @@ static int ic[20] =
 
 			{0,				/* INV_NONE */
 			 0,				/* INV MONEY */
-			 999,			/* INV_DRDOUCHE */
-			 15,			/* INV_NUGGETS */
+			 60,			/* INV_DRDOUCHE */
+			 45,			/* INV_NUGGETS */
 			 0,
 			 0,
 			 0,
@@ -52,13 +54,18 @@ static int vp = 0;
 static int pr = 0;
 
 int
-vend_buy_item (VENDING *vend, int *cash)
+vend_get_cost (int id)
 {
-	
-	if (*cash >= ic[vend->inv_list[vp]] && vend->inv_list[vp] > 0 && !pr){
-		//*cash -= ic[vend->inv_list[vp]];
-		pr = 50;
+	return ic[id];
+}
+
+int
+vend_buy_item (VENDING *vend, int cash)
+{
+	if (cash >= ic[vend->inv_list[vp]] && vend->inv_list[vp] > 0 && !pr){
+		pr = 80;
 		play_sample ((SAMPLE *)vend_wav->dat, 255, 128, 1000, NULL);
+		hide_msg = FALSE;
 		return vend->inv_list[vp];
 		
 	}else
@@ -108,7 +115,7 @@ vend_vis (void)
 }
 
 void
-vend_draw_backbuff (VENDING *vend, BITMAP *bf)
+vend_draw_backbuff (VENDING *vend, int money, BITMAP *bf)
 {
 	
 	BITMAP *v = vend_bmp->dat;
@@ -123,12 +130,21 @@ vend_draw_backbuff (VENDING *vend, BITMAP *bf)
 	
 	rect(bf, ps[vp][X], ps[vp][Y], ps[vp][X]+SW, ps[vp][Y]+SH, SC);
 	
+	/* Show thanks message if something was just bought */
+	if (hide_msg)
+		rectfill(bf, 31, 96, 64, 112, 48);
+	
 	/* draw cost on vending LCD */
 	if (ic[vend->inv_list[vp]])
 		textprintf_ex (bf, vend_font, 32, 53, 116, -1, "%d", ic[vend->inv_list[vp]]);
 	
+	/* Draw money on hand */
+	textprintf_ex (bf, font, 33, 83, 116, -1, "%d", money);
+	
 	if (pr)
 		pr--;
+	else
+		hide_msg = TRUE;
 }
 
 int

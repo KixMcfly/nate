@@ -44,6 +44,12 @@ void
 invmenu_free (void);
 
 int
+inv_get_item_total (int id);
+
+int
+inv_sub (int id, int amt);
+
+int
 inv_add (int id, int amt);
 
 #endif
