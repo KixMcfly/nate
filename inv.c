@@ -215,6 +215,27 @@ boxmenu_set_active (int t)
 	boxmenu.active = t;
 }
 
+int
+boxmenu_swap_item (void)
+{
+	int t_num, t_id;
+	if (boxmenu.focus){
+		t_id  = itembox[boxmenu.b_pos].id;
+		t_num = itembox[boxmenu.b_pos].num;
+		
+		itembox[boxmenu.b_pos].id = inv[invmenu.sp].id;
+		itembox[boxmenu.b_pos].num = inv[invmenu.sp].num;
+		
+		inv[invmenu.sp].id = t_id;
+		inv[invmenu.sp].num = t_num;
+	}else{
+		t_id  = inv[invmenu.sp].id;
+		t_num = itembox[boxmenu.b_pos].num;
+		
+
+	}
+}
+
 void
 invmenu_sel_up (void)
 {
@@ -303,7 +324,7 @@ invmenu_sel_left (void)
 		if (!boxmenu.s_active){
 			if (invmenu.sp == 1 || invmenu.sp == 3 || invmenu.sp == 5 || invmenu.sp == 7){
 				invmenu.sp--;
-			}else{
+			}else if (boxmenu.active){
 				boxmenu.focus = TRUE;
 			}
 		}else{

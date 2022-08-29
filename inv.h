@@ -19,9 +19,6 @@ enum {
 	INV_NUM
 };
 
-static void
-text_area_draw (BITMAP *b, char *s, int x, int y);
-
 void
 invmenu_draw_backbuff (BITMAP *bf);
 

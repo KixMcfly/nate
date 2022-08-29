@@ -211,7 +211,7 @@ int main (void)
 					
 					if (key[KEY_LCONTROL]){
 						invmenu_init (NATE_DAT, "INVMENU_BMP", "ITEMS_BMP", "INV_FNT");
-						boxmenu_set_active ();
+						boxmenu_set_active (TRUE);
 					}else
 						text_msg = strtmp ("ITEMBOX");
 						
