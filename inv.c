@@ -124,7 +124,7 @@ invmenu_draw_backbuff (BITMAP *bf)
 { 
 	
 	int px = pos_lookup[invmenu.sp][X], py = pos_lookup[invmenu.sp][Y];
-	int px2 = px + SEL_W, py2 = py + SEL_H;
+	int sx = pos_lookup[boxmenu.s_pos][X], sy = pos_lookup[boxmenu.s_pos][Y];
 	int ci;
 	
 	/* Draw inv menu */		
@@ -132,7 +132,6 @@ invmenu_draw_backbuff (BITMAP *bf)
 	
 	/* Draw items */
 	for (ci = 0; ci < MAX_INV; ci++){
-		
 		if (inv[ci].id){
 			masked_blit ((BITMAP *)items_bmp->dat, bf, inv[ci].id * 41, 0, ip_lookup[ci][X], ip_lookup[ci][Y], 41, 31);
 			textprintf_right_ex (bf, inv_fnt, inp_lookup[ci][X], inp_lookup[ci][Y], -1, -1, "%d", inv[ci].num);
@@ -141,11 +140,11 @@ invmenu_draw_backbuff (BITMAP *bf)
 
 	/* Draw inventory select */
 	if (!boxmenu.focus)
-		rect(bf, px, py, px2, py2, SEL_C);
+		rect(bf, px, py, px + SEL_W, py + SEL_H, SEL_C);
 
 	/* Draw yellow select box for sel mode */
 	if (boxmenu.s_active)
-		rect(bf, px, py, px2, py2, 3);
+		rect(bf, sx, sy, sx + SEL_W, sy + SEL_H, 3);
 	
 	/* When inv was actived at item box */
 	if (boxmenu.active){
@@ -207,12 +206,13 @@ void
 boxmenu_set_sactive (int t)
 {
 	boxmenu.s_active = t;
+	boxmenu.s_pos = invmenu.sp;
 }
 
 void
-boxmenu_set_active (void)
+boxmenu_set_active (int t)
 {
-	boxmenu.active = TRUE;
+	boxmenu.active = t;
 }
 
 void
@@ -228,8 +228,14 @@ invmenu_sel_up (void)
 				boxmenu.b_pos = MAX_ITEMBOX - 1;
 		}else{
 			
-			if (invmenu.sp > 1)
-				invmenu.sp -= 2;
+			if (!boxmenu.s_active){
+				if (invmenu.sp > 1)
+					invmenu.sp -= 2;
+			}else if (boxmenu.s_active){
+				if (boxmenu.s_pos > 1)
+					boxmenu.s_pos -= 2;
+			}
+				
 		}
 		
 		play_sample ((SAMPLE *)invsel_wav->dat, 155, 128, 1000, NULL);
@@ -250,8 +256,13 @@ invmenu_sel_down (void)
 				boxmenu.b_pos = 0;
 		}else{
 			
-			if (invmenu.sp < 6)
-				invmenu.sp += 2;
+			if (!boxmenu.s_active){
+				if (invmenu.sp < 6)
+					invmenu.sp += 2;
+			}else{
+				if (boxmenu.s_pos < 6)
+					boxmenu.s_pos += 2;
+			}
 		}
 		
 		play_sample ((SAMPLE *)invsel_wav->dat, 155, 128, 1000, NULL);
@@ -265,12 +276,19 @@ invmenu_sel_right (void)
 	if (!m_rest){
 		
 		play_sample ((SAMPLE *)invsel_wav->dat, 155, 128, 1000, NULL);
-		
+
 		if (boxmenu.focus){
 			boxmenu.focus = FALSE;
-		}else if (invmenu.sp == 0 || invmenu.sp == 2 || invmenu.sp == 4 || invmenu.sp == 6){
-			invmenu.sp++;
+		}else{
+			if (!boxmenu.s_active){
+				if (invmenu.sp == 0 || invmenu.sp == 2 || invmenu.sp == 4 || invmenu.sp == 6)
+					invmenu.sp++;
+			}else{
+				if (boxmenu.s_pos == 0 || boxmenu.s_pos == 2 || boxmenu.s_pos == 4 || boxmenu.s_pos == 6)
+					boxmenu.s_pos++;
+			}
 		}
+		
 		m_rest = SEL_R;
 	}
 }
@@ -279,13 +297,23 @@ void
 invmenu_sel_left (void)
 {
 	if (!m_rest){
-		if (invmenu.sp == 1 || invmenu.sp == 3 || invmenu.sp == 5 || invmenu.sp == 7){
-			invmenu.sp--;
-			play_sample ((SAMPLE *)invsel_wav->dat, 155, 128, 1000, NULL);	
-		}else if (boxmenu.active){
-			boxmenu.focus = TRUE;
-		}
 		
+		play_sample ((SAMPLE *)invsel_wav->dat, 155, 128, 1000, NULL);
+		
+		if (!boxmenu.s_active){
+			if (invmenu.sp == 1 || invmenu.sp == 3 || invmenu.sp == 5 || invmenu.sp == 7){
+				invmenu.sp--;
+			}else{
+				boxmenu.focus = TRUE;
+			}
+		}else{
+			if (boxmenu.s_pos == 1 || boxmenu.s_pos == 3 || boxmenu.s_pos == 5 || boxmenu.s_pos == 7){
+				boxmenu.s_pos--;
+			}else{
+				boxmenu.focus = TRUE;
+			}
+		}
+
 		m_rest = SEL_R;
 	}
 }

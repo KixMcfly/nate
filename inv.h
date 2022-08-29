@@ -35,7 +35,7 @@ int
 invmenu_vis (void);
 
 void
-boxmenu_set_active (void);
+boxmenu_set_active (int t);
 
 void
 invmenu_sel_up (void);
