@@ -211,7 +211,7 @@ int main (void)
 					
 					if (key[KEY_LCONTROL]){
 						invmenu_init (NATE_DAT, "INVMENU_BMP", "ITEMS_BMP", "INV_FNT");
-						invmenu_box_set_active ();
+						boxmenu_set_active ();
 					}else
 						text_msg = strtmp ("ITEMBOX");
 						
@@ -280,8 +280,8 @@ int main (void)
 		
 			if (key[KEY_LCONTROL]){
 				
-				if (invmenu_box_active ()){
-					invmenu_box_sel_set ();
+				if (boxmenu_active ()){
+					boxmenu_set_sactive (TRUE);
 				}
 			}
 			

@@ -56,9 +56,10 @@ static INVITEM inv[MAX_INV] = {	{.id = INV_MONEY, .num = 120},
 static DATAFILE *inv_bmp = NULL;
 static DATAFILE *items_bmp = NULL;
 static DATAFILE *itemsslot_bmp = NULL;
+static DATAFILE *invsel_wav = NULL;
 static FONT *inv_fnt = NULL;
 
-static int rest = 0;
+static int m_rest = 0;
 
 /* X and Y pos of sel rec */
 static int pos_lookup[MAX_INV][2] = {{212, 5},	{264, 5},
@@ -139,7 +140,12 @@ invmenu_draw_backbuff (BITMAP *bf)
 	}
 
 	/* Draw inventory select */
-	rect(bf, px, py, px2, py2, SEL_C);
+	if (!boxmenu.focus)
+		rect(bf, px, py, px2, py2, SEL_C);
+
+	/* Draw yellow select box for sel mode */
+	if (boxmenu.s_active)
+		rect(bf, px, py, px2, py2, 3);
 	
 	/* When inv was actived at item box */
 	if (boxmenu.active){
@@ -187,8 +193,8 @@ invmenu_draw_backbuff (BITMAP *bf)
 		text_area_draw (bf, desc, 14, 24);
 	}
 
-	if (rest)
-		rest--;
+	if (m_rest)
+		m_rest--;
 }
 
 int
@@ -197,10 +203,10 @@ boxmenu_active (void)
 	return boxmenu.active;
 }
 
-int
-invmenu_vis (void)
+void
+boxmenu_set_sactive (int t)
 {
-	return invmenu.vis;
+	boxmenu.s_active = t;
 }
 
 void
@@ -212,7 +218,7 @@ boxmenu_set_active (void)
 void
 invmenu_sel_up (void)
 {
-	if (rest){
+	if (!m_rest){
 		
 		if (boxmenu.focus){
 			
@@ -226,14 +232,15 @@ invmenu_sel_up (void)
 				invmenu.sp -= 2;
 		}
 		
-		rest = SEL_R;
+		play_sample ((SAMPLE *)invsel_wav->dat, 155, 128, 1000, NULL);
+		m_rest = SEL_R;
 	}
 }
 
 void
 invmenu_sel_down (void)
 {
-	if (!rest){
+	if (!m_rest){
 		
 		if (boxmenu.focus){
 			
@@ -247,35 +254,46 @@ invmenu_sel_down (void)
 				invmenu.sp += 2;
 		}
 		
-		rest = SEL_R;
+		play_sample ((SAMPLE *)invsel_wav->dat, 155, 128, 1000, NULL);
+		m_rest = SEL_R;
 	}
 }
 
 void
 invmenu_sel_right (void)
 {
-	if (!rest){
+	if (!m_rest){
+		
+		play_sample ((SAMPLE *)invsel_wav->dat, 155, 128, 1000, NULL);
+		
 		if (boxmenu.focus){
 			boxmenu.focus = FALSE;
 		}else if (invmenu.sp == 0 || invmenu.sp == 2 || invmenu.sp == 4 || invmenu.sp == 6){
 			invmenu.sp++;
 		}
-		rest = SEL_R;
+		m_rest = SEL_R;
 	}
 }
 
 void
 invmenu_sel_left (void)
 {
-	if (!rest){
+	if (!m_rest){
 		if (invmenu.sp == 1 || invmenu.sp == 3 || invmenu.sp == 5 || invmenu.sp == 7){
-			invmenu.sp--;	
+			invmenu.sp--;
+			play_sample ((SAMPLE *)invsel_wav->dat, 155, 128, 1000, NULL);	
 		}else if (boxmenu.active){
 			boxmenu.focus = TRUE;
 		}
 		
-		rest = SEL_R;
+		m_rest = SEL_R;
 	}
+}
+
+int
+invmenu_vis (void)
+{
+	return invmenu.vis;
 }
 
 void
@@ -286,6 +304,7 @@ invmenu_init (char *dfn, char *invb, char *itemb, char *fdn)
 	inv_bmp = load_datafile_object (dfn, invb);
 	items_bmp = load_datafile_object (dfn, itemb);
 	inv_fnt = load_dat_font (dfn, NULL, names);
+	invsel_wav = load_datafile_object (dfn, "INVSEL_WAV");
 	itemsslot_bmp = load_datafile_object (dfn, "ITEMSSLOT_BMP");
 
 	invmenu.vis = TRUE;
@@ -306,17 +325,21 @@ invmenu_free (void)
 		
 	if (itemsslot_bmp)
 		unload_datafile_object (itemsslot_bmp);
+		
+	if (invsel_wav)
+		unload_datafile_object (invsel_wav);
 
 	inv_bmp = NULL;
 	items_bmp = NULL;
 	inv_fnt = NULL;
+	invsel_wav = NULL;
 	itemsslot_bmp = NULL;
 	
 	boxmenu.active = FALSE;
 	boxmenu.s_active = FALSE;
 	invmenu.vis = FALSE;
 	invmenu.sp = 0;
-	rest = 0;
+	m_rest = 0;
 }
 
 int

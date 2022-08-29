@@ -19,26 +19,23 @@ enum {
 	INV_NUM
 };
 
+static void
+text_area_draw (BITMAP *b, char *s, int x, int y);
+
 void
 invmenu_draw_backbuff (BITMAP *bf);
+
+int
+boxmenu_active (void);
+
+void
+boxmenu_set_sactive (int t);
 
 int
 invmenu_vis (void);
 
 void
-invmenu_box_set_active (void);
-
-int
-invmenu_box_active (void);
-
-int
-invmenu_box_sel_active (void);
-
-void
-invmenu_box_sel_set (void);
-
-void
-invmenu_box_sel_unset (void);
+boxmenu_set_active (void);
 
 void
 invmenu_sel_up (void);
