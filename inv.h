@@ -26,6 +26,21 @@ int
 invmenu_vis (void);
 
 void
+invmenu_box_set_active (void);
+
+int
+invmenu_box_active (void);
+
+int
+invmenu_box_sel_active (void);
+
+void
+invmenu_box_sel_set (void);
+
+void
+invmenu_box_sel_unset (void);
+
+void
 invmenu_sel_up (void);
 
 void

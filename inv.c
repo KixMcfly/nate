@@ -22,28 +22,43 @@ typedef struct {
 } INVITEM;
 
 typedef struct {
+	int b_pos;
+	int s_pos;
+	int focus;
+	int s_active;
+	int active;
+	
+} BOXMENU;
+
+typedef struct {
 	
 	int vis;
 	int sp;
-	int rest;
+	int active;
 	
 } INVMENU;
 
-static INVMENU invmenu = {.vis = FALSE, .sp = 0, .rest = 0};
+static INVMENU invmenu = { .vis = FALSE, .sp = 0, .active = FALSE };
+static BOXMENU boxmenu = { .s_pos = 0, .b_pos = 0, .focus = FALSE,
+						   .s_active = FALSE, .active = FALSE};
+
 static INVITEM itembox[MAX_ITEMBOX] = {{0}};
-static INVITEM inv[MAX_INV] = {	{.id = INV_MONEY, .num = 40},
+static INVITEM inv[MAX_INV] = {	{.id = INV_MONEY, .num = 120},
 								{.id = INV_NONE, .num = 0},
 								{.id = INV_NONE, .num = 0},
 								{.id = INV_NONE, .num = 0},
 								{.id = INV_NONE, .num = 0},
-								{.id = INV_MONEY, .num = 20},
+								{.id = INV_NONE, .num = 0},
 								{.id = INV_NONE, .num = 0},
 								{.id = INV_NONE, .num = 0}
 							};
 
 static DATAFILE *inv_bmp = NULL;
 static DATAFILE *items_bmp = NULL;
+static DATAFILE *itemsslot_bmp = NULL;
 static FONT *inv_fnt = NULL;
+
+static int rest = 0;
 
 /* X and Y pos of sel rec */
 static int pos_lookup[MAX_INV][2] = {{212, 5},	{264, 5},
@@ -65,20 +80,20 @@ static int inp_lookup[MAX_INV][2] = {{261, 7},	{313, 7},
 
 static char *inv_list[INV_NUM][2] = {
 	
-	{"NONE", "LOL"},
+	{"NOTHING", "LOL"},
 	/* VALUE */
 	{"NATE BUCKS", "Big daddy money"},
 	
 	/* FOOD */
 	{"NUGGETS", "Yummy nuggets"},
-	{"DR. DOUCHE", "Remember, DO THE DOUCHE! And don't forget to drink much SODA!"}
-	
+	{"DR. DOUCHE", "Remember, DO THE DOUCHE! Don't forget to drink much SODA!"}
+
 };
 
 static void
 text_area_draw (BITMAP *b, char *s, int x, int y)
 {
-	int fh = text_height (inv_fnt), xo = 0;
+	int fh = text_height (inv_fnt) + 1, xo = 0;
 	char *token, *ts = NULL;
 	
 	ts = (char *) malloc (strlen (s) + 1);
@@ -94,7 +109,7 @@ text_area_draw (BITMAP *b, char *s, int x, int y)
 		
 		if (x+xo > 158){
 			xo = 0;
-			y += 11;
+			y += fh;
 		}
 
 		token = strtok (NULL, " ");
@@ -102,8 +117,6 @@ text_area_draw (BITMAP *b, char *s, int x, int y)
 	
 	free (ts);
 }
-
-
 
 void
 invmenu_draw_backbuff (BITMAP *bf)
@@ -119,28 +132,69 @@ invmenu_draw_backbuff (BITMAP *bf)
 	/* Draw items */
 	for (ci = 0; ci < MAX_INV; ci++){
 		
-		if (inv[ci].id ){
+		if (inv[ci].id){
 			masked_blit ((BITMAP *)items_bmp->dat, bf, inv[ci].id * 41, 0, ip_lookup[ci][X], ip_lookup[ci][Y], 41, 31);
 			textprintf_right_ex (bf, inv_fnt, inp_lookup[ci][X], inp_lookup[ci][Y], -1, -1, "%d", inv[ci].num);
 		}
 	}
-	
+
+	/* Draw inventory select */
 	rect(bf, px, py, px2, py2, SEL_C);
+	
+	/* When inv was actived at item box */
+	if (boxmenu.active){
+		
+		BITMAP *bt = itemsslot_bmp->dat;
+		int p1, p2, p3;
+		
+		p1 = boxmenu.b_pos;
+		
+		if (p1 == 99){
+			p2 = 0;
+			p3 = 1;
+		}else if (p1 == 98){
+			p2 = 99;
+			p3 = 0;
+		}else if (p1 == 97){
+			p2 = 98;
+			p3 = 99; 
+		}else{
+			p2 = p1 + 1;
+			p3 = p2 + 2;
+		}
+		
+		blit (bt, bf, 0, 0, 9, 89, bt->w, bt->h);
+		blit (bt, bf, 0, 0, 9, 89+13, bt->w, bt->h);
+		blit (bt, bf, 0, 0, 9, 89+26, bt->w, bt->h);
+		textprintf_ex (bf, inv_fnt, 11, 89+3, -1, -1, "%-30s% 4d",
+			inv_list[itembox[p1].id][0], itembox[p1].num);
+		textprintf_ex (bf, inv_fnt, 11, 89+3+13, -1, -1, "%-30s% 4d",
+			inv_list[itembox[p2].id][0], itembox[p2].num);
+		textprintf_ex (bf, inv_fnt, 11, 89+3+26, -1, -1, "%-30s% 4d",
+			inv_list[itembox[p3].id][0], itembox[p3].num);
+			
+		rect(bf, 9, 102, 9+bt->w, 102+bt->h, 3);
+	}
 	
 	if (!inv[invmenu.sp].id){
 		rectfill(bf, 9, 9, 200, 88, 48);
 	}else{
 		
-		char *name  = inv_list[inv[invmenu.sp].id][0];
-		char *desc  = inv_list[inv[invmenu.sp].id][1];
+		char *name = inv_list[inv[invmenu.sp].id][0];
+		char *desc = inv_list[inv[invmenu.sp].id][1];
 		
 		textprintf_ex (bf, inv_fnt, 14, 14, -1, -1, "%s:", name);
 		text_area_draw (bf, desc, 14, 24);
 	}
-	
-	
-	if (invmenu.rest)
-		invmenu.rest--;
+
+	if (rest)
+		rest--;
+}
+
+int
+boxmenu_active (void)
+{
+	return boxmenu.active;
 }
 
 int
@@ -150,40 +204,77 @@ invmenu_vis (void)
 }
 
 void
+boxmenu_set_active (void)
+{
+	boxmenu.active = TRUE;
+}
+
+void
 invmenu_sel_up (void)
 {
-	if (invmenu.sp > 1 && !invmenu.rest){
-		invmenu.sp -= 2;
-		invmenu.rest = SEL_R;
+	if (rest){
+		
+		if (boxmenu.focus){
+			
+			boxmenu.b_pos--;
+
+			if (boxmenu.b_pos < 0)
+				boxmenu.b_pos = MAX_ITEMBOX - 1;
+		}else{
+			
+			if (invmenu.sp > 1)
+				invmenu.sp -= 2;
+		}
+		
+		rest = SEL_R;
 	}
 }
 
 void
 invmenu_sel_down (void)
 {
-	if (invmenu.sp < 6 && !invmenu.rest){
-		invmenu.sp += 2;
-		invmenu.rest = SEL_R;
+	if (!rest){
+		
+		if (boxmenu.focus){
+			
+			boxmenu.b_pos++;
+	
+			if (boxmenu.b_pos > MAX_ITEMBOX - 1)
+				boxmenu.b_pos = 0;
+		}else{
+			
+			if (invmenu.sp < 6)
+				invmenu.sp += 2;
+		}
+		
+		rest = SEL_R;
 	}
 }
 
 void
 invmenu_sel_right (void)
 {
-	if ((invmenu.sp == 0 || invmenu.sp == 2 || invmenu.sp == 4 || invmenu.sp == 6) &&
-	    !invmenu.rest){
-		invmenu.sp++;
-		invmenu.rest = SEL_R;
+	if (!rest){
+		if (boxmenu.focus){
+			boxmenu.focus = FALSE;
+		}else if (invmenu.sp == 0 || invmenu.sp == 2 || invmenu.sp == 4 || invmenu.sp == 6){
+			invmenu.sp++;
+		}
+		rest = SEL_R;
 	}
 }
 
 void
 invmenu_sel_left (void)
 {
-	if ((invmenu.sp == 1 || invmenu.sp == 3 || invmenu.sp == 5 || invmenu.sp == 7) &&
-		!invmenu.rest){
-		invmenu.sp--;
-		invmenu.rest = SEL_R;
+	if (!rest){
+		if (invmenu.sp == 1 || invmenu.sp == 3 || invmenu.sp == 5 || invmenu.sp == 7){
+			invmenu.sp--;	
+		}else if (boxmenu.active){
+			boxmenu.focus = TRUE;
+		}
+		
+		rest = SEL_R;
 	}
 }
 
@@ -195,7 +286,8 @@ invmenu_init (char *dfn, char *invb, char *itemb, char *fdn)
 	inv_bmp = load_datafile_object (dfn, invb);
 	items_bmp = load_datafile_object (dfn, itemb);
 	inv_fnt = load_dat_font (dfn, NULL, names);
-	
+	itemsslot_bmp = load_datafile_object (dfn, "ITEMSSLOT_BMP");
+
 	invmenu.vis = TRUE;
 }
 
@@ -212,13 +304,19 @@ invmenu_free (void)
 	if (inv_fnt)
 		destroy_font (inv_fnt);
 		
+	if (itemsslot_bmp)
+		unload_datafile_object (itemsslot_bmp);
+
 	inv_bmp = NULL;
 	items_bmp = NULL;
 	inv_fnt = NULL;
+	itemsslot_bmp = NULL;
 	
+	boxmenu.active = FALSE;
+	boxmenu.s_active = FALSE;
 	invmenu.vis = FALSE;
 	invmenu.sp = 0;
-	invmenu.rest = 0;
+	rest = 0;
 }
 
 int

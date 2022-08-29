@@ -8,8 +8,8 @@
 int
 vend_get_cost (int id);
 
-void
-vend_draw_backbuff (VENDING *vend, int money, BITMAP *bf)
+int
+vend_buy_item (VENDING *vend, int cash);
 
 void
 vend_move_up (void);
@@ -27,7 +27,7 @@ int
 vend_vis (void);
 
 void
-vend_draw_backbuff (VENDING *vend, BITMAP *bf);
+vend_draw_backbuff (VENDING *vend, int money, BITMAP *bf);
 
 int
 vend_init_dat (VENDING *v, char *dfn, char *vb, char *ib);

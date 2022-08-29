@@ -204,6 +204,20 @@ int main (void)
 				if (nate.x == gn->x && nate.y == gn->y){
 		
 				}
+			}else if (node_get_type (cn) == OBJ_ITEMBOX){
+				
+				gn = node_get_data (cn);
+				if (nate.x == gn->x && nate.y == gn->y){
+					
+					if (key[KEY_LCONTROL]){
+						invmenu_init (NATE_DAT, "INVMENU_BMP", "ITEMS_BMP", "INV_FNT");
+						invmenu_box_set_active ();
+					}else
+						text_msg = strtmp ("ITEMBOX");
+						
+					break;
+				}
+				
 			}else if (node_get_type (cn) == OBJ_VENDING){
 				
 				vn = node_get_data (cn);
@@ -264,6 +278,13 @@ int main (void)
 			
 		}else if (invmenu_vis ()){
 		
+			if (key[KEY_LCONTROL]){
+				
+				if (invmenu_box_active ()){
+					invmenu_box_sel_set ();
+				}
+			}
+			
 			invmenu_draw_backbuff (get_backbuff ());
 			
 		}else{

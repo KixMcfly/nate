@@ -3,7 +3,7 @@
         "height": 4300,
         "width": 2
     },
-    "activeFile": "HALLWAY.tmx",
+    "activeFile": "inter.tsx",
     "expandedProjectPaths": [
     ],
     "file.lastUsedOpenFilter": "All Files (*)",
@@ -12,8 +12,8 @@
             "scale": 2,
             "selectedLayer": 1,
             "viewCenter": {
-                "x": 186.25,
-                "y": 102.5
+                "x": 273.75,
+                "y": 102
             }
         },
         "HOTEL.TSX": {
@@ -22,9 +22,9 @@
         },
         "NATEROOM.tmx": {
             "scale": 2,
-            "selectedLayer": 1,
+            "selectedLayer": 0,
             "viewCenter": {
-                "x": 160,
+                "x": 160.25,
                 "y": 100
             }
         },
@@ -36,14 +36,18 @@
                 "y": 1757
             }
         },
+        "inter.tsx": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
         "nateroom.tsx": {
             "scaleInDock": 1.5,
             "scaleInEditor": 1
         }
     },
-    "last.exportedFilePath": "C:/projects/nate/maps",
+    "last.exportedFilePath": "/home/shawn/projects/nate/maps",
     "last.imagePath": "/home/shawn/projects/nate/images",
-    "last.objectTypesPath": "C:/projects/nate/tiled_files/objecttypes.xml",
+    "last.objectTypesPath": "/home/shawn/projects/nate/tiled_files/objecttypes.xml",
     "last.worldFilePath": "C:/projects/nate/tiled_files",
     "lastUsedTilesetExportFilter": "All Files (*)",
     "loadedWorlds": [
@@ -57,15 +61,17 @@
         "NATEROOM.tmx",
         "HALLWAY.tmx",
         "nateroom.tsx",
-        "HOTEL.TSX"
+        "HOTEL.TSX",
+        "inter.tsx"
     ],
     "project": "NathynsRoom.tiled-project",
-    "property.type": "INV_LIST",
+    "property.type": "ITEMBOX",
     "recentFiles": [
         "NATEROOM.tmx",
-        "HOTEL.TSX",
-        "nateroom.tsx",
         "HALLWAY.tmx",
+        "nateroom.tsx",
+        "HOTEL.TSX",
+        "inter.tsx",
         "big.tmx"
     ],
     "tileset.lastUsedFormat": "tsx",

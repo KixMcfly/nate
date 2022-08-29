@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.8" tiledversion="1.8.4" orientation="orthogonal" renderorder="right-down" width="38" height="10" tilewidth="20" tileheight="20" infinite="0" nextlayerid="8" nextobjectid="178">
+<map version="1.9" tiledversion="1.9.1" orientation="orthogonal" renderorder="right-down" width="38" height="10" tilewidth="20" tileheight="20" infinite="0" nextlayerid="8" nextobjectid="179">
  <editorsettings>
   <export target="../maps/HALLWAY.nat" format="custom"/>
  </editorsettings>
@@ -8,12 +8,13 @@
  </properties>
  <tileset firstgid="1" source="nateroom.tsx"/>
  <tileset firstgid="161" source="HOTEL.TSX"/>
+ <tileset firstgid="321" source="inter.tsx"/>
  <layer id="1" name="Tile Layer 1" width="38" height="10">
   <data encoding="csv">
 199,199,199,199,199,199,199,199,199,199,199,199,199,199,199,199,199,199,199,199,199,199,199,199,199,199,199,199,199,199,199,199,199,199,199,199,199,199,
 199,210,199,199,199,199,199,199,199,199,199,199,210,210,210,210,210,210,199,199,199,199,199,199,199,199,199,199,199,199,199,199,199,199,199,199,199,199,
 199,226,209,210,211,210,210,210,210,211,199,199,226,226,226,226,226,243,199,210,210,210,211,210,210,210,210,211,210,210,210,199,199,199,199,199,199,199,
-199,167,225,226,227,226,226,226,226,227,199,199,183,183,183,183,183,259,199,226,226,226,227,226,226,226,226,227,226,226,226,209,210,210,212,215,209,212,
+199,167,225,226,227,226,226,226,226,227,199,199,321,183,183,183,183,259,199,226,226,226,227,226,226,226,226,227,226,226,226,209,210,210,212,215,209,212,
 199,167,167,167,167,167,167,167,167,167,199,199,183,183,183,183,183,183,199,167,167,167,167,167,167,167,167,167,167,167,167,225,226,226,228,231,225,228,
 199,167,167,167,167,167,167,167,167,167,199,199,183,199,199,199,199,199,199,167,167,167,167,167,167,167,167,167,167,167,167,167,167,167,167,167,167,167,
 199,167,167,167,167,167,167,167,167,167,209,212,167,209,210,210,210,210,212,167,167,167,167,167,167,167,167,167,167,167,167,167,167,167,167,167,167,167,
@@ -23,14 +24,14 @@
 </data>
  </layer>
  <objectgroup id="5" name="triggers">
-  <object id="172" name="VENDING" type="VENDING" x="340" y="80" width="20" height="20">
+  <object id="172" name="VENDING" class="VENDING" x="340" y="80" width="20" height="20">
    <properties>
     <property name="ITEM01" type="int" propertytype="INV_LIST" value="0"/>
     <property name="ITEM02" type="int" propertytype="INV_LIST" value="0"/>
-    <property name="ITEM03" type="int" propertytype="INV_LIST" value="0"/>
+    <property name="ITEM03" type="int" propertytype="INV_LIST" value="2"/>
     <property name="ITEM04" type="int" propertytype="INV_LIST" value="0"/>
     <property name="ITEM05" type="int" propertytype="INV_LIST" value="0"/>
-    <property name="ITEM06" type="int" propertytype="INV_LIST" value="0"/>
+    <property name="ITEM06" type="int" propertytype="INV_LIST" value="2"/>
     <property name="ITEM07" type="int" propertytype="INV_LIST" value="0"/>
     <property name="ITEM08" type="int" propertytype="INV_LIST" value="0"/>
     <property name="ITEM09" type="int" propertytype="INV_LIST" value="0"/>
@@ -47,12 +48,13 @@
     <property name="ITEM20" type="int" propertytype="INV_LIST" value="0"/>
    </properties>
   </object>
-  <object id="176" name="NATEROOM_NAT" type="CHGROOM" x="80" y="60" width="20" height="20">
+  <object id="176" name="NATEROOM_NAT" class="CHGROOM" x="80" y="60" width="20" height="20">
    <properties>
     <property name="name" value="NATEROOM_NAT"/>
     <property name="x" type="int" value="4"/>
     <property name="y" type="int" value="8"/>
    </properties>
   </object>
+  <object id="178" name="ITEMBOX" class="ITEMBOX" x="240" y="80" width="20" height="20"/>
  </objectgroup>
 </map>

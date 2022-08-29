@@ -5,11 +5,10 @@
     "extensionsPath": "../../../Users/Robot Dick/AppData/Local/Tiled/extensions",
     "folders": [
     ],
-    "objectTypesFile": "",
     "propertyTypes": [
         {
             "id": 5,
-            "name": "FLAGS",
+            "name": "FLAG",
             "storageType": "int",
             "type": "enum",
             "values": [
@@ -19,6 +18,25 @@
             "valuesAsFlags": true
         },
         {
+            "color": "#ffa0a0a4",
+            "id": 17,
+            "members": [
+                {
+                    "name": "FLAGS",
+                    "propertyType": "FLAG",
+                    "type": "int",
+                    "value": 0
+                }
+            ],
+            "name": "FLAGS",
+            "type": "class",
+            "useAs": [
+                "tile",
+                "tileset"
+            ]
+        },
+        {
+            "color": "#ffa0a0a4",
             "id": 15,
             "members": [
                 {
@@ -34,7 +52,10 @@
                 }
             ],
             "name": "INV_DRDOUCHE",
-            "type": "class"
+            "type": "class",
+            "useAs": [
+                "property"
+            ]
         },
         {
             "id": 14,
@@ -50,6 +71,7 @@
             "valuesAsFlags": false
         },
         {
+            "color": "#ffa0a0a4",
             "id": 13,
             "members": [
                 {
@@ -65,9 +87,13 @@
                 }
             ],
             "name": "INV_MONEY",
-            "type": "class"
+            "type": "class",
+            "useAs": [
+                "property"
+            ]
         },
         {
+            "color": "#ffa0a0a4",
             "id": 12,
             "members": [
                 {
@@ -83,9 +109,13 @@
                 }
             ],
             "name": "INV_NONE",
-            "type": "class"
+            "type": "class",
+            "useAs": [
+                "property"
+            ]
         },
         {
+            "color": "#ffa0a0a4",
             "id": 11,
             "members": [
                 {
@@ -101,7 +131,160 @@
                 }
             ],
             "name": "INV_NUGGETS",
-            "type": "class"
+            "type": "class",
+            "useAs": [
+                "property"
+            ]
+        },
+        {
+            "color": "#ff020aa4",
+            "id": 18,
+            "members": [
+            ],
+            "name": "ITEMBOX",
+            "type": "class",
+            "useAs": [
+                "property",
+                "map",
+                "layer",
+                "object",
+                "tile",
+                "tileset",
+                "wangcolor",
+                "wangset"
+            ]
+        },
+        {
+            "color": "#ff39a400",
+            "id": 16,
+            "members": [
+                {
+                    "name": "ITEM01",
+                    "propertyType": "INV_LIST",
+                    "type": "int",
+                    "value": 0
+                },
+                {
+                    "name": "ITEM02",
+                    "propertyType": "INV_LIST",
+                    "type": "int",
+                    "value": 0
+                },
+                {
+                    "name": "ITEM03",
+                    "propertyType": "INV_LIST",
+                    "type": "int",
+                    "value": 0
+                },
+                {
+                    "name": "ITEM04",
+                    "propertyType": "INV_LIST",
+                    "type": "int",
+                    "value": 0
+                },
+                {
+                    "name": "ITEM05",
+                    "propertyType": "INV_LIST",
+                    "type": "int",
+                    "value": 0
+                },
+                {
+                    "name": "ITEM06",
+                    "propertyType": "INV_LIST",
+                    "type": "int",
+                    "value": 0
+                },
+                {
+                    "name": "ITEM07",
+                    "propertyType": "INV_LIST",
+                    "type": "int",
+                    "value": 0
+                },
+                {
+                    "name": "ITEM08",
+                    "propertyType": "INV_LIST",
+                    "type": "int",
+                    "value": 0
+                },
+                {
+                    "name": "ITEM09",
+                    "propertyType": "INV_LIST",
+                    "type": "int",
+                    "value": 0
+                },
+                {
+                    "name": "ITEM10",
+                    "propertyType": "INV_LIST",
+                    "type": "int",
+                    "value": 0
+                },
+                {
+                    "name": "ITEM11",
+                    "propertyType": "INV_LIST",
+                    "type": "int",
+                    "value": 0
+                },
+                {
+                    "name": "ITEM12",
+                    "propertyType": "INV_LIST",
+                    "type": "int",
+                    "value": 0
+                },
+                {
+                    "name": "ITEM13",
+                    "propertyType": "INV_LIST",
+                    "type": "int",
+                    "value": 0
+                },
+                {
+                    "name": "ITEM14",
+                    "propertyType": "INV_LIST",
+                    "type": "int",
+                    "value": 0
+                },
+                {
+                    "name": "ITEM15",
+                    "propertyType": "INV_LIST",
+                    "type": "int",
+                    "value": 0
+                },
+                {
+                    "name": "ITEM16",
+                    "propertyType": "INV_LIST",
+                    "type": "int",
+                    "value": 0
+                },
+                {
+                    "name": "ITEM17",
+                    "propertyType": "INV_LIST",
+                    "type": "int",
+                    "value": 0
+                },
+                {
+                    "name": "ITEM18",
+                    "propertyType": "INV_LIST",
+                    "type": "int",
+                    "value": 0
+                },
+                {
+                    "name": "ITEM19",
+                    "propertyType": "INV_LIST",
+                    "type": "int",
+                    "value": 0
+                },
+                {
+                    "name": "ITEM20",
+                    "propertyType": "INV_LIST",
+                    "type": "int",
+                    "value": 0
+                }
+            ],
+            "name": "VENDING",
+            "type": "class",
+            "useAs": [
+                "object",
+                "tile"
+            ]
         }
     ]
 }

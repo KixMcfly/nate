@@ -63,7 +63,7 @@ int
 vend_buy_item (VENDING *vend, int cash)
 {
 	if (cash >= ic[vend->inv_list[vp]] && vend->inv_list[vp] > 0 && !pr){
-		pr = 80;
+		pr = 100;
 		play_sample ((SAMPLE *)vend_wav->dat, 255, 128, 1000, NULL);
 		hide_msg = FALSE;
 		return vend->inv_list[vp];
@@ -123,8 +123,7 @@ vend_draw_backbuff (VENDING *vend, int money, BITMAP *bf)
 	int ci;
 	
 	blit (v, bf, 0, 0, 0, 0, v->w, v->h);
-	
-	
+
 	for (ci = 0; ci < MAX_VEND; ci++)
 		masked_blit (i, bf, vend->inv_list[ci]*SW, 0, ps[ci][X], ps[ci][Y], SW, SH);
 	
@@ -139,7 +138,10 @@ vend_draw_backbuff (VENDING *vend, int money, BITMAP *bf)
 		textprintf_ex (bf, vend_font, 32, 53, 116, -1, "%d", ic[vend->inv_list[vp]]);
 	
 	/* Draw money on hand */
-	textprintf_ex (bf, font, 33, 83, 116, -1, "%d", money);
+	if (money)
+		textprintf_ex (bf, font, 33, 83, 116, -1, "%04d", money);
+	else
+		textprintf_ex (bf, font, 33, 83, 73, -1, "%04d", money);
 	
 	if (pr)
 		pr--;

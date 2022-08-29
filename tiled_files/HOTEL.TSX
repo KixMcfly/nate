@@ -1,104 +1,109 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<tileset version="1.8" tiledversion="1.8.4" name="HOTEL" tilewidth="20" tileheight="20" tilecount="160" columns="16">
+<tileset version="1.9" tiledversion="1.9.1" name="HOTEL" tilewidth="20" tileheight="20" tilecount="160" columns="16">
  <image source="../images/hotel.bmp" width="320" height="200"/>
- <tile id="3" type="FLAGS">
+ <tile id="3" class="FLAGS">
   <properties>
-   <property name="FLAGS" type="int" propertytype="FLAGS" value="1"/>
+   <property name="FLAGS" type="int" propertytype="FLAG" value="1"/>
   </properties>
  </tile>
- <tile id="5" type="FLAGS">
+ <tile id="5" class="FLAGS">
   <properties>
-   <property name="FLAGS" type="int" propertytype="FLAGS" value="1"/>
+   <property name="FLAGS" type="int" propertytype="FLAG" value="1"/>
   </properties>
  </tile>
- <tile id="19" type="FLAGS">
+ <tile id="19" class="FLAGS">
   <properties>
-   <property name="FLAGS" type="int" propertytype="FLAGS" value="1"/>
+   <property name="FLAGS" type="int" propertytype="FLAG" value="1"/>
   </properties>
  </tile>
- <tile id="20" type="FLAGS">
+ <tile id="20" class="FLAGS">
   <properties>
-   <property name="FLAGS" type="int" propertytype="FLAGS" value="1"/>
+   <property name="FLAGS" type="int" propertytype="FLAG" value="1"/>
   </properties>
  </tile>
- <tile id="21" type="FLAGS">
+ <tile id="21" class="FLAGS">
   <properties>
-   <property name="FLAGS" type="int" propertytype="FLAGS" value="1"/>
+   <property name="FLAGS" type="int" propertytype="FLAG" value="1"/>
   </properties>
  </tile>
- <tile id="35" type="FLAGS">
+ <tile id="35" class="FLAGS">
   <properties>
-   <property name="FLAGS" type="int" propertytype="FLAGS" value="1"/>
+   <property name="FLAGS" type="int" propertytype="FLAG" value="1"/>
   </properties>
  </tile>
- <tile id="36" type="FLAGS">
+ <tile id="36" class="FLAGS">
   <properties>
-   <property name="FLAGS" type="int" propertytype="FLAGS" value="1"/>
+   <property name="FLAGS" type="int" propertytype="FLAG" value="1"/>
   </properties>
  </tile>
- <tile id="37" type="FLAGS">
+ <tile id="37" class="FLAGS">
   <properties>
-   <property name="FLAGS" type="int" propertytype="FLAGS" value="1"/>
+   <property name="FLAGS" type="int" propertytype="FLAG" value="1"/>
   </properties>
  </tile>
- <tile id="38" type="FLAGS">
+ <tile id="38" class="FLAGS">
   <properties>
-   <property name="FLAGS" type="int" propertytype="FLAGS" value="1"/>
+   <property name="FLAGS" type="int" propertytype="FLAG" value="1"/>
   </properties>
  </tile>
- <tile id="48" type="FLAGS">
+ <tile id="48" class="FLAGS">
   <properties>
-   <property name="FLAGS" type="int" propertytype="FLAGS" value="1"/>
+   <property name="FLAGS" type="int" propertytype="FLAG" value="1"/>
   </properties>
  </tile>
- <tile id="50" type="FLAGS">
+ <tile id="50" class="FLAGS">
   <properties>
-   <property name="FLAGS" type="int" propertytype="FLAGS" value="1"/>
+   <property name="FLAGS" type="int" propertytype="FLAG" value="1"/>
   </properties>
  </tile>
- <tile id="51" type="FLAGS">
+ <tile id="51" class="FLAGS">
   <properties>
-   <property name="FLAGS" type="int" propertytype="FLAGS" value="1"/>
+   <property name="FLAGS" type="int" propertytype="FLAG" value="1"/>
   </properties>
  </tile>
- <tile id="54" type="FLAGS">
+ <tile id="54" class="FLAGS">
   <properties>
-   <property name="FLAGS" type="int" propertytype="FLAGS" value="1"/>
+   <property name="FLAGS" type="int" propertytype="FLAG" value="1"/>
   </properties>
  </tile>
- <tile id="64" type="FLAGS">
+ <tile id="64" class="FLAGS">
   <properties>
-   <property name="FLAGS" type="int" propertytype="FLAGS" value="1"/>
+   <property name="FLAGS" type="int" propertytype="FLAG" value="1"/>
   </properties>
  </tile>
- <tile id="65" type="FLAGS">
+ <tile id="65" class="FLAGS">
   <properties>
-   <property name="FLAGS" type="int" propertytype="FLAGS" value="1"/>
+   <property name="FLAGS" type="int" propertytype="FLAG" value="1"/>
   </properties>
  </tile>
- <tile id="67" type="FLAGS">
+ <tile id="67" class="FLAGS">
   <properties>
-   <property name="FLAGS" type="int" propertytype="FLAGS" value="1"/>
+   <property name="FLAGS" type="int" propertytype="FLAG" value="1"/>
   </properties>
  </tile>
- <tile id="80" type="FLAGS">
+ <tile id="80" class="FLAGS">
   <properties>
-   <property name="FLAGS" type="int" propertytype="FLAGS" value="1"/>
+   <property name="FLAGS" type="class" propertytype="FLAGS"/>
   </properties>
  </tile>
- <tile id="96" type="FLAGS">
+ <tile id="82" class="FLAGS">
   <properties>
-   <property name="FLAGS" type="int" propertytype="FLAGS" value="1"/>
+   <property name="FLAGS" type="int" propertytype="FLAG" value="1"/>
   </properties>
  </tile>
- <tile id="97" type="FLAGS">
+ <tile id="96" class="FLAGS">
   <properties>
-   <property name="FLAGS" type="int" propertytype="FLAGS" value="1"/>
+   <property name="FLAGS" type="class" propertytype="FLAGS"/>
   </properties>
  </tile>
- <tile id="98" type="FLAGS">
+ <tile id="97" class="FLAGS">
   <properties>
-   <property name="FLAGS" type="int" propertytype="FLAGS" value="1"/>
+   <property name="FLAGS" type="class" propertytype="FLAGS"/>
+  </properties>
+ </tile>
+ <tile id="98" class="FLAGS">
+  <properties>
+   <property name="FLAGS" type="int" propertytype="FLAG" value="1"/>
   </properties>
  </tile>
 </tileset>
