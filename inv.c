@@ -14,6 +14,10 @@
 #define TEXT_X				9
 #define TEXT_Y				9
 
+#define SCROLL_H			39
+#define SCROLL_X			201
+#define SCROLL_Y			89
+
 typedef struct {
 	
 	int id;
@@ -165,14 +169,22 @@ invmenu_draw_backbuff (BITMAP *bf)
 		blit (bt, bf, 0, 0, 9, 89, bt->w, bt->h);
 		blit (bt, bf, 0, 0, 9, 89+13, bt->w, bt->h);
 		blit (bt, bf, 0, 0, 9, 89+26, bt->w, bt->h);
-		textprintf_ex (bf, inv_fnt, 11, 89+3, -1, -1, "%-30s% 4d",
+		textprintf_ex (bf, inv_fnt, 11, 89+3, -1, -1, "%-30s%4d",
 			inv_list[itembox[p2].id][0], itembox[p2].num);
-		textprintf_ex (bf, inv_fnt, 11, 89+3+13, -1, -1, "%-30s% 4d",
+		textprintf_ex (bf, inv_fnt, 11, 89+3+13, -1, -1, "%-30s%4d",
 			inv_list[itembox[p1].id][0], itembox[p1].num);
-		textprintf_ex (bf, inv_fnt, 11, 89+3+26, -1, -1, "%-30s% 4d",
+		textprintf_ex (bf, inv_fnt, 11, 89+3+26, -1, -1, "%-30s%4d",
 			inv_list[itembox[p3].id][0], itembox[p3].num);
 
-		rect(bf, 9, 102, 9+bt->w, 102+bt->h, 3);
+		/* Item box selected item yellow rect */
+		rect(bf, 9, 102, 9+bt->w - 2, 102+bt->h, 3);
+		
+		/* SCROLL BAR HEIGHT * ITEMBOX_POS - 2 / MAX_ITEMBOX_SLOTS */
+		
+		ci = SCROLL_H*(boxmenu.b_pos - 2) / MAX_ITEMBOX;
+		
+		/* Itembox scroll bar */
+		rectfill(bf, SCROLL_X, SCROLL_Y+ci, SCROLL_X+4, SCROLL_Y+ci+2, 15);
 	}
 	
 	if (!inv[invmenu.sp].id){
@@ -295,11 +307,11 @@ invmenu_sel_right (void)
 {
 	if (!m_rest){
 		
-		if (boxmenu.active && boxmenu.focus){
+		if (boxmenu.active && boxmenu.focus && !src){
 			
 			boxmenu.focus = FALSE;
 			
-		}else if (invmenu.sp == 0 || invmenu.sp == 2 || invmenu.sp == 4 || invmenu.sp == 6){
+		}else if ((invmenu.sp == 0 || invmenu.sp == 2 || invmenu.sp == 4 || invmenu.sp == 6) && !src){
 
 			play_sample ((SAMPLE *)invsel_wav->dat, 155, 128, 1000, NULL);
 			invmenu.sp++;
@@ -313,10 +325,10 @@ void
 invmenu_sel_left (void)
 {
 	if (!m_rest){
-		if (invmenu.sp == 1 || invmenu.sp == 3 || invmenu.sp == 5 || invmenu.sp == 7){
+		if ((invmenu.sp == 1 || invmenu.sp == 3 || invmenu.sp == 5 || invmenu.sp == 7) && !src){
 			play_sample ((SAMPLE *)invsel_wav->dat, 155, 128, 1000, NULL);
 			invmenu.sp--;
-		}else if (boxmenu.active){
+		}else if (boxmenu.active && !src){
 			boxmenu.focus = TRUE;
 		}
 		
