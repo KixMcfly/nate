@@ -57,6 +57,8 @@ static DATAFILE *inv_bmp = NULL;
 static DATAFILE *items_bmp = NULL;
 static DATAFILE *itemsslot_bmp = NULL;
 static DATAFILE *invsel_wav = NULL;
+static DATAFILE *put_wav = NULL;
+static DATAFILE *unput_wav = NULL;
 static FONT *inv_fnt = NULL;
 
 static int m_rest = 0;
@@ -149,30 +151,27 @@ invmenu_draw_backbuff (BITMAP *bf)
 		
 		p1 = boxmenu.b_pos;
 		
-		if (p1 == 99){
-			p2 = 0;
-			p3 = 1;
-		}else if (p1 == 98){
+		if (p1 == 0){
 			p2 = 99;
-			p3 = 0;
-		}else if (p1 == 97){
+			p3 = 1;
+		}else if (p1 == 99){
 			p2 = 98;
-			p3 = 99; 
+			p3 = 0;
 		}else{
-			p2 = p1 + 1;
-			p3 = p2 + 2;
+			p2 = p1 - 1;
+			p3 = p1 + 1;
 		}
 		
 		blit (bt, bf, 0, 0, 9, 89, bt->w, bt->h);
 		blit (bt, bf, 0, 0, 9, 89+13, bt->w, bt->h);
 		blit (bt, bf, 0, 0, 9, 89+26, bt->w, bt->h);
 		textprintf_ex (bf, inv_fnt, 11, 89+3, -1, -1, "%-30s% 4d",
-			inv_list[itembox[p1].id][0], itembox[p1].num);
-		textprintf_ex (bf, inv_fnt, 11, 89+3+13, -1, -1, "%-30s% 4d",
 			inv_list[itembox[p2].id][0], itembox[p2].num);
+		textprintf_ex (bf, inv_fnt, 11, 89+3+13, -1, -1, "%-30s% 4d",
+			inv_list[itembox[p1].id][0], itembox[p1].num);
 		textprintf_ex (bf, inv_fnt, 11, 89+3+26, -1, -1, "%-30s% 4d",
 			inv_list[itembox[p3].id][0], itembox[p3].num);
-			
+
 		rect(bf, 9, 102, 9+bt->w, 102+bt->h, 3);
 	}
 	
@@ -217,26 +216,27 @@ boxmenu_set_src_dest (void)
 				boxmenu.focus = TRUE;
 				src = &inv[invmenu.sp];
 			}
+			play_sample ((SAMPLE *)put_wav->dat, 155, 128, 1000, NULL);
+			
 		}else{
 			t_id = src->id;
 			t_num = src->num;
 			
 			if (boxmenu.focus){
-				itembox[boxmenu.b_pos].id = inv[invmenu.sp].id;
-				itembox[boxmenu.b_pos].num = inv[invmenu.sp].num;
-				
-				itembox[boxmenu.b_pos].id = t_id;
-				itembox[boxmenu.b_pos].num = t_num;
-				
-			}else{
-				
-				
 				inv[invmenu.sp].id = itembox[boxmenu.b_pos].id;
 				inv[invmenu.sp].num = itembox[boxmenu.b_pos].num;
 				
 				itembox[boxmenu.b_pos].id = t_id;
 				itembox[boxmenu.b_pos].num = t_num;
+				
+			}else{
+				itembox[boxmenu.b_pos].id = inv[invmenu.sp].id;
+				itembox[boxmenu.b_pos].num = inv[invmenu.sp].num;
+				
+				inv[invmenu.sp].id = t_id;
+				inv[invmenu.sp].num = t_num;
 			}
+			play_sample ((SAMPLE *)unput_wav->dat, 155, 128, 1000, NULL);
 			src = NULL;
 		}
 		
@@ -294,11 +294,15 @@ void
 invmenu_sel_right (void)
 {
 	if (!m_rest){
-		if (invmenu.sp == 0 || invmenu.sp == 2 || invmenu.sp == 4 || invmenu.sp == 6){
+		
+		if (boxmenu.active && boxmenu.focus){
+			
+			boxmenu.focus = FALSE;
+			
+		}else if (invmenu.sp == 0 || invmenu.sp == 2 || invmenu.sp == 4 || invmenu.sp == 6){
+
 			play_sample ((SAMPLE *)invsel_wav->dat, 155, 128, 1000, NULL);
 			invmenu.sp++;
-		}else{
-			boxmenu.focus = FALSE;
 		}
 		
 		m_rest = SEL_R;
@@ -312,7 +316,7 @@ invmenu_sel_left (void)
 		if (invmenu.sp == 1 || invmenu.sp == 3 || invmenu.sp == 5 || invmenu.sp == 7){
 			play_sample ((SAMPLE *)invsel_wav->dat, 155, 128, 1000, NULL);
 			invmenu.sp--;
-		}else{
+		}else if (boxmenu.active){
 			boxmenu.focus = TRUE;
 		}
 		
@@ -335,6 +339,8 @@ invmenu_init (char *dfn, char *invb, char *itemb, char *fdn)
 	items_bmp = load_datafile_object (dfn, itemb);
 	inv_fnt = load_dat_font (dfn, NULL, names);
 	invsel_wav = load_datafile_object (dfn, "INVSEL_WAV");
+	put_wav = load_datafile_object (dfn, "PUT_WAV");
+	unput_wav = load_datafile_object (dfn, "UNPUT_WAV");
 	itemsslot_bmp = load_datafile_object (dfn, "ITEMSSLOT_BMP");
 
 	invmenu.vis = TRUE;
@@ -357,11 +363,19 @@ invmenu_free (void)
 		
 	if (invsel_wav)
 		unload_datafile_object (invsel_wav);
+		
+	if (put_wav)
+		unload_datafile_object (put_wav);
+		
+	if (unput_wav)
+		unload_datafile_object (unput_wav);
 
 	inv_bmp = NULL;
 	items_bmp = NULL;
 	inv_fnt = NULL;
 	invsel_wav = NULL;
+	put_wav = NULL;
+	unput_wav = NULL;
 	itemsslot_bmp = NULL;
 	
 	boxmenu.active = FALSE;
