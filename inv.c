@@ -23,9 +23,7 @@ typedef struct {
 
 typedef struct {
 	int b_pos;
-	int s_pos;
 	int focus;
-	int s_active;
 	int active;
 	
 } BOXMENU;
@@ -39,8 +37,7 @@ typedef struct {
 } INVMENU;
 
 static INVMENU invmenu = { .vis = FALSE, .sp = 0, .active = FALSE };
-static BOXMENU boxmenu = { .s_pos = 0, .b_pos = 0, .focus = FALSE,
-						   .s_active = FALSE, .active = FALSE};
+static BOXMENU boxmenu = { .b_pos = 0, .focus = FALSE, .active = FALSE};
 
 static INVITEM itembox[MAX_ITEMBOX] = {{0}};
 static INVITEM inv[MAX_INV] = {	{.id = INV_MONEY, .num = 120},
@@ -54,7 +51,7 @@ static INVITEM inv[MAX_INV] = {	{.id = INV_MONEY, .num = 120},
 							};
 
 /* Source and dest for item box swap */
-static INVITEM *src = NULL, *dest = NULL;
+static INVITEM *src = NULL;
 
 static DATAFILE *inv_bmp = NULL;
 static DATAFILE *items_bmp = NULL;
@@ -127,7 +124,6 @@ invmenu_draw_backbuff (BITMAP *bf)
 { 
 	
 	int px = pos_lookup[invmenu.sp][X], py = pos_lookup[invmenu.sp][Y];
-	int sx = pos_lookup[boxmenu.s_pos][X], sy = pos_lookup[boxmenu.s_pos][Y];
 	int ci;
 	
 	/* Draw inv menu */		
@@ -144,10 +140,6 @@ invmenu_draw_backbuff (BITMAP *bf)
 	/* Draw inventory select */
 	if (!boxmenu.focus)
 		rect(bf, px, py, px + SEL_W, py + SEL_H, SEL_C);
-
-	/* Draw yellow select box for sel mode */
-	if (boxmenu.s_active && !boxmenu.focus)
-		rect(bf, sx, sy, sx + SEL_W, sy + SEL_H, 3);
 	
 	/* When inv was actived at item box */
 	if (boxmenu.active){
@@ -212,31 +204,44 @@ boxmenu_set_active (int t)
 }
 
 void
-boxmenu_swap_item (void)
+boxmenu_set_src_dest (void)
 {
 	int t_num, t_id;
 	
 	if (!m_rest){
-		t_id  = itembox[boxmenu.b_pos].id;
-		t_num = itembox[boxmenu.b_pos].num;
-		
-		itembox[boxmenu.b_pos].id = inv[invmenu.sp].id;
-		itembox[boxmenu.b_pos].num = inv[invmenu.sp].num;
-		
-		inv[invmenu.sp].id = t_id;
-		inv[invmenu.sp].num = t_num;
-		
-		boxmenu.focus = FALSE;
+		if (!src){
+			if (boxmenu.focus){
+				src = &itembox[boxmenu.b_pos];
+				boxmenu.focus = FALSE;
+			}else{
+				boxmenu.focus = TRUE;
+				src = &inv[invmenu.sp];
+			}
+		}else{
+			t_id = src->id;
+			t_num = src->num;
+			
+			if (boxmenu.focus){
+				itembox[boxmenu.b_pos].id = inv[invmenu.sp].id;
+				itembox[boxmenu.b_pos].num = inv[invmenu.sp].num;
+				
+				itembox[boxmenu.b_pos].id = t_id;
+				itembox[boxmenu.b_pos].num = t_num;
+				
+			}else{
+				
+				
+				inv[invmenu.sp].id = itembox[boxmenu.b_pos].id;
+				inv[invmenu.sp].num = itembox[boxmenu.b_pos].num;
+				
+				itembox[boxmenu.b_pos].id = t_id;
+				itembox[boxmenu.b_pos].num = t_num;
+			}
+			src = NULL;
+		}
 		
 		m_rest = SEL_R;
-		boxmenu.s_active = FALSE;
 	}
-}
-
-int
-boxmenu_focus (void)
-{
-	return boxmenu.focus;
 }
 
 void
@@ -247,23 +252,18 @@ invmenu_sel_up (void)
 		if (boxmenu.focus){
 			
 			boxmenu.b_pos--;
-
+			play_sample ((SAMPLE *)invsel_wav->dat, 155, 128, 1000, NULL);
+			m_rest = SEL_R;
 			if (boxmenu.b_pos < 0)
 				boxmenu.b_pos = MAX_ITEMBOX - 1;
 		}else{
 			
-			if (!boxmenu.s_active){
-				if (invmenu.sp > 1)
-					invmenu.sp -= 2;
-			}else if (boxmenu.s_active){
-				if (boxmenu.s_pos > 1)
-					boxmenu.s_pos -= 2;
+			if (invmenu.sp > 1){
+				invmenu.sp -= 2;
+				play_sample ((SAMPLE *)invsel_wav->dat, 155, 128, 1000, NULL);
+				m_rest = SEL_R;
 			}
-				
 		}
-		
-		play_sample ((SAMPLE *)invsel_wav->dat, 155, 128, 1000, NULL);
-		m_rest = SEL_R;
 	}
 }
 
@@ -274,23 +274,19 @@ invmenu_sel_down (void)
 		
 		if (boxmenu.focus){
 			
+			m_rest = SEL_R;
 			boxmenu.b_pos++;
-	
+			play_sample ((SAMPLE *)invsel_wav->dat, 155, 128, 1000, NULL);
 			if (boxmenu.b_pos > MAX_ITEMBOX - 1)
 				boxmenu.b_pos = 0;
+
 		}else{
-			
-			if (!boxmenu.s_active){
-				if (invmenu.sp < 6)
-					invmenu.sp += 2;
-			}else{
-				if (boxmenu.s_pos < 6)
-					boxmenu.s_pos += 2;
+			if (invmenu.sp < 6){
+				play_sample ((SAMPLE *)invsel_wav->dat, 155, 128, 1000, NULL);
+				invmenu.sp += 2;
+				m_rest = SEL_R;
 			}
 		}
-		
-		play_sample ((SAMPLE *)invsel_wav->dat, 155, 128, 1000, NULL);
-		m_rest = SEL_R;
 	}
 }
 
@@ -298,19 +294,11 @@ void
 invmenu_sel_right (void)
 {
 	if (!m_rest){
-		
-		play_sample ((SAMPLE *)invsel_wav->dat, 155, 128, 1000, NULL);
-
-		if (boxmenu.focus){
-			boxmenu.focus = FALSE;
+		if (invmenu.sp == 0 || invmenu.sp == 2 || invmenu.sp == 4 || invmenu.sp == 6){
+			play_sample ((SAMPLE *)invsel_wav->dat, 155, 128, 1000, NULL);
+			invmenu.sp++;
 		}else{
-			if (!boxmenu.s_active){
-				if (invmenu.sp == 0 || invmenu.sp == 2 || invmenu.sp == 4 || invmenu.sp == 6)
-					invmenu.sp++;
-			}else{
-				if (boxmenu.s_pos == 0 || boxmenu.s_pos == 2 || boxmenu.s_pos == 4 || boxmenu.s_pos == 6)
-					boxmenu.s_pos++;
-			}
+			boxmenu.focus = FALSE;
 		}
 		
 		m_rest = SEL_R;
@@ -321,23 +309,13 @@ void
 invmenu_sel_left (void)
 {
 	if (!m_rest){
-		
-		play_sample ((SAMPLE *)invsel_wav->dat, 155, 128, 1000, NULL);
-		
-		if (!boxmenu.s_active){
-			if (invmenu.sp == 1 || invmenu.sp == 3 || invmenu.sp == 5 || invmenu.sp == 7){
-				invmenu.sp--;
-			}else if (boxmenu.active){
-				boxmenu.focus = TRUE;
-			}
+		if (invmenu.sp == 1 || invmenu.sp == 3 || invmenu.sp == 5 || invmenu.sp == 7){
+			play_sample ((SAMPLE *)invsel_wav->dat, 155, 128, 1000, NULL);
+			invmenu.sp--;
 		}else{
-			if (boxmenu.s_pos == 1 || boxmenu.s_pos == 3 || boxmenu.s_pos == 5 || boxmenu.s_pos == 7){
-				boxmenu.s_pos--;
-			}else{
-				boxmenu.focus = TRUE;
-			}
+			boxmenu.focus = TRUE;
 		}
-
+		
 		m_rest = SEL_R;
 	}
 }
@@ -365,7 +343,6 @@ invmenu_init (char *dfn, char *invb, char *itemb, char *fdn)
 void
 invmenu_free (void)
 {
-
 	if (inv_bmp)
 		unload_datafile_object (inv_bmp);
 		
@@ -388,9 +365,11 @@ invmenu_free (void)
 	itemsslot_bmp = NULL;
 	
 	boxmenu.active = FALSE;
-	boxmenu.s_active = FALSE;
 	invmenu.vis = FALSE;
 	invmenu.sp = 0;
+	
+	src = NULL;
+	
 	m_rest = 0;
 }
 

@@ -280,11 +280,9 @@ int main (void)
 		
 			if (key[KEY_LCONTROL]){
 				
-				if (boxmenu_active ()){
+				if (boxmenu_active ())
+					boxmenu_set_src_dest ();
 					
-					if (boxmenu_focus ())
-					
-				}
 			}
 			
 			invmenu_draw_backbuff (get_backbuff ());

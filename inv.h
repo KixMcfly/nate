@@ -26,16 +26,10 @@ int
 boxmenu_active (void);
 
 void
-boxmenu_swap_item (void);
-
-int
-boxmenu_focus (void);
-
-int
-invmenu_vis (void);
+boxmenu_set_active (int t);
 
 void
-boxmenu_set_active (int t);
+boxmenu_set_src_dest (void);
 
 void
 invmenu_sel_up (void);
@@ -48,6 +42,9 @@ invmenu_sel_right (void);
 
 void
 invmenu_sel_left (void);
+
+int
+invmenu_vis (void);
 
 void
 invmenu_init (char *dfn, char *invb, char *itemb, char *fdn);
