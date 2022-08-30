@@ -281,7 +281,9 @@ int main (void)
 			if (key[KEY_LCONTROL]){
 				
 				if (boxmenu_active ()){
-					boxmenu_set_sactive (TRUE);
+					
+					if (boxmenu_focus ())
+					
 				}
 			}
 			

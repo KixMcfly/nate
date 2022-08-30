@@ -26,7 +26,10 @@ int
 boxmenu_active (void);
 
 void
-boxmenu_set_sactive (int t);
+boxmenu_swap_item (void);
+
+int
+boxmenu_focus (void);
 
 int
 invmenu_vis (void);

@@ -53,6 +53,9 @@ static INVITEM inv[MAX_INV] = {	{.id = INV_MONEY, .num = 120},
 								{.id = INV_NONE, .num = 0}
 							};
 
+/* Source and dest for item box swap */
+static INVITEM *src = NULL, *dest = NULL;
+
 static DATAFILE *inv_bmp = NULL;
 static DATAFILE *items_bmp = NULL;
 static DATAFILE *itemsslot_bmp = NULL;
@@ -143,7 +146,7 @@ invmenu_draw_backbuff (BITMAP *bf)
 		rect(bf, px, py, px + SEL_W, py + SEL_H, SEL_C);
 
 	/* Draw yellow select box for sel mode */
-	if (boxmenu.s_active)
+	if (boxmenu.s_active && !boxmenu.focus)
 		rect(bf, sx, sy, sx + SEL_W, sy + SEL_H, 3);
 	
 	/* When inv was actived at item box */
@@ -203,23 +206,17 @@ boxmenu_active (void)
 }
 
 void
-boxmenu_set_sactive (int t)
-{
-	boxmenu.s_active = t;
-	boxmenu.s_pos = invmenu.sp;
-}
-
-void
 boxmenu_set_active (int t)
 {
 	boxmenu.active = t;
 }
 
-int
+void
 boxmenu_swap_item (void)
 {
 	int t_num, t_id;
-	if (boxmenu.focus){
+	
+	if (!m_rest){
 		t_id  = itembox[boxmenu.b_pos].id;
 		t_num = itembox[boxmenu.b_pos].num;
 		
@@ -228,12 +225,18 @@ boxmenu_swap_item (void)
 		
 		inv[invmenu.sp].id = t_id;
 		inv[invmenu.sp].num = t_num;
-	}else{
-		t_id  = inv[invmenu.sp].id;
-		t_num = itembox[boxmenu.b_pos].num;
 		
-
+		boxmenu.focus = FALSE;
+		
+		m_rest = SEL_R;
+		boxmenu.s_active = FALSE;
 	}
+}
+
+int
+boxmenu_focus (void)
+{
+	return boxmenu.focus;
 }
 
 void
