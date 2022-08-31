@@ -169,12 +169,18 @@ invmenu_draw_backbuff (BITMAP *bf)
 		blit (bt, bf, 0, 0, 9, 89, bt->w, bt->h);
 		blit (bt, bf, 0, 0, 9, 89+13, bt->w, bt->h);
 		blit (bt, bf, 0, 0, 9, 89+26, bt->w, bt->h);
-		textprintf_ex (bf, inv_fnt, 11, 89+3, -1, -1, "%-30s%4d",
-			inv_list[itembox[p2].id][0], itembox[p2].num);
-		textprintf_ex (bf, inv_fnt, 11, 89+3+13, -1, -1, "%-30s%4d",
-			inv_list[itembox[p1].id][0], itembox[p1].num);
-		textprintf_ex (bf, inv_fnt, 11, 89+3+26, -1, -1, "%-30s%4d",
-			inv_list[itembox[p3].id][0], itembox[p3].num);
+		textprintf_ex (bf, inv_fnt, 11, 89+3, -1, -1, "%-30s", inv_list[itembox[p2].id][0]);
+		textprintf_ex (bf, inv_fnt, 11, 89+3+13, -1, -1, "%-30s", inv_list[itembox[p1].id][0]);
+		textprintf_ex (bf, inv_fnt, 11, 89+3+26, -1, -1, "%-30s", inv_list[itembox[p3].id][0]);
+
+		if (itembox[p2].num)
+			textprintf_right_ex (bf, inv_fnt, 197, 89+3, -1, -1, "%d", itembox[p2].num);
+			
+		if (itembox[p1].num)
+			textprintf_right_ex (bf, inv_fnt, 197, 89+3+13, -1, -1, "%d", itembox[p1].num);
+			
+		if (itembox[p3].num)
+			textprintf_right_ex (bf, inv_fnt, 197, 89+3+26, -1, -1, "%d", itembox[p3].num);
 
 		/* Item box selected item yellow rect */
 		rect(bf, 9, 102, 9+bt->w - 2, 102+bt->h, 3);
