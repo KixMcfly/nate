@@ -179,7 +179,7 @@ invmenu_draw_backbuff (BITMAP *bf)
 		/* Item box selected item yellow rect */
 		rect(bf, 9, 102, 9+bt->w - 2, 102+bt->h, 3);
 		
-		/* SCROLL BAR HEIGHT * ITEMBOX_POS - 2 / MAX_ITEMBOX_SLOTS */
+		/* SCROLL BAR HEIGHT * (ITEMBOX_POS - SCROLL_POS_H) / MAX_ITEMBOX_SLOTS */
 		
 		ci = SCROLL_H*(boxmenu.b_pos - 2) / MAX_ITEMBOX;
 		
@@ -306,15 +306,12 @@ void
 invmenu_sel_right (void)
 {
 	if (!m_rest){
-		
-		if (boxmenu.active && boxmenu.focus && !src){
-			
-			boxmenu.focus = FALSE;
-			
-		}else if ((invmenu.sp == 0 || invmenu.sp == 2 || invmenu.sp == 4 || invmenu.sp == 6) && !src){
 
+		if ((invmenu.sp == 0 || invmenu.sp == 2 || invmenu.sp == 4 || invmenu.sp == 6) && !boxmenu.focus){
 			play_sample ((SAMPLE *)invsel_wav->dat, 155, 128, 1000, NULL);
 			invmenu.sp++;
+		}else if (boxmenu.active && boxmenu.focus && !src){
+			boxmenu.focus = FALSE;
 		}
 		
 		m_rest = SEL_R;
@@ -325,7 +322,7 @@ void
 invmenu_sel_left (void)
 {
 	if (!m_rest){
-		if ((invmenu.sp == 1 || invmenu.sp == 3 || invmenu.sp == 5 || invmenu.sp == 7) && !src){
+		if ((invmenu.sp == 1 || invmenu.sp == 3 || invmenu.sp == 5 || invmenu.sp == 7) && !boxmenu.focus){
 			play_sample ((SAMPLE *)invsel_wav->dat, 155, 128, 1000, NULL);
 			invmenu.sp--;
 		}else if (boxmenu.active && !src){
@@ -391,6 +388,7 @@ invmenu_free (void)
 	itemsslot_bmp = NULL;
 	
 	boxmenu.active = FALSE;
+	boxmenu.focus = FALSE;
 	invmenu.vis = FALSE;
 	invmenu.sp = 0;
 	
