@@ -223,11 +223,17 @@ load_map (MAP *m, char *dat_fn, char *dat_id)
 				/* Get layer data*/
 				int c;
 				for (c = 0; c < m->w*m->h; c++){
-					
+
 					t_data[c].tn = (unsigned short)pack_igetw (fp);
-					t_data[c].ts = pack_getc (fp);
-					t_data[c].flags = pack_getc (fp);
 					
+					/* 0xFFFF is means no tile or data */
+					if (t_data[c].tn & 0xFFFF){
+						t_data[c].ts = pack_getc (fp);
+						t_data[c].flags = pack_getc (fp);
+					}else{
+						t_data[c].ts = 0;
+						t_data[c].flags = 0;
+					}
 				}
 				
 				ntl++;
@@ -271,6 +277,8 @@ load_map (MAP *m, char *dat_fn, char *dat_id)
 						room->cx = pack_igetl (fp);
 						room->cy = pack_igetl (fp);
 						
+						log_print ("Found CHGROOM. NAME: %s X:%d Y:%d\n", room->name, room->x, room->y);
+						
 						/* Add object to map object list */
 						m->so = node_add (m->so, OBJ_CHGROOM, room);
 					}else if (!strcmp (type, "VENDING")){
@@ -313,9 +321,15 @@ load_map (MAP *m, char *dat_fn, char *dat_id)
 					unsigned char ts = data[y*m->w+x].ts;
 					unsigned char tn = data[y*m->w+x].tn;
 					
-					blit (m->ts_list[ts].tiles[tn],
-						  m->l_list[i].img, 0, 0,
-						  x*m->tw, y*m->th, m->tw, m->th);
+					if (data[y*m->w+x].tn & 0xFFFF){
+						blit (m->ts_list[ts].tiles[tn],
+							m->l_list[i].img, 0, 0,
+							x*m->tw, y*m->th, m->tw, m->th);
+					}else{
+						rectfill(m->l_list[i].img,
+							x*m->tw, y*m->th,
+							x*m->tw+m->tw, y*m->th+m->th, 0);
+					}
 				}
 			}
 		}else{
