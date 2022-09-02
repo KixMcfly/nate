@@ -1,11 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <tileset version="1.9" tiledversion="1.9.1" name="nateroom" tilewidth="20" tileheight="20" tilecount="160" columns="16">
  <image source="../images/nate.bmp" width="320" height="200"/>
- <tile id="51" class="FLAGS">
-  <properties>
-   <property name="FLAGS" type="class" propertytype="FLAGS"/>
-  </properties>
- </tile>
+ <tile id="51" class="FLAGS"/>
  <tile id="52" class="FLAGS">
   <properties>
    <property name="FLAGS" type="int" propertytype="FLAG" value="1"/>
@@ -43,7 +39,7 @@
  </tile>
  <tile id="59" class="FLAGS">
   <properties>
-   <property name="FLAGS" type="class" propertytype="FLAGS"/>
+   <property name="FLAGS" type="int" propertytype="FLAG" value="1"/>
   </properties>
  </tile>
  <tile id="67" class="FLAGS">
@@ -56,11 +52,7 @@
    <property name="FLAGS" type="int" propertytype="FLAG" value="1"/>
   </properties>
  </tile>
- <tile id="82" class="FLAGS">
-  <properties>
-   <property name="FLAGS" type="class" propertytype="FLAGS"/>
-  </properties>
- </tile>
+ <tile id="82" class="FLAGS"/>
  <tile id="83" class="FLAGS">
   <properties>
    <property name="FLAGS" type="int" propertytype="FLAG" value="1"/>
@@ -76,11 +68,7 @@
    <property name="FLAGS" type="int" propertytype="FLAG" value="1"/>
   </properties>
  </tile>
- <tile id="91" class="FLAGS">
-  <properties>
-   <property name="FLAGS" type="class" propertytype="FLAGS"/>
-  </properties>
- </tile>
+ <tile id="91" class="FLAGS"/>
  <tile id="98" class="FLAGS">
   <properties>
    <property name="FLAGS" type="int" propertytype="FLAG" value="1"/>

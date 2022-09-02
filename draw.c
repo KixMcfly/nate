@@ -67,8 +67,8 @@ draw_map_layer (MAP *m, int ln, int x, int y)
 				img = NULL;
 				return 0;
 			}
-			clear (backbuff);
-			blit (img, backbuff, 0, 0, x, y, img->w, img->h);
+			
+			masked_blit (img, backbuff, 0, 0, x, y, img->w, img->h);
 		break;
 		case OBJECTS:
 		

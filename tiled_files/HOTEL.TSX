@@ -56,11 +56,7 @@
    <property name="FLAGS" type="int" propertytype="FLAG" value="1"/>
   </properties>
  </tile>
- <tile id="51" class="FLAGS">
-  <properties>
-   <property name="FLAGS" type="int" propertytype="FLAG" value="1"/>
-  </properties>
- </tile>
+ <tile id="51" class="FLAGS"/>
  <tile id="54" class="FLAGS">
   <properties>
    <property name="FLAGS" type="int" propertytype="FLAG" value="1"/>
@@ -83,22 +79,18 @@
  </tile>
  <tile id="80" class="FLAGS">
   <properties>
-   <property name="FLAGS" type="class" propertytype="FLAGS"/>
+   <property name="FLAGS" type="int" propertytype="FLAG" value="1"/>
   </properties>
  </tile>
- <tile id="82" class="FLAGS">
+ <tile id="82" class="FLAGS"/>
+ <tile id="96" class="FLAGS">
   <properties>
    <property name="FLAGS" type="int" propertytype="FLAG" value="1"/>
   </properties>
  </tile>
- <tile id="96" class="FLAGS">
-  <properties>
-   <property name="FLAGS" type="class" propertytype="FLAGS"/>
-  </properties>
- </tile>
  <tile id="97" class="FLAGS">
   <properties>
-   <property name="FLAGS" type="class" propertytype="FLAGS"/>
+   <property name="FLAGS" type="int" propertytype="FLAG" value="1"/>
   </properties>
  </tile>
  <tile id="98" class="FLAGS">

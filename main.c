@@ -46,7 +46,7 @@ int main (void)
 	
 	/* Load nate font */
 	text_load_font_dat (NATE_DAT, "NATE_FNT");
-	
+
 	/* Load sounds */
 	snd_door = load_datafile_object (NATE_DAT, "DOOR_WAV");
 	
@@ -59,7 +59,7 @@ int main (void)
 	nate.s = sprite_new ();
 	sprite_keyframe_dat_div (nate.s, 3, 4, NATE_DAT, "NATESPR_BMP");
 	nate_def (&nate);
-	
+
 	grid_set_w (20);
 	grid_set_h (20);
 	
@@ -273,7 +273,7 @@ int main (void)
 				inv_add (ib, 1);
 				inv_sub (INV_MONEY, vend_get_cost (ib));
 			}
-		
+
 			vend_draw_backbuff (vn, tc, get_backbuff ());
 			
 		}else if (invmenu_vis ()){
@@ -289,6 +289,7 @@ int main (void)
 			
 		}else{
 			/* Draw map layers */
+			clear (get_backbuff ());
 			for (cl = 0; cl < nl; cl++)
 				draw_map_layer (m, cl, -cam_x, -cam_y);
 		
