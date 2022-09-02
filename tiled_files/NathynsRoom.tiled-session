@@ -3,19 +3,16 @@
         "height": 4300,
         "width": 2
     },
-    "activeFile": "NATEROOM.tmx",
+    "activeFile": "HALLWAY.tmx",
     "expandedProjectPaths": [
     ],
     "file.lastUsedOpenFilter": "All Files (*)",
     "fileStates": {
         "HALLWAY.tmx": {
-            "expandedObjectLayers": [
-                5
-            ],
             "scale": 2,
-            "selectedLayer": 1,
+            "selectedLayer": 2,
             "viewCenter": {
-                "x": 245.75,
+                "x": -87,
                 "y": 101
             }
         },
@@ -24,13 +21,10 @@
             "scaleInEditor": 1
         },
         "NATEROOM.tmx": {
-            "expandedObjectLayers": [
-                10
-            ],
             "scale": 2,
-            "selectedLayer": 0,
+            "selectedLayer": 1,
             "viewCenter": {
-                "x": 191.25,
+                "x": 233,
                 "y": 101
             }
         },
@@ -54,10 +48,10 @@
     "last.exportedFilePath": "/home/shawn/projects/nate/maps",
     "last.imagePath": "/home/shawn/projects/nate/images",
     "last.objectTypesPath": "/home/shawn/projects/nate/tiled_files/objecttypes.xml",
-    "last.worldFilePath": "/home/shawn/projects/nate/tiled_files",
+    "last.worldFilePath": "C:/projects/nate/tiled_files",
     "lastUsedTilesetExportFilter": "All Files (*)",
     "loadedWorlds": [
-        "/home/shawn/projects/nate/tiled_files/nate_world.world"
+        "C:/projects/nate/tiled_files/nate_world.world"
     ],
     "map.lastUsedExportFilter": "Nathyn's Room Chunk Format (*.nat)",
     "map.lastUsedFormat": "tmx",
@@ -73,11 +67,11 @@
     "project": "NathynsRoom.tiled-project",
     "property.type": "ITEMBOX",
     "recentFiles": [
+        "NATEROOM.tmx",
         "inter.tsx",
         "HOTEL.TSX",
         "nateroom.tsx",
         "HALLWAY.tmx",
-        "NATEROOM.tmx",
         "big.tmx"
     ],
     "tileset.lastUsedFormat": "tsx",
