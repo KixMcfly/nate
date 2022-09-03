@@ -13,7 +13,8 @@ enum {
 enum {
 	WINTER = -1,
 	SUMMER = 1
-}
+};
+
 struct THERMOSTAT {
 	int set_temp;
 	int cur_temp;
@@ -21,13 +22,7 @@ struct THERMOSTAT {
 	int season;
 	int rate;
 	int rate_set;
-} thermostat = { 	.set_temp = 72,
-					.cur_temp = 88,
-					.mode = COOL,
-					.season = SUMMER,
-					.rate = 0,
-					.rate_set = 40
-				};
+} thermostat = { .set_temp = 72, .cur_temp = 88, .mode = COOL, .season = SUMMER, .rate = 0, .rate_set = 40};
 		
 void
 temp_process (void)
