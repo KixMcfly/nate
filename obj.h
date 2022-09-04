@@ -9,8 +9,8 @@ enum {
 	OBJ_COMPUTER,
 	OBJ_CHGROOM,
 	OBJ_VENDING,
-	OBJ_ITEMBOX
-	
+	OBJ_ITEMBOX,
+	OBJ_STAT
 };
 
 typedef struct {

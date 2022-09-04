@@ -288,12 +288,16 @@ load_map (MAP *m, char *dat_fn, char *dat_id)
 
 						int ci;
 						for (ci = 0; ci < 20; ci++){
-							
 							vend->inv_list[ci] = pack_igetl (fp);
 						}
 						
 						/* Add object to map object list */
 						m->so = node_add (m->so, OBJ_VENDING, vend);
+					}else if (!strcmp (type, "STAT")){
+						GENERIC *gen = (GENERIC *) malloc (sizeof (GENERIC));
+						gen->x = x;
+						gen->y = y;
+						m->so = node_add (m->so, OBJ_STAT, gen);
 					}
 
 					free (type);

@@ -8,6 +8,7 @@
 #include "node.h"
 #include "inv.h"
 #include "vend.h"
+#include "temp.h"
 #include "grid.h"
 #include "tools.h"
 #include "text.h"

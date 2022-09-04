@@ -198,11 +198,20 @@ int main (void)
 		cn = map_get_node_head (m);
 		while (cn && !vend_vis () && !invmenu_vis ()){
 		
-			if (node_get_type (cn) == OBJ_COMPUTER){
+			if (node_get_type (cn) == OBJ_COMPUTER ){
 				
 				gn = node_get_data (cn);
 				if (nate.x == gn->x && nate.y == gn->y){
-		
+					
+				}
+			}else if (node_get_type (cn) == OBJ_STAT){
+				gn = node_get_data (cn);
+				if (nate.x == gn->x && nate.y == gn->y){
+					text_msg = strtmp ("Thermostat");
+					if (key[KEY_LCONTROL]){
+						temp_vis ();
+					}else
+						text_msg = strtmp ("Thermostat");
 				}
 			}else if (node_get_type (cn) == OBJ_ITEMBOX){
 				
