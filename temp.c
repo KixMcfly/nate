@@ -29,18 +29,22 @@ struct THERMOSTAT {
 	int rate;
 	int rate_set;
 	int vis;
+	int pos;
 } thermostat = { 	.set_temp = DEF_STAT_TEMP,
 					.cur_temp = DEF_CUR_TEMP,
 					.mode = DEF_STAT_MODE,
 					.season = DEF_SEASON,
 					.rate = 0,
 					.rate_set = DEF_RATE,
-					.vis = FALSE
+					.vis = FALSE,
+					.pos = 0
 				};
 
 static DATAFILE *temp_dat = NULL;
 static DATAFILE *temp_ctl_dat = NULL;
-		
+static FONT *temp_fnt = NULL;
+static int t_rest = 0;
+
 int
 temp_vis (void)
 {
@@ -50,23 +54,26 @@ temp_vis (void)
 void
 temp_set_vis (void)
 {
-	thermostat.vid = TRUE;
+	thermostat.vis = TRUE;
+	t_rest = 40;
 }
 
 void
 temp_process (BITMAP *bf, char *dfn)
 {
-	
 	BITMAP *temp_bmp, *temp_ctl_bmp;
+	char *names[] = {"THER_FNT", NULL};
 	
 	if (!temp_dat)
 		temp_dat = load_datafile_object (dfn, "STAT_BMP");
 		
-	if (!temp_ctl_dat)
+	if (!temp_ctl_dat){
 		temp_ctl_dat = load_datafile_object (dfn, "TEMP_CTL_BMP");
+		clear (bf);
+	}
 	
-	temp_bmp = temp_dat->dat;
-	temp_ctl_bmp = temp_ctl_dat->dat;
+	if (!temp_fnt)
+		temp_fnt = load_dat_font (dfn, NULL, names);
 	
 	if (--thermostat.rate == 0){
 		thermostat.rate = thermostat.rate_set;
@@ -76,16 +83,25 @@ temp_process (BITMAP *bf, char *dfn)
 			thermostat.cur_temp += thermostat.mode;
 	}
 	
-	masked_blit (temp_bmp->dat, backbuff, 0, 0, x, y, temp_bmp->w, temp_bmp->h);
+	temp_bmp = temp_dat->dat;
+	temp_ctl_bmp = temp_ctl_dat->dat;
+	masked_blit (temp_bmp, bf, 0, 0, 0, 0, temp_bmp->w, temp_bmp->h);
+	
+	if (t_rest > 0)
+		t_rest--;
 }
 
 void
 temp_uninit (void)
 {
-	unload_datafile_object (temp_dat);
-	unload_datafile_object (temp_ctl_dat);
-	temp_dat = NULL;
-	temp_ctl_dat = NULL;
-	
-	thermostat.vis = FALSE;
+	if (!t_rest){
+		unload_datafile_object (temp_dat);
+		unload_datafile_object (temp_ctl_dat);
+		destroy_font (temp_fnt);
+		temp_dat = NULL;
+		temp_ctl_dat = NULL;
+		temp_fnt = NULL;
+		
+		thermostat.vis = FALSE;
+	}
 }

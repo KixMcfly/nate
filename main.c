@@ -155,15 +155,20 @@ int main (void)
 		if (key[KEY_ESC]){
 
 			if (vend_vis ()){
-					vend_free_dat ();
+				vend_free_dat ();
+				
+			}else if (temp_vis ()){
+				temp_uninit ();
 			}else {
 	
-					if (!invmenu_vis ())
-						invmenu_init (NATE_DAT, "INVMENU_BMP", "ITEMS_BMP", "INV_FNT");
-					else
-						invmenu_free ();
+				if (!invmenu_vis ())
+					invmenu_init (NATE_DAT, "INVMENU_BMP", "ITEMS_BMP", "INV_FNT");
+				else
+					invmenu_free ();
+						
+				
 			}
-		
+			
 			fadeout (20);
 		}
 
@@ -196,7 +201,7 @@ int main (void)
 
 		/* Check objects */
 		cn = map_get_node_head (m);
-		while (cn && !vend_vis () && !invmenu_vis ()){
+		while (cn && !vend_vis () && !invmenu_vis () && !temp_vis ()){
 		
 			if (node_get_type (cn) == OBJ_COMPUTER ){
 				
@@ -207,11 +212,12 @@ int main (void)
 			}else if (node_get_type (cn) == OBJ_STAT){
 				gn = node_get_data (cn);
 				if (nate.x == gn->x && nate.y == gn->y){
-					text_msg = strtmp ("Thermostat");
 					if (key[KEY_LCONTROL]){
-						temp_vis ();
+						temp_set_vis ();
 					}else
 						text_msg = strtmp ("Thermostat");
+						
+					break;
 				}
 			}else if (node_get_type (cn) == OBJ_ITEMBOX){
 				
@@ -284,7 +290,10 @@ int main (void)
 			}
 
 			vend_draw_backbuff (vn, tc, get_backbuff ());
+		
+		}else if (temp_vis ()){
 			
+			temp_process (get_backbuff (), NATE_DAT);
 		}else if (invmenu_vis ()){
 		
 			if (key[KEY_LCONTROL]){
