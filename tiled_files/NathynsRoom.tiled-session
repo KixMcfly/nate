@@ -65,7 +65,7 @@
         "inter.tsx"
     ],
     "project": "NathynsRoom.tiled-project",
-    "property.type": "ITEMBOX",
+    "property.type": "int",
     "recentFiles": [
         "NATEROOM.tmx",
         "inter.tsx",
