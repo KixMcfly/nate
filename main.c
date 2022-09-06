@@ -83,6 +83,8 @@ int main (void)
 			
 			if (invmenu_vis ()){
 				invmenu_sel_up ();
+			}else if (temp_vis ()){
+				temp_pos_up ();
 			}else if (vend_vis ()){
 				
 				vend_move_up ();
@@ -102,6 +104,8 @@ int main (void)
 			if (invmenu_vis ()){
 				
 				invmenu_sel_down ();
+			}else if (temp_vis ()){
+				temp_pos_down ();
 			}else if (vend_vis ()){
 				
 				vend_move_down ();
@@ -187,6 +191,7 @@ int main (void)
 	
 		/* Snap all queued coord to grid */
 		grid_snap_queue_proc ();
+		temp_global_process ();
 
 		/* NATE ANIMATION SPEED CONTROL */
 		nate.ar--;
@@ -293,7 +298,7 @@ int main (void)
 		
 		}else if (temp_vis ()){
 			
-			temp_process (get_backbuff (), NATE_DAT);
+			temp_draw_backbuff (get_backbuff (), NATE_DAT);
 		}else if (invmenu_vis ()){
 		
 			if (key[KEY_LCONTROL]){
