@@ -10,7 +10,7 @@
 #define HI_MAX			90
 
 #define DEF_STAT_TEMP	72
-#define DEF_CUR_TEMP	88
+#define DEF_CUR_TEMP	55
 #define DEF_SET_RATE	1000
 #define DEF_SEASON		SUMMER
 #define DEF_STAT_MODE	COOL
@@ -83,6 +83,20 @@ temp_set_down (void)
 	}
 }
 
+static void
+temp_mode_toggle (void)
+{
+	if (!t_rest){
+		t_rest = 30;
+		if (thermostat.mode == COOL)
+			thermostat.mode = OFF;
+		else if (thermostat.mode == OFF)
+			thermostat.mode = WARM;
+		else if (thermostat.mode == WARM)
+			thermostat.mode = COOL;
+	}
+}
+
 void
 temp_pos_up (void)
 {
@@ -109,13 +123,11 @@ temp_global_process (void)
 
 		switch (thermostat.mode){
 			case COOL:
-				if (thermostat.cur_temp > thermostat.set_temp &&
-					thermostat.season == SUMMER)
+				if (thermostat.cur_temp > thermostat.set_temp)
 						thermostat.cur_temp -= 1;
 				break;
 			case WARM:
-				if (thermostat.cur_temp < thermostat.set_temp &&
-					thermostat.season == WINTER)
+				if (thermostat.cur_temp < thermostat.set_temp)
 						thermostat.cur_temp += 1;	
 				break;
 			case OFF:
@@ -192,15 +204,29 @@ temp_draw_backbuff (BITMAP *bf, char *dfn)
 		masked_blit (temp_ctl_bmp, bf, 0, 12, tp[1][X], tp[1][Y], 28, 12);
 	}
 	
-	if (thermostat.pos == 2)
-		masked_blit (temp_ctl_sel, bf, 0, 24, tp[2][X], tp[2][Y], 28, 8);
-	else
+	if (thermostat.pos == 2){
+		
+		if (key[KEY_LCONTROL]){
+			masked_blit (temp_ctl_sel, bf, 0, 24, tp[2][X]+1, tp[2][Y]+1, 28, 8);
+			temp_mode_toggle ();
+		}else{
+			masked_blit (temp_ctl_sel, bf, 0, 24, tp[2][X], tp[2][Y], 28, 8);
+		}
+	}else{
 		masked_blit (temp_ctl_bmp, bf, 0, 24, tp[2][X], tp[2][Y], 28, 8);
+	}
 		
 	if (thermostat.pos == 3)
 		masked_blit (temp_ctl_sel, bf, 0, 24, tp[3][X], tp[3][Y], 28, 8);
 	else
 		masked_blit (temp_ctl_bmp, bf, 0, 24, tp[3][X], tp[3][Y], 28, 8);
+	
+	if (thermostat.mode == COOL)
+		textprintf_right_ex (bf, font, 190, 106, 147, -1, "%s", "COL");
+	else if (thermostat.mode == WARM)
+		textprintf_right_ex (bf, font, 190, 106, 147, -1, "%s", "WRM");
+	else
+		textprintf_right_ex (bf, font, 190, 106, 147, -1, "%s", "OFF");
 	
 	textprintf_ex (bf, temp_fnt, 112, 81, 147, -1, "%d", thermostat.cur_temp);
 	textprintf_ex (bf, font, 172, 81, 147, -1, "%d", thermostat.set_temp);
