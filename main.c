@@ -18,6 +18,7 @@ int main (void)
 	/* Initialize Nate */
 	nate_init ();
 	
+	
 	/* START MAIN MENU **********************/
 	
 	/* Title BMP */
@@ -73,6 +74,8 @@ int main (void)
 	
 	df = load_datafile_object (NATE_DAT, "NATEROOM_MID");
 	play_midi ((MIDI *)df->dat, TRUE);
+
+	elev_init (NATE_DAT);
 
 	while (!quit){
 	

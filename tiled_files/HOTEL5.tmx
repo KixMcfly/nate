@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map version="1.9" tiledversion="1.9.1" orientation="orthogonal" renderorder="right-down" width="38" height="10" tilewidth="20" tileheight="20" infinite="0" nextlayerid="9" nextobjectid="180">
  <editorsettings>
-  <export target="../maps/HALLWAY.nat" format="custom"/>
+  <export target="../maps/HOTEL5.nat" format="custom"/>
  </editorsettings>
  <properties>
-  <property name="name" value="Hotel Floor 10"/>
+  <property name="name" value="Hotel Floor 5"/>
  </properties>
  <tileset firstgid="1" source="nateroom.tsx"/>
  <tileset firstgid="161" source="HOTEL.TSX"/>

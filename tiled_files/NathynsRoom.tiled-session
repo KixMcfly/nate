@@ -3,7 +3,7 @@
         "height": 4300,
         "width": 2
     },
-    "activeFile": "HALLWAY.tmx",
+    "activeFile": "NATEROOM.tmx",
     "expandedProjectPaths": [
     ],
     "file.lastUsedOpenFilter": "All Files (*)",
@@ -12,20 +12,45 @@
             "scale": 2,
             "selectedLayer": 2,
             "viewCenter": {
-                "x": -86.75,
-                "y": 101
+                "x": 396.5,
+                "y": 100
             }
         },
         "HOTEL.TSX": {
             "scaleInDock": 1,
             "scaleInEditor": 1
         },
+        "HOTEL5.tmx": {
+            "expandedObjectLayers": [
+                5
+            ],
+            "scale": 2,
+            "selectedLayer": 2,
+            "viewCenter": {
+                "x": -126.75,
+                "y": 169.5
+            }
+        },
+        "HOTEL_5.tmx": {
+            "expandedObjectLayers": [
+                5
+            ],
+            "scale": 2,
+            "selectedLayer": 2,
+            "viewCenter": {
+                "x": -90.25,
+                "y": 100.5
+            }
+        },
         "NATEROOM.tmx": {
+            "expandedObjectLayers": [
+                10
+            ],
             "scale": 2,
             "selectedLayer": 1,
             "viewCenter": {
-                "x": 160,
-                "y": 100
+                "x": 193.25,
+                "y": 169.5
             }
         },
         "big.tmx": {
@@ -48,10 +73,10 @@
     "last.exportedFilePath": "/home/shawn/projects/nate/maps",
     "last.imagePath": "/home/shawn/projects/nate/images",
     "last.objectTypesPath": "/home/shawn/projects/nate/tiled_files/objecttypes.xml",
-    "last.worldFilePath": "C:/projects/nate/tiled_files",
+    "last.worldFilePath": "/home/shawn/projects/nate/tiled_files",
     "lastUsedTilesetExportFilter": "All Files (*)",
     "loadedWorlds": [
-        "C:/projects/nate/tiled_files/nate_world.world"
+        "/home/shawn/projects/nate/tiled_files/nate_world.world"
     ],
     "map.lastUsedExportFilter": "Nathyn's Room Chunk Format (*.nat)",
     "map.lastUsedFormat": "tmx",
@@ -59,19 +84,19 @@
     "map.tileWidth": 20,
     "openFiles": [
         "NATEROOM.tmx",
-        "HALLWAY.tmx",
         "nateroom.tsx",
-        "HOTEL.TSX",
-        "inter.tsx"
+        "HOTEL5.tmx"
     ],
     "project": "NathynsRoom.tiled-project",
     "property.type": "int",
     "recentFiles": [
+        "HOTEL5.tmx",
+        "nateroom.tsx",
         "NATEROOM.tmx",
+        "HALLWAY.tmx",
         "inter.tsx",
         "HOTEL.TSX",
-        "nateroom.tsx",
-        "HALLWAY.tmx",
+        "HOTEL_5.tmx",
         "big.tmx"
     ],
     "tileset.lastUsedFormat": "tsx",
