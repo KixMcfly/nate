@@ -76,6 +76,8 @@ int main (void)
 	play_midi ((MIDI *)df->dat, TRUE);
 
 	elev_init (NATE_DAT);
+	elev_list_floors ();
+	elev_free ();
 
 	while (!quit){
 	
