@@ -298,6 +298,11 @@ load_map (MAP *m, char *dat_fn, char *dat_id)
 						gen->x = x;
 						gen->y = y;
 						m->so = node_add (m->so, OBJ_STAT, gen);
+					}else if (!strcmp (type, "ELEV_BUTT")){
+						GENERIC *gen = (GENERIC *) malloc (sizeof (GENERIC));
+						gen->x = x;
+						gen->y = y;
+						m->so = node_add (m->so, OBJ_ELEV_BUTT, gen);
 					}
 
 					free (type);

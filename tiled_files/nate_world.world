@@ -11,8 +11,15 @@
             "fileName": "HOTEL5.tmx",
             "height": 200,
             "width": 760,
-            "x": 640,
+            "x": 320,
             "y": 0
+        },
+        {
+            "fileName": "elev.tmx",
+            "height": 200,
+            "width": 320,
+            "x": 760,
+            "y": -200
         }
     ],
     "onlyShowAdjacentMaps": false,

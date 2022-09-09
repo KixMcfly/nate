@@ -10,7 +10,8 @@ enum {
 	OBJ_CHGROOM,
 	OBJ_VENDING,
 	OBJ_ITEMBOX,
-	OBJ_STAT
+	OBJ_STAT,
+	OBJ_ELEV_BUTT
 };
 
 typedef struct {

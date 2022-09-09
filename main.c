@@ -256,7 +256,21 @@ int main (void)
 						
 					break;
 				}
+			}else if (node_get_type (cn) == OBJ_ELEV_BUTT){
+				gn = node_get_data (cn);
 				
+				if (nate.x == gn->x && nate.y == gn->y){
+					
+					if (key[KEY_LCONTROL]){
+						
+					}else{
+						text_msg = strtmp ("Change Floor");
+					}
+						
+					break;
+				}
+				
+				break;
 			}else if (node_get_type (cn) == OBJ_CHGROOM){
 				cr = node_get_data (cn);
 				

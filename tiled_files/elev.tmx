@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.9" tiledversion="1.9.1" orientation="orthogonal" renderorder="right-down" width="16" height="10" tilewidth="20" tileheight="20" infinite="0" nextlayerid="3" nextobjectid="3">
+ <editorsettings>
+  <export target="../maps/elev.nat" format="custom"/>
+ </editorsettings>
+ <properties>
+  <property name="name" value="Elevator"/>
+ </properties>
+ <tileset firstgid="1" source="HOTEL.TSX"/>
+ <layer id="1" name="Tile Layer 1" width="16" height="10">
+  <data encoding="csv">
+39,39,39,39,39,39,39,39,39,39,39,39,39,39,39,39,
+39,39,39,39,39,39,39,39,39,39,39,39,39,39,39,39,
+39,39,39,39,39,39,39,39,39,39,39,39,39,39,39,39,
+39,39,39,39,39,84,84,84,84,84,84,39,39,39,39,39,
+39,39,39,39,39,85,84,84,84,84,84,39,39,39,39,39,
+39,39,39,39,39,100,101,101,101,101,102,39,39,39,39,39,
+39,39,39,39,39,87,88,87,88,87,88,39,39,39,39,39,
+39,39,39,39,39,103,104,103,104,103,104,39,39,39,39,39,
+39,39,39,39,39,39,39,103,104,39,39,39,39,39,39,39,
+39,39,39,39,39,39,39,39,39,39,39,39,39,39,39,39
+</data>
+ </layer>
+ <objectgroup id="2" name="triggers">
+  <object id="2" name="ELEV_BUTT" class="ELEV_BUTT" x="100" y="120" width="20" height="20"/>
+ </objectgroup>
+</map>

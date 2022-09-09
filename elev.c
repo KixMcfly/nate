@@ -81,3 +81,4 @@ elev_init (char *dfn)
 	
 	return 1;
 }
+

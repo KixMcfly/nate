@@ -98,4 +98,19 @@
    <property name="FLAGS" type="int" propertytype="FLAG" value="1"/>
   </properties>
  </tile>
+ <tile id="99" class="FLAGS">
+  <properties>
+   <property name="FLAGS" type="int" propertytype="FLAG" value="1"/>
+  </properties>
+ </tile>
+ <tile id="100" class="FLAGS">
+  <properties>
+   <property name="FLAGS" type="int" propertytype="FLAG" value="1"/>
+  </properties>
+ </tile>
+ <tile id="101" class="FLAGS">
+  <properties>
+   <property name="FLAGS" type="int" propertytype="FLAG" value="1"/>
+  </properties>
+ </tile>
 </tileset>

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.9" tiledversion="1.9.1" orientation="orthogonal" renderorder="right-down" width="38" height="10" tilewidth="20" tileheight="20" infinite="0" nextlayerid="9" nextobjectid="180">
+<map version="1.9" tiledversion="1.9.1" orientation="orthogonal" renderorder="right-down" width="38" height="10" tilewidth="20" tileheight="20" infinite="0" nextlayerid="9" nextobjectid="182">
  <editorsettings>
   <export target="../maps/HOTEL5.nat" format="custom"/>
  </editorsettings>
@@ -71,5 +71,12 @@
   </object>
   <object id="178" name="ITEMBOX" class="ITEMBOX" x="240" y="80" width="20" height="20"/>
   <object id="179" name="STAT" class="STAT" x="260" y="60" width="20" height="20"/>
+  <object id="181" name="ELEV_NAT" class="CHGROOM" x="700" y="80" width="20" height="20">
+   <properties>
+    <property name="name" value="ELEV_NAT"/>
+    <property name="x" type="int" value="7"/>
+    <property name="y" type="int" value="8"/>
+   </properties>
+  </object>
  </objectgroup>
 </map>

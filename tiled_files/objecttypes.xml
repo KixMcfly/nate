@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <objecttypes>
+ <objecttype name="ELEV_BUTT" color="#00aaff"/>
  <objecttype name="FLAGS" color="#a0a0a4">
   <property name="FLAGS" type="int" propertytype="FLAG" default="0"/>
  </objecttype>
@@ -19,6 +20,7 @@
   <property name="COUNT" type="int" default="0"/>
   <property name="ID" type="int" propertytype="INV_LIST" default="2"/>
  </objecttype>
+ <objecttype name="ITEMBOX" color="#020aa4"/>
  <objecttype name="VENDING" color="#39a400">
   <property name="ITEM01" type="int" propertytype="INV_LIST" default="0"/>
   <property name="ITEM02" type="int" propertytype="INV_LIST" default="0"/>

@@ -27,8 +27,8 @@
             "scale": 2,
             "selectedLayer": 2,
             "viewCenter": {
-                "x": -126.75,
-                "y": 169.5
+                "x": 508.25,
+                "y": -62.25
             }
         },
         "HOTEL_5.tmx": {
@@ -49,8 +49,8 @@
             "scale": 2,
             "selectedLayer": 1,
             "viewCenter": {
-                "x": 193.25,
-                "y": 169.5
+                "x": 547.25,
+                "y": 5
             }
         },
         "big.tmx": {
@@ -59,6 +59,17 @@
             "viewCenter": {
                 "x": 115.75,
                 "y": 1757
+            }
+        },
+        "elev.tmx": {
+            "expandedObjectLayers": [
+                2
+            ],
+            "scale": 2,
+            "selectedLayer": 1,
+            "viewCenter": {
+                "x": 68.25,
+                "y": 137.75
             }
         },
         "inter.tsx": {
@@ -88,10 +99,11 @@
         "HOTEL5.tmx"
     ],
     "project": "NathynsRoom.tiled-project",
-    "property.type": "int",
+    "property.type": "string",
     "recentFiles": [
-        "HOTEL5.tmx",
         "nateroom.tsx",
+        "elev.tmx",
+        "HOTEL5.tmx",
         "NATEROOM.tmx",
         "HALLWAY.tmx",
         "inter.tsx",
