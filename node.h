@@ -22,7 +22,7 @@ node_delete (NODE *head, int num);
 NODE *
 node_get_next (NODE *n);
 
-int
+NODE *
 node_clear (NODE *head);
 
 #endif /* __NODE_H */

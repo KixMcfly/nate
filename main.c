@@ -18,7 +18,6 @@ int main (void)
 	/* Initialize Nate */
 	nate_init ();
 	
-	
 	/* START MAIN MENU **********************/
 	
 	/* Title BMP */
@@ -75,10 +74,6 @@ int main (void)
 	df = load_datafile_object (NATE_DAT, "NATEROOM_MID");
 	play_midi ((MIDI *)df->dat, TRUE);
 
-	elev_init (NATE_DAT);
-	elev_list_floors ();
-	elev_free ();
-
 	while (!quit){
 	
 		if (key[KEY_Q])
@@ -90,6 +85,8 @@ int main (void)
 				invmenu_sel_up ();
 			}else if (temp_vis ()){
 				temp_pos_up ();
+			}else if (elev_vis ()){
+				elev_sel_up ();
 			}else if (vend_vis ()){
 				
 				vend_move_up ();
@@ -111,6 +108,8 @@ int main (void)
 				invmenu_sel_down ();
 			}else if (temp_vis ()){
 				temp_pos_down ();
+			}else if (elev_vis ()){
+				elev_sel_down ();
 			}else if (vend_vis ()){
 				
 				vend_move_down ();
@@ -132,6 +131,8 @@ int main (void)
 				
 			}else if (vend_vis ()){
 				vend_move_left ();
+			}else if (elev_vis ()){
+				elev_sel_left ();
 			}else {
 				if (!SOLID(map_get_tile_flags (m, 0, LX(nate.x)-1, LY(nate.y))) &&
 					LX(nate.x)-1 > -1){
@@ -151,6 +152,8 @@ int main (void)
 				
 				vend_move_right ();
 				
+			}else if (elev_vis ()){
+				elev_sel_right ();
 			}else{
 				if (!SOLID(map_get_tile_flags (m, 0, LX(nate.x)+1, LY(nate.y))) &&
 					LX(nate.x) + 1 < map_get_w (m)){
@@ -168,14 +171,15 @@ int main (void)
 				
 			}else if (temp_vis ()){
 				temp_uninit ();
+				
+			}else if (elev_vis ()){
+				elev_free ();
 			}else {
 	
 				if (!invmenu_vis ())
 					invmenu_init (NATE_DAT, "INVMENU_BMP", "ITEMS_BMP", "INV_FNT");
 				else
 					invmenu_free ();
-						
-				
 			}
 			
 			fadeout (20);
@@ -211,7 +215,7 @@ int main (void)
 
 		/* Check objects */
 		cn = map_get_node_head (m);
-		while (cn && !vend_vis () && !invmenu_vis () && !temp_vis ()){
+		while (cn && !vend_vis () && !invmenu_vis () && !temp_vis () && !elev_vis ()){
 		
 			if (node_get_type (cn) == OBJ_COMPUTER ){
 				
@@ -262,7 +266,8 @@ int main (void)
 				if (nate.x == gn->x && nate.y == gn->y){
 					
 					if (key[KEY_LCONTROL]){
-						
+						elev_init (NATE_DAT, "ELEV_BMP");
+
 					}else{
 						text_msg = strtmp ("Change Floor");
 					}
@@ -270,7 +275,6 @@ int main (void)
 					break;
 				}
 				
-				break;
 			}else if (node_get_type (cn) == OBJ_CHGROOM){
 				cr = node_get_data (cn);
 				
@@ -300,12 +304,11 @@ int main (void)
 			cn = node_get_next (cn);
 		}
 
-
 		if (vend_vis ()){
 			
 			int tc = inv_get_item_total (INV_MONEY);
 			int ib;
-		
+
 			if (key[KEY_LCONTROL]){
 				
 				ib = vend_buy_item (vn, tc);
@@ -318,6 +321,15 @@ int main (void)
 		}else if (temp_vis ()){
 			
 			temp_draw_backbuff (get_backbuff (), NATE_DAT);
+			
+		}else if (elev_vis ()){
+			
+			if (key[KEY_LCONTROL]){
+				elev_press ();
+			}
+			
+			elev_draw_backbuff (get_backbuff ());
+			
 		}else if (invmenu_vis ()){
 		
 			if (key[KEY_LCONTROL]){

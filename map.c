@@ -380,7 +380,7 @@ map_free (MAP *m)
 			m->ts_list[i].tiles = NULL;
 		}
 
-		node_clear (m->so);
+		m->so = node_clear (m->so);
 		free (m->ts_list);
 		m->ts_list = NULL;
 		free (m);

@@ -65,24 +65,19 @@ node_get_next (NODE *n)
 	return n->next;
 }
 
-int
+NODE *
 node_clear (NODE *head)
 {
-	NODE *cur = head;
-	NODE *prev = NULL;
+	NODE *tmp = NULL;
 	int n_del = 0;
-	
 
-	while (cur){
-		free (cur->data);
-		prev = cur;
-		cur = cur->next;
-		free (prev);
+	while (head){
+		tmp = head;
+		free (head->data);
+		head = head->next;
+		free (tmp);
 		n_del++;
-
 	}
 	
-	head = NULL;
-	
-	return n_del;
+	return head;
 }
