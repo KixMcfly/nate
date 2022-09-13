@@ -28,6 +28,7 @@ static int e_rest = 0, vis = FALSE, cp = 0;
 static BITMAP *elev_bmp = NULL;
 static char sel[3] = {'0', '0', '\0'}, sel_p = 1;
 static FONT *temp_fnt = NULL;
+static DATAFILE *elevbutt_wav = NULL;
 
 static int sp[12][2] = {
 				{168, 27}, {181, 27}, {194, 27}, {207, 27},
@@ -65,7 +66,7 @@ elev_sel_up (void)
 void
 elev_sel_down (void)
 {
-	if (cp < 7 && !e_rest){
+	if (cp < 8 && !e_rest){
 		cp += 4;
 		e_rest = 20;
 	}
@@ -147,6 +148,7 @@ elev_press (void)
 		}else if (cp == 11){
 			elev_floor_goto ();
 		}
+		play_sample ((SAMPLE *)elevbutt_wav->dat, 255, 128, 1000, NULL);
 		
 		e_rest = 20;
 	}
@@ -171,6 +173,8 @@ elev_free (void)
 {
 	if (!e_rest){
 		elev.fl = node_clear (elev.fl);
+		unload_datafile_object (elevbutt_wav);
+		elevbutt_wav = NULL;
 		destroy_bitmap (elev_bmp);
 		destroy_font (temp_fnt);
 		elev_bmp = NULL;
@@ -189,6 +193,7 @@ elev_init (char *dfn, char *bn)
 	BITMAP *tb = NULL;
 	DATAFILE *df = NULL;
 
+	elevbutt_wav = load_datafile_object (dfn, "ELEVBUTT_WAV");
 	temp_fnt = load_dat_font (dfn, NULL, names);
 
 	df = load_datafile (dfn);

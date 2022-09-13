@@ -3,7 +3,7 @@
         "height": 4300,
         "width": 2
     },
-    "activeFile": "hotel0.tmx",
+    "activeFile": "NATEROOM.tmx",
     "expandedProjectPaths": [
     ],
     "file.lastUsedOpenFilter": "All Files (*)",
@@ -21,14 +21,11 @@
             "scaleInEditor": 1
         },
         "HOTEL5.tmx": {
-            "expandedObjectLayers": [
-                5
-            ],
-            "scale": 0.71309375,
+            "scale": 1.6213333333333333,
             "selectedLayer": 2,
             "viewCenter": {
-                "x": 424.90906700556553,
-                "y": 99.56615101450546
+                "x": 350.02055921052624,
+                "y": 114.10361842105263
             }
         },
         "HOTEL_5.tmx": {
@@ -43,14 +40,11 @@
             }
         },
         "NATEROOM.tmx": {
-            "expandedObjectLayers": [
-                10
-            ],
             "scale": 2,
             "selectedLayer": 1,
             "viewCenter": {
-                "x": 160,
-                "y": 100
+                "x": 197.75,
+                "y": 86
             }
         },
         "big.tmx": {
@@ -62,25 +56,35 @@
             }
         },
         "elev.tmx": {
-            "expandedObjectLayers": [
-                2
-            ],
-            "scale": 0.71309375,
+            "scale": 1.6213333333333333,
             "selectedLayer": 1,
             "viewCenter": {
-                "x": 542.0044699592445,
-                "y": 117.0954029536789
+                "x": 1915.3988486842104,
+                "y": 188.73355263157896
             }
         },
         "hotel0.tmx": {
-            "expandedObjectLayers": [
-                2
-            ],
-            "scale": 0.71309375,
+            "scale": 1.6213333333333333,
             "selectedLayer": 1,
             "viewCenter": {
-                "x": 173.18900915903419,
-                "y": 279.766860949209
+                "x": -381.4761513157895,
+                "y": 371.2993421052632
+            }
+        },
+        "hotel1.tmx": {
+            "scale": 1.6213333333333333,
+            "selectedLayer": 1,
+            "viewCenter": {
+                "x": 901.4185855263158,
+                "y": 188.73355263157896
+            }
+        },
+        "hotel9.tmx": {
+            "scale": 1.6213333333333333,
+            "selectedLayer": 1,
+            "viewCenter": {
+                "x": -403.6800986842105,
+                "y": 281.24999999999994
             }
         },
         "inter.tsx": {
@@ -100,35 +104,37 @@
             "scaleInEditor": 1
         }
     },
-    "last.exportedFilePath": "/home/shawn/projects/nate/maps",
+    "last.exportedFilePath": "C:/projects/nate/maps",
     "last.imagePath": "/home/shawn/projects/nate/images",
     "last.objectTypesPath": "/home/shawn/projects/nate/tiled_files/objecttypes.xml",
-    "last.worldFilePath": "/home/shawn/projects/nate/tiled_files",
+    "last.worldFilePath": "C:/projects/nate/tiled_files",
     "lastUsedTilesetExportFilter": "All Files (*)",
     "loadedWorlds": [
-        "/home/shawn/projects/nate/tiled_files/nate_world.world"
     ],
-    "map.height": 30,
+    "map.height": 20,
     "map.lastUsedExportFilter": "Nathyn's Room Chunk Format (*.nat)",
     "map.lastUsedFormat": "tmx",
     "map.tileHeight": 20,
     "map.tileWidth": 20,
-    "map.width": 80,
+    "map.width": 20,
     "openFiles": [
         "NATEROOM.tmx",
-        "nateroom.tsx",
         "HOTEL5.tmx",
         "elev.tmx",
-        "hotel0.tmx"
+        "hotel0.tmx",
+        "hotel1.tmx",
+        "hotel9.tmx"
     ],
     "project": "NathynsRoom.tiled-project",
     "property.type": "string",
     "recentFiles": [
+        "hotel9.tmx",
+        "hotel1.tmx",
+        "hotel0.tmx",
+        "elev.tmx",
+        "HOTEL5.tmx",
         "NATEROOM.tmx",
         "nateroom.tsx",
-        "HOTEL5.tmx",
-        "elev.tmx",
-        "hotel0.tmx",
         "HALLWAY.tmx",
         "inter.tsx",
         "HOTEL.TSX",
