@@ -169,7 +169,6 @@ vend_init_dat (VENDING *v, char *dfn, char *vb, char *ib)
 	}
 	
 	vend_font = load_dat_font (dfn, NULL, names);
-	
 	if (!vend_font){
 		unload_datafile_object (vend_bmp);
 		unload_datafile_object (items_bmp);

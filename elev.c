@@ -4,12 +4,11 @@
 #define X			0
 #define Y			1
 
-typedef struct FLOOR FLOOR;
-struct FLOOR {
+typedef struct {
 	
 	unsigned long id;
 	char name[30];
-};
+} FLOOR;
 
 struct ELEV {
 	
@@ -27,14 +26,16 @@ struct ELEV {
 
 static int e_rest = 0, vis = FALSE, cp = 0;
 static BITMAP *elev_bmp = NULL;
-static int sel[2] = {0, 0}, sel_p = 0;
+static char sel[3] = {'0', '0', '\0'}, sel_p = 1;
 static FONT *temp_fnt = NULL;
 
 static int sp[12][2] = {
 				{168, 27}, {181, 27}, {194, 27}, {207, 27},
 				{168, 40}, {181, 40}, {194, 40}, {207, 40},
 				{168, 53}, {181, 53}, {194, 53}, {207, 53}
-	};
+			};
+
+static FLOOR floor_to_load = { .id = 0, .name[0] = '\0'};
 
 static void
 elev_push_floor (unsigned long id, char *fn)
@@ -43,7 +44,6 @@ elev_push_floor (unsigned long id, char *fn)
 	
 	nf->id = id;
 	strcpy (nf->name, fn);
-	
 	elev.fl = node_add (elev.fl, NULL, nf);
 }
 
@@ -89,19 +89,64 @@ elev_sel_right (void)
 	}
 }
 
+int
+elev_get_floor_goto_id (void)
+{
+	return floor_to_load.id;
+}
+
+char *
+elev_get_floor_goto_name (void)
+{
+	return floor_to_load.name;
+}
+
+static void
+elev_floor_goto (void)
+{
+	if (!e_rest){
+		
+		NODE *cf = elev.fl;
+		unsigned long sfn = strtol (sel, NULL, 10);
+		
+		while (cf){
+			FLOOR *fl = node_get_data (cf);
+			if (fl->id == sfn){
+				elev.cf = fl->id;
+				floor_to_load.id = fl->id;
+				strcpy (floor_to_load.name, fl->name);
+				break;
+			}
+			cf = node_get_next (cf);
+		}
+		
+		e_rest = 20;
+	}
+}
+
 void
 elev_press (void)
 {
 	if (!e_rest){
 		
-		if (sel_p > 1){
-			sel_p = 0;
-			sel[0] = 0;
-			sel[1] = 0;
+		if (cp < 10){
+		
+			if (sel_p == 0){
+				sel[0] = '0';
+				sel[1] = cp + '0';
+			}else if (sel_p == 1){
+				sel[0] = sel[1];
+				sel[1] = cp + '0';
+			}
+
+			sel_p++;
+
+			if (sel_p > 1)
+				sel_p = 0;
+		
+		}else if (cp == 11){
+			elev_floor_goto ();
 		}
-			
-		sel[sel_p] = cp;
-		sel_p++;
 		
 		e_rest = 20;
 	}
@@ -116,10 +161,8 @@ elev_draw_backbuff (BITMAP *bf)
 
 	if (elev_bmp){
 		blit (elev_bmp, bf, 0, 0, 0, 0, elev_bmp->w, elev_bmp->h);
-		rect (bf, sp[cp][X], sp[cp][Y],
-			sp[cp][X]+13, sp[cp][Y]+13, 2);
-			
-		textprintf_ex (bf, temp_fnt, 102, 28, 14, -1, "%02d", elev.cf);
+		rect (bf, sp[cp][X], sp[cp][Y], sp[cp][X]+13, sp[cp][Y]+13, 2);
+		textprintf_ex (bf, temp_fnt, 102, 28, 14, -1, "%s", sel);
 	}
 }
 

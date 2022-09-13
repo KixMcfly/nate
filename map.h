@@ -67,6 +67,12 @@ unsigned char
 map_get_tile_flags (MAP *m, int ln, int x, int y);
 
 int
+map_get_elev_x_pos (MAP *m);
+
+int
+map_get_elev_y_pos (MAP *m);
+
+int
 load_map (MAP *m, char *dat_fn, char *dat_id);
 
 int

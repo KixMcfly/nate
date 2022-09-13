@@ -21,6 +21,12 @@ elev_sel_left (void);
 void
 elev_sel_right (void);
 
+int
+elev_get_floor_goto_id (void);
+
+char *
+elev_get_floor_goto_name (void);
+
 void
 elev_press (void);
 

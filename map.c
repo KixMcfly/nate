@@ -120,6 +120,48 @@ map_new (void)
 }
 
 int
+map_get_elev_x_pos (MAP *m)
+{
+	NODE *cn = m->so;
+	
+	while (cn){
+		
+		if (node_get_type (cn) == OBJ_CHGROOM){
+			CHGROOM *cr = node_get_data (cn);
+			
+			if (!strcmp(cr->name, "ELEV_NAT")){
+				log_print ("Elevator found! X at %d\n", cr->x);
+				return cr->x;
+			}
+		}
+		
+		cn = node_get_next (cn);
+	}
+	
+	return -1;
+}
+
+int
+map_get_elev_y_pos (MAP *m)
+{
+	NODE *cn = m->so;
+	
+	while (cn){
+		
+		if (node_get_type (cn) == OBJ_CHGROOM){
+			CHGROOM *cr = node_get_data (cn);
+			
+			if (!strcmp(cr->name, "ELEV_NAT"))
+				return cr->y;
+		}
+		
+		cn = node_get_next (cn);
+	}
+	
+	return -1;
+}
+
+int
 load_map (MAP *m, char *dat_fn, char *dat_id)
 {
 	char *dat_fnid, *type, head[5];

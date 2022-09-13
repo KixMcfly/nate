@@ -184,6 +184,8 @@ int main (void)
 			
 			fadeout (20);
 		}
+		
+
 
 		/* Camera adjust */
 		if (nate.x - cam_x <= 60 && cam_x > 0)
@@ -352,6 +354,32 @@ int main (void)
 			
 			text_print_center (get_backbuff (), text_msg);
 			
+		}
+		
+		if (key[KEY_LCONTROL]){
+			
+			if (!strcmp (map_get_name (m), "Elevator") &&
+				LX (nate.x) == 7 && LY (nate.y) == 8){
+
+				int nx, ny;
+
+				log_print ("GOTO ROOM %s \n", elev_get_floor_goto_name ());
+
+				//play_sample ((SAMPLE *)snd_door->dat, 155, 128, 1000, NULL);
+				map_free (m);
+				m = map_new ();
+				load_map (m, NATE_DAT, elev_get_floor_goto_name ());
+				nl = map_get_nl (m);
+				fadeout (5);
+				
+				nx = map_get_elev_x_pos (m);
+				ny = map_get_elev_y_pos (m);
+				nate_set_xy (&nate, nx, ny+20);
+				
+				/* Set camera based on nate location */
+				nate_focus_camera (m, nate.x, nate.y, &cam_x, &cam_y);
+				
+			}
 		}
 		
 		text_msg = NULL;

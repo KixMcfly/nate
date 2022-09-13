@@ -20,6 +20,13 @@
             "width": 320,
             "x": 760,
             "y": -200
+        },
+        {
+            "fileName": "hotel0.tmx",
+            "height": 600,
+            "width": 1600,
+            "x": 1080,
+            "y": -200
         }
     ],
     "onlyShowAdjacentMaps": false,
