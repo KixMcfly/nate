@@ -1,13 +1,6 @@
 {
     "maps": [
         {
-            "fileName": "NATEROOM.tmx",
-            "height": 200,
-            "width": 320,
-            "x": 320,
-            "y": 0
-        },
-        {
             "fileName": "HOTEL5.tmx",
             "height": 200,
             "width": 760,
@@ -47,6 +40,13 @@
             "height": 400,
             "width": 400,
             "x": 2920,
+            "y": -200
+        },
+        {
+            "fileName": "NATEROOM.tmx",
+            "height": 200,
+            "width": 120,
+            "x": 320,
             "y": -200
         }
     ],

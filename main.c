@@ -434,13 +434,13 @@ nate_focus_camera (MAP *m, int nx, int ny, int *cam_x, int *cam_y)
 	th = map_get_th (m);
 	
 	if (mw < CAMERA_W / tw)
-		*cam_x = CAMERA_W / 2 - mw / 2;
+		*cam_x = CAMERA_W / 2;
 	else
 		for (*cam_x = 0; *cam_x + 160 <= nx; *cam_x += tw)
 			;
 
 	if (mh < CAMERA_H / th)
-		*cam_y = mh / 2 - CAMERA_H / 2;
+		*cam_y = CAMERA_H / 2;
 	else{
 		for (*cam_y = 0; *cam_y + 100 <= ny && *cam_y + CAMERA_H != mh * TILE_H; *cam_y += th)
 			;
@@ -458,8 +458,8 @@ nate_set_xy (NATE *n, int x, int y)
 void
 nate_def (NATE *n)
 {
-	n->x = 5 * TILE_W;
-	n->y = 5 * TILE_H;
+	n->x = 2 * TILE_W;
+	n->y = 4 * TILE_H;
 	n->ar = 0;
 	n->ckf = KF_DOWN;
 	n->cf = 0;
