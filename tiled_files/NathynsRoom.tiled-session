@@ -3,7 +3,7 @@
         "height": 4300,
         "width": 2
     },
-    "activeFile": "NATEROOM.tmx",
+    "activeFile": "hotel23.tmx",
     "expandedProjectPaths": [
     ],
     "file.lastUsedOpenFilter": "All Files (*)",
@@ -24,8 +24,8 @@
             "scale": 1.6213333333333333,
             "selectedLayer": 2,
             "viewCenter": {
-                "x": 350.02055921052624,
-                "y": 114.10361842105263
+                "x": 379.9342105263158,
+                "y": 100.5345394736842
             }
         },
         "HOTEL_5.tmx": {
@@ -43,8 +43,8 @@
             "scale": 2,
             "selectedLayer": 1,
             "viewCenter": {
-                "x": 197.75,
-                "y": 86
+                "x": 160,
+                "y": 100
             }
         },
         "big.tmx": {
@@ -55,36 +55,58 @@
                 "y": 1757
             }
         },
+        "callah.tmx": {
+            "expandedObjectLayers": [
+                2
+            ],
+            "scale": 1.835875,
+            "selectedLayer": 1,
+            "viewCenter": {
+                "x": -257.91516306938104,
+                "y": 53.10819091713762
+            }
+        },
         "elev.tmx": {
             "scale": 1.6213333333333333,
             "selectedLayer": 1,
             "viewCenter": {
-                "x": 1915.3988486842104,
-                "y": 188.73355263157896
+                "x": 159.74506578947367,
+                "y": 100.5345394736842
             }
         },
         "hotel0.tmx": {
             "scale": 1.6213333333333333,
             "selectedLayer": 1,
             "viewCenter": {
-                "x": -381.4761513157895,
-                "y": 371.2993421052632
+                "x": 319.49013157894734,
+                "y": 299.7532894736842
             }
         },
         "hotel1.tmx": {
-            "scale": 1.6213333333333333,
+            "scale": 3,
+            "selectedLayer": -1,
+            "viewCenter": {
+                "x": -1034.1666666666665,
+                "y": 269.8333333333333
+            }
+        },
+        "hotel23.tmx": {
+            "expandedObjectLayers": [
+                2
+            ],
+            "scale": 1.835875,
             "selectedLayer": 1,
             "viewCenter": {
-                "x": 901.4185855263158,
-                "y": 188.73355263157896
+                "x": -129.91080547422888,
+                "y": 143.528290324777
             }
         },
         "hotel9.tmx": {
-            "scale": 1.6213333333333333,
+            "scale": 1.835875,
             "selectedLayer": 1,
             "viewCenter": {
-                "x": -403.6800986842105,
-                "y": 281.24999999999994
+                "x": 357.0504527813713,
+                "y": 53.10819091713762
             }
         },
         "inter.tsx": {
@@ -104,12 +126,13 @@
             "scaleInEditor": 1
         }
     },
-    "last.exportedFilePath": "C:/projects/nate/maps",
+    "last.exportedFilePath": "/home/shawn/projects/nate/maps",
     "last.imagePath": "/home/shawn/projects/nate/images",
     "last.objectTypesPath": "/home/shawn/projects/nate/tiled_files/objecttypes.xml",
-    "last.worldFilePath": "C:/projects/nate/tiled_files",
+    "last.worldFilePath": "/home/shawn/projects/nate/tiled_files",
     "lastUsedTilesetExportFilter": "All Files (*)",
     "loadedWorlds": [
+        "/home/shawn/projects/nate/tiled_files/nate_world.world"
     ],
     "map.height": 20,
     "map.lastUsedExportFilter": "Nathyn's Room Chunk Format (*.nat)",
@@ -123,23 +146,24 @@
         "elev.tmx",
         "hotel0.tmx",
         "hotel1.tmx",
-        "hotel9.tmx"
+        "hotel9.tmx",
+        "hotel23.tmx"
     ],
     "project": "NathynsRoom.tiled-project",
     "property.type": "string",
     "recentFiles": [
-        "hotel9.tmx",
-        "hotel1.tmx",
-        "hotel0.tmx",
-        "elev.tmx",
-        "HOTEL5.tmx",
         "NATEROOM.tmx",
+        "HOTEL5.tmx",
+        "elev.tmx",
+        "hotel0.tmx",
+        "hotel1.tmx",
+        "hotel9.tmx",
+        "hotel23.tmx",
         "nateroom.tsx",
         "HALLWAY.tmx",
         "inter.tsx",
         "HOTEL.TSX",
-        "HOTEL_5.tmx",
-        "big.tmx"
+        "HOTEL_5.tmx"
     ],
     "tileset.lastUsedFormat": "tsx",
     "tileset.tileSize": {

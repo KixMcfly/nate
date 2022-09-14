@@ -41,6 +41,13 @@
             "width": 400,
             "x": 2520,
             "y": -200
+        },
+        {
+            "fileName": "callah.tmx",
+            "height": 400,
+            "width": 400,
+            "x": 2920,
+            "y": -200
         }
     ],
     "onlyShowAdjacentMaps": false,
