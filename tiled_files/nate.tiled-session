@@ -1,0 +1,99 @@
+{
+    "Map/SizeTest": {
+        "height": 4300,
+        "width": 2
+    },
+    "activeFile": "nateroom.tmx",
+    "expandedProjectPaths": [
+    ],
+    "file.lastUsedOpenFilter": "All Files (*)",
+    "fileStates": {
+        "elev.tmx": {
+            "expandedObjectLayers": [
+                2
+            ],
+            "scale": 1.5,
+            "selectedLayer": 1,
+            "viewCenter": {
+                "x": 309,
+                "y": 162.33333333333331
+            }
+        },
+        "floor99.tmx": {
+            "expandedObjectLayers": [
+                3
+            ],
+            "scale": 1.5,
+            "selectedLayer": 2,
+            "viewCenter": {
+                "x": 203.66666666666669,
+                "y": 38.333333333333314
+            }
+        },
+        "hotel.tsx": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "hotel99.tmx": {
+            "expandedObjectLayers": [
+                3
+            ],
+            "scale": 1.5,
+            "selectedLayer": 2,
+            "viewCenter": {
+                "x": 169,
+                "y": 181.66666666666666
+            }
+        },
+        "inter.tsx": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "nate.tsx": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "nateroom.tmx": {
+            "expandedObjectLayers": [
+                3
+            ],
+            "scale": 1.5,
+            "selectedLayer": 2,
+            "viewCenter": {
+                "x": 324.33333333333326,
+                "y": 196.33333333333331
+            }
+        }
+    },
+    "last.exportedFilePath": "/home/shawn/projects/nate/maps",
+    "last.objectTypesPath": "/home/shawn/projects/nate/tiled_files/propertytypes.json",
+    "last.worldFilePath": "/home/shawn/projects/nate/tiled_files",
+    "loadedWorlds": [
+        "/home/shawn/projects/nate/tiled_files/nate.world"
+    ],
+    "map.height": 4,
+    "map.lastUsedExportFilter": "All Files (*)",
+    "map.lastUsedFormat": "tmx",
+    "map.tileHeight": 20,
+    "map.tileWidth": 20,
+    "map.width": 6,
+    "openFiles": [
+        "nateroom.tmx",
+        "hotel99.tmx",
+        "hotel.tsx",
+        "inter.tsx",
+        "nate.tsx",
+        "elev.tmx"
+    ],
+    "project": "nate.tiled-project",
+    "property.type": "string",
+    "recentFiles": [
+        "elev.tmx",
+        "nate.tsx",
+        "inter.tsx",
+        "hotel.tsx",
+        "hotel99.tmx",
+        "nateroom.tmx",
+        "floor99.tmx"
+    ]
+}

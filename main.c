@@ -359,7 +359,7 @@ int main (void)
 		if (key[KEY_LCONTROL]){
 			
 			if (!strcmp (map_get_name (m), "Elevator") &&
-				LX (nate.x) == 7 && LY (nate.y) == 8){
+				LX (nate.x) == 2 && LY (nate.y) == 3){
 
 				int nx, ny;
 
@@ -434,8 +434,7 @@ nate_focus_camera (MAP *m, int nx, int ny, int *cam_x, int *cam_y)
 	th = map_get_th (m);
 	
 	if (mw < CAMERA_W / tw){
-		
-		*cam_x += -((CAMERA_W - mw * TILE_W) / 2);
+		*cam_x = -((CAMERA_W - mw * TILE_W) / 2);
 	}else
 		for (*cam_x = 0; *cam_x + 160 <= nx; *cam_x += tw)
 			;

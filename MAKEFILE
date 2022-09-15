@@ -52,3 +52,4 @@ tools.o: tools.c tools.h
 clean:
 	del /S *.o
 	del nate.exe
+

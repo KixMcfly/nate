@@ -1,6 +1,6 @@
 [
     {
-        "id": 5,
+        "id": 1,
         "name": "FLAGS",
         "storageType": "int",
         "type": "enum",
@@ -11,7 +11,8 @@
         "valuesAsFlags": true
     },
     {
-        "id": 15,
+        "color": "#ffa0a0a4",
+        "id": 2,
         "members": [
             {
                 "name": "COUNT",
@@ -26,10 +27,13 @@
             }
         ],
         "name": "INV_DRDOUCHE",
-        "type": "class"
+        "type": "class",
+        "useAs": [
+            "property"
+        ]
     },
     {
-        "id": 14,
+        "id": 3,
         "name": "INV_LIST",
         "storageType": "int",
         "type": "enum",
@@ -42,7 +46,8 @@
         "valuesAsFlags": false
     },
     {
-        "id": 13,
+        "color": "#ffa0a0a4",
+        "id": 4,
         "members": [
             {
                 "name": "COUNT",
@@ -57,10 +62,14 @@
             }
         ],
         "name": "INV_MONEY",
-        "type": "class"
+        "type": "class",
+        "useAs": [
+            "property"
+        ]
     },
     {
-        "id": 12,
+        "color": "#ffa0a0a4",
+        "id": 5,
         "members": [
             {
                 "name": "COUNT",
@@ -75,10 +84,14 @@
             }
         ],
         "name": "INV_NONE",
-        "type": "class"
+        "type": "class",
+        "useAs": [
+            "property"
+        ]
     },
     {
-        "id": 11,
+        "color": "#ffa0a0a4",
+        "id": 6,
         "members": [
             {
                 "name": "COUNT",
@@ -93,6 +106,171 @@
             }
         ],
         "name": "INV_NUGGETS",
-        "type": "class"
+        "type": "class",
+        "useAs": [
+            "property"
+        ]
+    },
+    {
+        "color": "#ffa0a0a4",
+        "id": 7,
+        "members": [
+            {
+                "name": "FLAGS",
+                "propertyType": "FLAGS",
+                "type": "int",
+                "value": 0
+            }
+        ],
+        "name": "TILEFLAGS",
+        "type": "class",
+        "useAs": [
+            "property",
+            "map",
+            "layer",
+            "object",
+            "tile",
+            "tileset",
+            "wangcolor",
+            "wangset"
+        ]
+    },
+    {
+        "color": "#ff5500ff",
+        "id": 8,
+        "members": [
+            {
+                "name": "ITEM01",
+                "propertyType": "INV_LIST",
+                "type": "int",
+                "value": 0
+            },
+            {
+                "name": "ITEM02",
+                "propertyType": "INV_LIST",
+                "type": "int",
+                "value": 0
+            },
+            {
+                "name": "ITEM03",
+                "propertyType": "INV_LIST",
+                "type": "int",
+                "value": 0
+            },
+            {
+                "name": "ITEM04",
+                "propertyType": "INV_LIST",
+                "type": "int",
+                "value": 0
+            },
+            {
+                "name": "ITEM05",
+                "propertyType": "INV_LIST",
+                "type": "int",
+                "value": 0
+            },
+            {
+                "name": "ITEM06",
+                "propertyType": "INV_LIST",
+                "type": "int",
+                "value": 0
+            },
+            {
+                "name": "ITEM07",
+                "propertyType": "INV_LIST",
+                "type": "int",
+                "value": 0
+            },
+            {
+                "name": "ITEM08",
+                "propertyType": "INV_LIST",
+                "type": "int",
+                "value": 0
+            },
+            {
+                "name": "ITEM09",
+                "propertyType": "INV_LIST",
+                "type": "int",
+                "value": 0
+            },
+            {
+                "name": "ITEM10",
+                "propertyType": "INV_LIST",
+                "type": "int",
+                "value": 0
+            },
+            {
+                "name": "ITEM11",
+                "propertyType": "INV_LIST",
+                "type": "int",
+                "value": 0
+            },
+            {
+                "name": "ITEM12",
+                "propertyType": "INV_LIST",
+                "type": "int",
+                "value": 0
+            },
+            {
+                "name": "ITEM13",
+                "propertyType": "INV_LIST",
+                "type": "int",
+                "value": 0
+            },
+            {
+                "name": "ITEM14",
+                "propertyType": "INV_LIST",
+                "type": "int",
+                "value": 0
+            },
+            {
+                "name": "ITEM15",
+                "propertyType": "INV_LIST",
+                "type": "int",
+                "value": 0
+            },
+            {
+                "name": "ITEM16",
+                "propertyType": "INV_LIST",
+                "type": "int",
+                "value": 0
+            },
+            {
+                "name": "ITEM17",
+                "propertyType": "INV_LIST",
+                "type": "int",
+                "value": 0
+            },
+            {
+                "name": "ITEM18",
+                "propertyType": "INV_LIST",
+                "type": "int",
+                "value": 0
+            },
+            {
+                "name": "ITEM19",
+                "propertyType": "INV_LIST",
+                "type": "int",
+                "value": 0
+            },
+            {
+                "name": "ITEM20",
+                "propertyType": "INV_LIST",
+                "type": "int",
+                "value": 0
+            }
+        ],
+        "name": "VENDING",
+        "type": "class",
+        "useAs": [
+            "property",
+            "map",
+            "layer",
+            "object",
+            "tile",
+            "tileset",
+            "wangcolor",
+            "wangset"
+        ]
     }
 ]

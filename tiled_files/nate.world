@@ -1,0 +1,27 @@
+{
+    "maps": [
+        {
+            "fileName": "nateroom.tmx",
+            "height": 120,
+            "width": 100,
+            "x": 200,
+            "y": -240
+        },
+        {
+            "fileName": "hotel99.tmx",
+            "height": 240,
+            "width": 600,
+            "x": 200,
+            "y": -120
+        },
+        {
+            "fileName": "elev.tmx",
+            "height": 80,
+            "width": 120,
+            "x": 60,
+            "y": -100
+        }
+    ],
+    "onlyShowAdjacentMaps": false,
+    "type": "world"
+}
