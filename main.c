@@ -418,6 +418,7 @@ int main (void)
 	return 0;
 }
 END_OF_MAIN()
+//
 
 void
 nate_focus_camera (MAP *m, int nx, int ny, int *cam_x, int *cam_y)
