@@ -1,0 +1,17 @@
+c:\watcom\H\allegro\inline\draw.inl(67): Warning! W202: Symbol 'vline' has been defined, but not referenced
+c:\watcom\H\allegro\inline\draw.inl(68): Warning! W202: Symbol 'hline' has been defined, but not referenced
+c:\watcom\H\allegro\alcompat.h(46): Warning! W202: Symbol 'fmul' has been defined, but not referenced
+c:\watcom\H\allegro\alcompat.h(45): Warning! W202: Symbol 'fsub' has been defined, but not referenced
+c:\watcom\H\allegro\alcompat.h(44): Warning! W202: Symbol 'fadd' has been defined, but not referenced
+c:\watcom\H\allegro\alcompat.h(51): Warning! W202: Symbol 'fsin' has been defined, but not referenced
+c:\watcom\H\allegro\alcompat.h(50): Warning! W202: Symbol 'fcos' has been defined, but not referenced
+c:\watcom\H\allegro\alcompat.h(52): Warning! W202: Symbol 'ftan' has been defined, but not referenced
+c:\watcom\H\allegro\alcompat.h(48): Warning! W202: Symbol 'fceil' has been defined, but not referenced
+c:\watcom\H\allegro\alcompat.h(49): Warning! W202: Symbol 'ffloor' has been defined, but not referenced
+c:\watcom\H\allegro\alcompat.h(47): Warning! W202: Symbol 'fdiv' has been defined, but not referenced
+c:\watcom\H\allegro\alcompat.h(56): Warning! W202: Symbol 'fatan2' has been defined, but not referenced
+c:\watcom\H\allegro\alcompat.h(55): Warning! W202: Symbol 'fatan' has been defined, but not referenced
+c:\watcom\H\allegro\alcompat.h(58): Warning! W202: Symbol 'fhypot' has been defined, but not referenced
+c:\watcom\H\allegro\alcompat.h(54): Warning! W202: Symbol 'fasin' has been defined, but not referenced
+c:\watcom\H\allegro\alcompat.h(57): Warning! W202: Symbol 'fsqrt' has been defined, but not referenced
+c:\watcom\H\allegro\alcompat.h(53): Warning! W202: Symbol 'facos' has been defined, but not referenced
