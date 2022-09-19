@@ -4,7 +4,7 @@
 #include <allegro.h>
 
 void
-text_load_font_dat (char *dn, char *fn);
+text_load_font_dat (char *dn);
 
 void
 text_destroy_font (void);

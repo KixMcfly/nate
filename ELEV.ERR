@@ -1,0 +1,7 @@
+elev.c(48): Warning! W102: Type mismatch (warning)
+elev.c(48): Note! I2003: source conversion type is 'void *'
+elev.c(48): Note! I2004: target conversion type is 'int '
+elev.c(151): Warning! W102: Type mismatch (warning)
+elev.c(151): Note! I2003: source conversion type is 'void *'
+elev.c(151): Note! I2004: target conversion type is 'int '
+elev.c(151): Note! I2002: 'play_sample' defined in: c:\watcom\H\allegro\digi.h(151)

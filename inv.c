@@ -346,9 +346,9 @@ invmenu_vis (void)
 }
 
 void
-invmenu_init (char *dfn, char *invb, char *itemb, char *fdn)
+invmenu_init (char *dfn, char *invb, char *itemb)
 {
-	char *names[] = {fdn, NULL};
+	char *names[] = {"INV_FNT", NULL};
 	
 	inv_bmp = load_datafile_object (dfn, invb);
 	items_bmp = load_datafile_object (dfn, itemb);

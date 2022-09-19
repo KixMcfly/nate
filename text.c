@@ -4,10 +4,10 @@ static FONT *font_sis = NULL;
 static BITMAP *border = NULL;
 
 void
-text_load_font_dat (char *dn, char *fn)
+text_load_font_dat (char *dn)
 {
 	DATAFILE *df = NULL;
-	char *names[] = { fn, NULL };
+	const char *names[] = { "NATE_FNT", NULL };
 	BITMAP *temp;
 	
 	if (!border){

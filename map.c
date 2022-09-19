@@ -166,7 +166,7 @@ load_map (MAP *m, char *dat_fn, char *dat_id)
 {
 	char *dat_fnid, *type, head[5];
 	TILE *t_data;
-	int size, i, co, noo, x, y, ntl, len;
+	int size, i, co, noo, x, y, ntl, len, c, ci;
 	PACKFILE *fp;
 	
 	/* Non moving objects */
@@ -263,7 +263,6 @@ load_map (MAP *m, char *dat_fn, char *dat_id)
 	
 				t_data = m->l_list[i].data;
 				/* Get layer data*/
-				int c;
 				for (c = 0; c < m->w*m->h; c++){
 
 					t_data[c].tn = (unsigned short)pack_igetw (fp);
@@ -328,7 +327,6 @@ load_map (MAP *m, char *dat_fn, char *dat_id)
 						vend->x = x;
 						vend->y = y;
 
-						int ci;
 						for (ci = 0; ci < 20; ci++){
 							vend->inv_list[ci] = pack_igetl (fp);
 						}

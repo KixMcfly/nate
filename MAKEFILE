@@ -1,55 +1,17 @@
-CC = gcc
-DEBUG = -Wall -g
+CC = wcc386
+LD = wlink
+CFLAGS = -w1 -3s -s
+bin = nate.exe
 
-.PHONY: clean
+obj = main.obj tileset.obj map.obj draw.obj sprite.obj text.obj inv.obj vend.obj temp.obj elev.obj grid.obj node.obj tools.obj
 
-objs = main.o tileset.o map.o draw.o sprite.o text.o inv.o vend.o temp.o elev.o grid.o node.o tools.o
+	
+$(bin): $(obj)
+	$(LD) name $@ file *.obj LIBRARY alleg
+	
+.c.obj:
+	$(CC) -fo=$@ $(CFLAGS) $<
 
-all: nate
-
-nate: $(objs)
-	$(CC) $(DEBUG) $(objs) -o $@ -lalleg
-
-main.o: main.c main.h
-	$(CC) $(DEBUG) -c $< -o $@
-	
-tileset.o: tileset.c tileset.h
-	$(CC) $(DEBUG) -c $< -o $@
-
-map.o: map.c map.h
-	$(CC) $(DEBUG) -c $< -o $@
-	
-draw.o: draw.c draw.h
-	$(CC) $(DEBUG) -c $< -o $@
-	
-sprite.o: sprite.c sprite.h
-	$(CC) $(DEBUG) -c $< -o $@
-	
-text.o: text.c text.h
-	$(CC) $(DEBUG) -c $< -o $@
-	
-inv.o: inv.c inv.h
-	$(CC) $(DEBUG) -c $< -o $@
-	
-vend.o: vend.c vend.h
-	$(CC) $(DEBUG) -c $< -o $@
-	
-elev.o: elev.c elev.h
-	$(CC) $(DEBUG) -c $< -o $@
-	
-temp.o: temp.c temp.h
-	$(CC) $(DEBUG) -c $< -o $@
-	
-grid.o: grid.c grid.h
-	$(CC) $(DEBUG) -c $< -o $@
-	
-node.o: node.c node.h
-	$(CC) $(DEBUG) -c $< -o $@
-	
-tools.o: tools.c tools.h
-	$(CC) $(DEBUG) -c $< -o $@
-
-clean:
-	del /S *.o
-	del nate.exe
-
+clean: .symbolic
+	del *.obj
+	del $(bin)

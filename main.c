@@ -45,7 +45,7 @@ int main (void)
 	/* END MAIN MENU ************************/
 	
 	/* Load nate font */
-	text_load_font_dat (NATE_DAT, "NATE_FNT");
+	text_load_font_dat (NATE_DAT);
 
 	/* Load sounds */
 	snd_door = load_datafile_object (NATE_DAT, "DOOR_WAV");
@@ -177,7 +177,7 @@ int main (void)
 			}else {
 	
 				if (!invmenu_vis ())
-					invmenu_init (NATE_DAT, "INVMENU_BMP", "ITEMS_BMP", "INV_FNT");
+					invmenu_init (NATE_DAT, "INVMENU_BMP", "ITEMS_BMP");
 				else
 					invmenu_free ();
 			}
@@ -418,7 +418,6 @@ int main (void)
 	return 0;
 }
 END_OF_MAIN()
-//
 
 void
 nate_focus_camera (MAP *m, int nx, int ny, int *cam_x, int *cam_y)
@@ -474,7 +473,7 @@ nate_init (void)
     elapsed_time = 0;
 	install_timer();
 	
-	LOCK_VARIABLE( time );
+	LOCK_VARIABLE( elapsed_time );
 	LOCK_FUNCTION( __inc_elapsed_time );
 	install_int_ex( __inc_elapsed_time, BPS_TO_TIMER(1000) );
     
