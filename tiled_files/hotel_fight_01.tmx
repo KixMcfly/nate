@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.8" tiledversion="1.8.4" orientation="orthogonal" renderorder="right-down" width="16" height="9" tilewidth="20" tileheight="20" infinite="0" nextlayerid="2" nextobjectid="1">
+ <tileset firstgid="1" source="hotel.tsx"/>
+ <layer id="1" name="Tile Layer 1" width="16" height="9">
+  <data encoding="csv">
+50,50,50,50,50,50,50,50,50,50,50,50,50,50,50,50,
+66,66,66,66,66,66,66,66,66,66,66,66,66,66,66,66,
+7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,
+7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,
+7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,
+7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,
+7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,
+7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,
+7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7
+</data>
+ </layer>
+</map>

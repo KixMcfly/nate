@@ -93,6 +93,7 @@ int main (void)
 			}else{
 				
 				if (!SOLID(map_get_tile_flags (m, 0, LX(nate.x), LY(nate.y)-1)) &&
+					!SOLID(map_get_tile_flags (m, 1, LX(nate.x), LY(nate.y)-1)) &&
 					LY(nate.y) - 1 > -1){
 						grid_snap_up (&nate.x, &nate.y, &nate.dy);
 					}
@@ -115,6 +116,7 @@ int main (void)
 				vend_move_down ();
 			}else{
 				if (!SOLID(map_get_tile_flags (m, 0, LX(nate.x), LY(nate.y)+1)) &&
+					!SOLID(map_get_tile_flags (m, 1, LX(nate.x), LY(nate.y)+1)) &&
 					LY(nate.y) + 1 < map_get_h (m)){
 						grid_snap_down (&nate.x, &nate.y, &nate.dy);
 					}
@@ -135,6 +137,7 @@ int main (void)
 				elev_sel_left ();
 			}else {
 				if (!SOLID(map_get_tile_flags (m, 0, LX(nate.x)-1, LY(nate.y))) &&
+					!SOLID(map_get_tile_flags (m, 1, LX(nate.x)-1, LY(nate.y))) &&
 					LX(nate.x)-1 > -1){
 						grid_snap_left (&nate.x, &nate.y, &nate.dx);
 					}
@@ -156,6 +159,7 @@ int main (void)
 				elev_sel_right ();
 			}else{
 				if (!SOLID(map_get_tile_flags (m, 0, LX(nate.x)+1, LY(nate.y))) &&
+					!SOLID(map_get_tile_flags (m, 1, LX(nate.x)+1, LY(nate.y))) &&
 					LX(nate.x) + 1 < map_get_w (m)){
 						grid_snap_right (&nate.x, &nate.y, &nate.dx);
 					}

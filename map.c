@@ -102,9 +102,13 @@ map_get_layer_type (MAP *m, int ln){
 unsigned char
 map_get_tile_flags (MAP *m, int ln, int x, int y)
 {
-	TILE *data = m->l_list[ln].data;
+	TILE *data;
 	
-	return data[x+m->w*y].flags;
+	if (ln <= m->nl){
+		data = m->l_list[ln].data;
+		return data[x+m->w*y].flags;
+	}else
+		return 0;
 }
 
 NODE *

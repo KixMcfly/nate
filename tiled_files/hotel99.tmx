@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.9" tiledversion="1.9.1" orientation="orthogonal" renderorder="right-down" width="30" height="12" tilewidth="20" tileheight="20" infinite="0" nextlayerid="4" nextobjectid="9">
+<map version="1.8" tiledversion="1.8.4" orientation="orthogonal" renderorder="right-down" width="30" height="12" tilewidth="20" tileheight="20" infinite="0" nextlayerid="4" nextobjectid="9">
  <editorsettings>
-  <export target="../maps/floor99.nat" format="custom"/>
+  <export target="../maps/hotel99.nat" format="custom"/>
  </editorsettings>
  <properties>
   <property name="name" value="Floor 99"/>
@@ -27,27 +27,27 @@
   <data encoding="csv">
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,113,114,115,116,118,0,0,0,0,0,0,0,0,113,114,116,117,0,0,0,0,
-0,0,0,0,0,0,0,0,0,129,130,131,132,134,0,0,0,0,0,0,0,0,129,130,132,133,0,0,0,0,
+0,0,0,0,0,0,0,0,0,113,114,115,116,118,0,0,0,0,0,0,0,118,113,114,116,117,0,0,0,0,
+0,0,0,0,0,0,0,0,0,129,130,131,132,134,0,0,0,0,0,0,0,134,129,130,132,133,0,0,0,0,
 0,0,0,0,0,0,0,0,0,9,10,10,10,11,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,25,26,26,26,27,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,41,42,42,42,43,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,113,114,115,116,117,0,118,118,0,113,114,115,116,117,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,129,130,131,132,133,0,134,134,0,129,130,131,132,133,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
 </data>
  </layer>
  <objectgroup id="3" name="triggers">
-  <object id="4" name="NATEROOM_NAT" class="CHGROOM" x="20" y="20" width="20" height="20">
+  <object id="4" name="NATEROOM_NAT" type="CHGROOM" x="20" y="20" width="20" height="20">
    <properties>
     <property name="name" value="NATEROOM_NAT"/>
     <property name="x" type="int" value="1"/>
     <property name="y" type="int" value="5"/>
    </properties>
   </object>
-  <object id="5" name="VENDING" class="VENDING" x="120" y="60" width="20" height="20">
+  <object id="5" name="VENDING" type="VENDING" x="120" y="60" width="20" height="20">
    <properties>
     <property name="ITEM01" type="int" propertytype="INV_LIST" value="2"/>
     <property name="ITEM02" type="int" propertytype="INV_LIST" value="3"/>
@@ -71,7 +71,7 @@
     <property name="ITEM20" type="int" propertytype="INV_LIST" value="0"/>
    </properties>
   </object>
-  <object id="7" name="ELEV_NAT" class="CHGROOM" x="320" y="80" width="20" height="20">
+  <object id="7" name="ELEV_NAT" x="320" y="80" width="20" height="20">
    <properties>
     <property name="name" value="ELEV_NAT"/>
     <property name="x" type="int" value="2"/>
