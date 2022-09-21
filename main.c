@@ -71,7 +71,7 @@ int main (void)
 	/* Get palette for fade in */
 	pal = load_datafile_object (NATE_DAT, "NATE_PAL");
 	
-	df = load_datafile_object (NATE_DAT, "NATEROOM_MID");
+	df = load_datafile_object (NATE_DAT, "BATTLE");
 	play_midi ((MIDI *)df->dat, TRUE);
 
 	while (!quit){
