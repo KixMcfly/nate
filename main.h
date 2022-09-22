@@ -28,7 +28,7 @@
 #define SOLID(b)			(b & 0x01)
 #define GRASS(b)			(b & 0x02)
 
-/* Make EXE smaller by removing unused drivers */
+/* Make EXE smaller by removing unused driverss */
 BEGIN_GFX_DRIVER_LIST
 	GFX_DRIVER_VGA
 END_GFX_DRIVER_LIST

@@ -18,7 +18,7 @@ int main (void)
 	/* Initialize Nate */
 	nate_init ();
 	
-	/* START MAIN MENU **********************/
+	/* START MAIN MENU ************************/
 	
 	/* Title BMP */
 	df = load_datafile_object (NATE_DAT, "TITLE_BMP");
