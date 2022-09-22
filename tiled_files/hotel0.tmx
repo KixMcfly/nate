@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.8" tiledversion="1.8.4" orientation="orthogonal" renderorder="right-down" width="30" height="20" tilewidth="20" tileheight="20" infinite="0" nextlayerid="4" nextobjectid="11">
+ <editorsettings>
+  <export target="../maps/hotel0.nat" format="custom"/>
+ </editorsettings>
+ <properties>
+  <property name="name" value="Lobby"/>
+ </properties>
+ <tileset firstgid="1" source="hotel.tsx"/>
+ <tileset firstgid="161" source="inter.tsx"/>
+ <layer id="1" name="Tile Layer 1" width="30" height="20">
+  <data encoding="csv">
+53,53,53,53,53,53,53,53,53,53,53,145,145,145,145,145,145,145,145,145,145,145,50,50,50,50,50,50,50,50,
+53,53,4,53,53,53,53,53,53,6,53,145,145,145,145,145,50,50,50,50,145,145,83,83,66,66,66,66,66,66,
+7,7,4,5,5,5,5,5,5,6,7,145,145,145,145,145,66,66,66,66,145,145,99,99,23,23,23,23,23,23,
+7,7,20,21,21,21,21,21,21,22,7,145,145,145,145,145,7,7,7,7,145,145,23,23,23,23,23,23,23,23,
+7,7,36,37,37,37,37,37,37,38,7,145,50,50,50,145,7,7,7,7,145,145,23,23,23,23,23,23,23,23,
+7,7,7,7,7,7,7,7,7,7,7,145,66,66,66,50,7,7,7,7,145,145,23,23,23,23,23,23,23,23,
+7,7,7,7,7,7,7,7,7,7,7,145,161,8,8,66,7,7,7,7,145,145,23,23,23,23,23,23,23,23,
+7,7,7,7,7,7,7,7,7,7,7,145,8,8,8,7,7,7,7,7,145,145,23,23,23,23,23,23,23,23,
+7,7,7,7,7,7,7,7,7,7,7,145,145,145,145,145,145,145,7,7,145,145,23,145,145,145,145,145,145,145,
+7,7,7,7,7,7,7,7,7,7,7,145,50,50,50,145,50,52,7,7,49,52,23,49,50,50,50,50,50,50,
+7,7,7,7,7,7,7,7,7,7,7,145,52,55,49,145,66,68,7,7,65,68,23,65,66,66,66,66,66,66,
+7,7,7,7,7,7,7,7,7,7,7,145,68,71,65,145,7,7,7,7,7,7,7,7,7,7,7,7,7,7,
+7,7,7,7,7,7,7,7,7,7,7,145,23,23,23,145,7,7,7,7,7,7,7,7,7,7,7,7,7,7,
+7,7,7,7,7,7,7,7,7,7,7,145,23,23,23,145,7,7,7,7,7,7,7,7,7,7,7,7,7,7,
+7,7,7,7,7,7,7,7,7,7,7,145,23,23,23,145,7,7,7,7,7,7,7,7,7,7,7,7,7,7,
+7,7,7,7,7,7,7,7,7,7,7,145,145,23,145,145,7,7,7,7,7,7,7,7,7,7,7,7,7,7,
+7,7,7,7,7,7,7,7,7,7,7,49,50,23,50,52,7,7,7,7,7,7,7,7,7,7,7,7,7,7,
+7,7,7,7,7,7,7,7,7,7,7,65,66,23,66,68,7,7,7,7,7,7,7,7,7,7,7,7,7,7,
+7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,
+7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7
+</data>
+ </layer>
+ <layer id="2" name="Tile Layer 2" width="30" height="20">
+  <data encoding="csv">
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,118,113,114,115,116,117,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,134,129,130,131,132,133,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,113,114,115,116,117,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,129,130,131,132,133,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+</data>
+ </layer>
+ <objectgroup id="3" name="triggers">
+  <object id="7" name="VENDING" type="VENDING" x="440" y="60" width="20" height="20">
+   <properties>
+    <property name="ITEM01" type="int" propertytype="INV_LIST" value="2"/>
+    <property name="ITEM02" type="int" propertytype="INV_LIST" value="3"/>
+    <property name="ITEM03" type="int" propertytype="INV_LIST" value="0"/>
+    <property name="ITEM04" type="int" propertytype="INV_LIST" value="0"/>
+    <property name="ITEM05" type="int" propertytype="INV_LIST" value="0"/>
+    <property name="ITEM06" type="int" propertytype="INV_LIST" value="0"/>
+    <property name="ITEM07" type="int" propertytype="INV_LIST" value="0"/>
+    <property name="ITEM08" type="int" propertytype="INV_LIST" value="2"/>
+    <property name="ITEM09" type="int" propertytype="INV_LIST" value="2"/>
+    <property name="ITEM10" type="int" propertytype="INV_LIST" value="2"/>
+    <property name="ITEM11" type="int" propertytype="INV_LIST" value="0"/>
+    <property name="ITEM12" type="int" propertytype="INV_LIST" value="0"/>
+    <property name="ITEM13" type="int" propertytype="INV_LIST" value="0"/>
+    <property name="ITEM14" type="int" propertytype="INV_LIST" value="3"/>
+    <property name="ITEM15" type="int" propertytype="INV_LIST" value="3"/>
+    <property name="ITEM16" type="int" propertytype="INV_LIST" value="0"/>
+    <property name="ITEM17" type="int" propertytype="INV_LIST" value="0"/>
+    <property name="ITEM18" type="int" propertytype="INV_LIST" value="0"/>
+    <property name="ITEM19" type="int" propertytype="INV_LIST" value="0"/>
+    <property name="ITEM20" type="int" propertytype="INV_LIST" value="0"/>
+   </properties>
+  </object>
+  <object id="8" name="VENDING" type="VENDING" x="460" y="60" width="20" height="20">
+   <properties>
+    <property name="ITEM01" type="int" propertytype="INV_LIST" value="0"/>
+    <property name="ITEM02" type="int" propertytype="INV_LIST" value="0"/>
+    <property name="ITEM03" type="int" propertytype="INV_LIST" value="0"/>
+    <property name="ITEM04" type="int" propertytype="INV_LIST" value="0"/>
+    <property name="ITEM05" type="int" propertytype="INV_LIST" value="0"/>
+    <property name="ITEM06" type="int" propertytype="INV_LIST" value="0"/>
+    <property name="ITEM07" type="int" propertytype="INV_LIST" value="0"/>
+    <property name="ITEM08" type="int" propertytype="INV_LIST" value="2"/>
+    <property name="ITEM09" type="int" propertytype="INV_LIST" value="0"/>
+    <property name="ITEM10" type="int" propertytype="INV_LIST" value="2"/>
+    <property name="ITEM11" type="int" propertytype="INV_LIST" value="0"/>
+    <property name="ITEM12" type="int" propertytype="INV_LIST" value="0"/>
+    <property name="ITEM13" type="int" propertytype="INV_LIST" value="0"/>
+    <property name="ITEM14" type="int" propertytype="INV_LIST" value="3"/>
+    <property name="ITEM15" type="int" propertytype="INV_LIST" value="3"/>
+    <property name="ITEM16" type="int" propertytype="INV_LIST" value="0"/>
+    <property name="ITEM17" type="int" propertytype="INV_LIST" value="0"/>
+    <property name="ITEM18" type="int" propertytype="INV_LIST" value="0"/>
+    <property name="ITEM19" type="int" propertytype="INV_LIST" value="0"/>
+    <property name="ITEM20" type="int" propertytype="INV_LIST" value="0"/>
+   </properties>
+  </object>
+  <object id="9" name="ITEMBOX" type="ITEMBOX" x="240" y="140" width="20" height="20"/>
+  <object id="10" name="ELEV_NAT" type="CHGROOM" x="260" y="220" width="20" height="20">
+   <properties>
+    <property name="name" value="ELEV_NAT"/>
+    <property name="x" type="int" value="2"/>
+    <property name="y" type="int" value="3"/>
+   </properties>
+  </object>
+ </objectgroup>
+</map>

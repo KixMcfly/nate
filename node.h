@@ -5,24 +5,28 @@
 #include <stdlib.h>
 #include "tools.h"
 
-typedef struct NODE NODE;
+typedef struct {
+	int type;
+	void *data;
+	struct NNODE *next;
+} NNODE;
 
-NODE *
-node_add (NODE *head, int type, void *data);
+NNODE *
+node_add (NNODE *head, int type, void *data);
 
 int
-node_get_type (NODE *head);
+node_get_type (NNODE *head);
 
 void *
-node_get_data (NODE *n);
+node_get_data (NNODE *n);
 
 int
-node_delete (NODE *head, int num);
+node_delete (NNODE *head, int num);
 
-NODE *
-node_get_next (NODE *n);
+NNODE *
+node_get_next (NNODE *n);
 
-NODE *
-node_clear (NODE *head);
+NNODE *
+node_clear (NNODE *head);
 
-#endif /* __NODE_H */
+#endif /* __NNODE_H */

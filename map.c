@@ -12,7 +12,7 @@ struct MAP{
 	int				nl;
 	int 			nts;
 
-	NODE			*so;
+	NNODE			*so;
 	LAYER			*l_list;
 	TILESET			*ts_list;
 
@@ -111,7 +111,7 @@ map_get_tile_flags (MAP *m, int ln, int x, int y)
 		return 0;
 }
 
-NODE *
+NNODE *
 map_get_node_head (MAP *m)
 {
 	return m->so;
@@ -126,17 +126,14 @@ map_new (void)
 int
 map_get_elev_x_pos (MAP *m)
 {
-	NODE *cn = m->so;
+	NNODE *cn = m->so;
 	
 	while (cn){
 		
 		if (node_get_type (cn) == OBJ_CHGROOM){
 			CHGROOM *cr = node_get_data (cn);
-			
-			if (!strcmp(cr->name, "ELEV_NAT")){
-				log_print ("Elevator found! X at %d\n", cr->x);
+			if (!strcmp(cr->name, "ELEV_NAT"))
 				return cr->x;
-			}
 		}
 		
 		cn = node_get_next (cn);
@@ -148,7 +145,7 @@ map_get_elev_x_pos (MAP *m)
 int
 map_get_elev_y_pos (MAP *m)
 {
-	NODE *cn = m->so;
+	NNODE *cn = m->so;
 	
 	while (cn){
 		

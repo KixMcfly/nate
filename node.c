@@ -1,15 +1,9 @@
 #include "node.h"
 
-struct NODE {
-	int type;
-	void *data;
-	NODE *next;
-};
-
-NODE *
-node_add (NODE *head, int type, void *data)
+NNODE *
+node_add (NNODE *head, int type, void *data)
 {
-	NODE *n_node = (NODE *) malloc (sizeof (NODE));
+	NNODE *n_node = (NNODE *) malloc (sizeof (NNODE));
 
 	n_node->next = head;
 	n_node->data = data;
@@ -19,22 +13,22 @@ node_add (NODE *head, int type, void *data)
 }
 
 int
-node_get_type (NODE *head)
+node_get_type (NNODE *head)
 {	
 	return head->type;
 }
 
 void *
-node_get_data (NODE *n)
+node_get_data (NNODE *n)
 {
 	return n->data;
 }
 
 int
-node_delete (NODE *head, int num)
+node_delete (NNODE *head, int num)
 {
-	NODE *cur = head;
-	NODE *prev = NULL;
+	NNODE *cur = head;
+	NNODE *prev = NULL;
 	int i = 0;
 
 	if (!head)
@@ -59,16 +53,16 @@ node_delete (NODE *head, int num)
 	return 1;
 }
 
-NODE *
-node_get_next (NODE *n)
+NNODE *
+node_get_next (NNODE *n)
 {
 	return n->next;
 }
 
-NODE *
-node_clear (NODE *head)
+NNODE *
+node_clear (NNODE *head)
 {
-	NODE *tmp = NULL;
+	NNODE *tmp = NULL;
 	int n_del = 0;
 
 	while (head){

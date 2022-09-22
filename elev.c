@@ -15,7 +15,7 @@ struct ELEV {
 	int nf;
 	int cf;
 	int lf;
-	NODE *fl;
+	NNODE *fl;
 
 } static elev = {
 	.nf = 0,
@@ -26,9 +26,10 @@ struct ELEV {
 
 static int e_rest = 0, vis = FALSE, cp = 0;
 static BITMAP *elev_bmp = NULL;
-static char sel[3] = {'0', '0', '\0'}, sel_p = 1;
+static char sel[3] = {'9', '9', '\0'}, sel_p = 1;
 static FONT *temp_fnt = NULL;
 static DATAFILE *elevbutt_wav = NULL;
+static DATAFILE *elevrun_wav = NULL;
 
 static int sp[12][2] = {
 				{168, 27}, {181, 27}, {194, 27}, {207, 27},
@@ -102,12 +103,12 @@ elev_get_floor_goto_name (void)
 	return floor_to_load.name;
 }
 
-static void
+void
 elev_floor_goto (void)
 {
 	if (!e_rest){
 		
-		NODE *cf = elev.fl;
+		NNODE *cf = elev.fl;
 		unsigned long sfn = strtol (sel, NULL, 10);
 		
 		while (cf){
@@ -147,6 +148,7 @@ elev_press (void)
 		
 		}else if (cp == 11){
 			elev_floor_goto ();
+			play_sample ((SAMPLE *)elevrun_wav->dat, 255, 128, 1000, NULL);
 		}
 		play_sample ((SAMPLE *)elevbutt_wav->dat, 255, 128, 1000, NULL);
 		
@@ -174,6 +176,7 @@ elev_free (void)
 	if (!e_rest){
 		elev.fl = node_clear (elev.fl);
 		unload_datafile_object (elevbutt_wav);
+		unload_datafile_object (elevrun_wav);
 		elevbutt_wav = NULL;
 		destroy_bitmap (elev_bmp);
 		destroy_font (temp_fnt);
@@ -189,11 +192,12 @@ elev_init (char *dfn, char *bn)
 	char *names[] = {"THER_FNT", NULL};
 	const int type = DAT_ID('T','Y','P','E');
 	const int name = DAT_ID('N','A','M','E');
-	NODE *cf = NULL;
+	NNODE *cf = NULL;
 	BITMAP *tb = NULL;
 	DATAFILE *df = NULL;
 
 	elevbutt_wav = load_datafile_object (dfn, "ELEVBUTT_WAV");
+	elevrun_wav = load_datafile_object (dfn, "ELEV_RUN_WAV");
 	temp_fnt = load_dat_font (dfn, NULL, names);
 
 	df = load_datafile (dfn);

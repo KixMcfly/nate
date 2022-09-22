@@ -6,9 +6,13 @@
 #include <stdarg.h>
 #include <time.h>
 #include <string.h>
+#include "map.h"
 
 void
 log_print (char *log_o, ...);
+
+//void
+//log_print_map (MAP *m);
 
 char *
 strtmp (char *str);

@@ -28,6 +28,9 @@ char *
 elev_get_floor_goto_name (void);
 
 void
+elev_floor_goto (void);
+
+void
 elev_press (void);
 
 void

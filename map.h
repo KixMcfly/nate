@@ -8,7 +8,6 @@
 #include "tileset.h"
 #include "obj.h"
 #include "node.h"
-#include "tools.h"
 
 enum {
 	SOLID
@@ -57,7 +56,7 @@ map_get_layer_img (MAP *m, int ln);
 int
 map_get_layer_type (MAP *m, int ln);
 
-NODE *
+NNODE *
 map_get_node_head (MAP *m);
 
 MAP *

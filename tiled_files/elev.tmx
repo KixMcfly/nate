@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.9" tiledversion="1.9.1" orientation="orthogonal" renderorder="right-down" width="6" height="4" tilewidth="20" tileheight="20" infinite="0" nextlayerid="3" nextobjectid="2">
+<map version="1.8" tiledversion="1.8.4" orientation="orthogonal" renderorder="right-down" width="6" height="4" tilewidth="20" tileheight="20" infinite="0" nextlayerid="3" nextobjectid="2">
  <editorsettings>
   <export target="../maps/elev.nat" format="custom"/>
  </editorsettings>
@@ -16,6 +16,6 @@
 </data>
  </layer>
  <objectgroup id="2" name="triggers">
-  <object id="1" name="ELEV_BUTT" class="ELEV_BUTT" x="0" y="40" width="20" height="20"/>
+  <object id="1" name="ELEV_BUTT" type="ELEV_BUTT" x="0" y="40" width="20" height="20"/>
  </objectgroup>
 </map>

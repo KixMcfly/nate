@@ -10,7 +10,7 @@ int main (void)
 	VENDING *vn = NULL;
 	BITMAP *title = NULL;
 	DATAFILE *df = NULL, *pal = NULL, *snd_door = NULL;
-	NODE *cn = NULL;
+	NNODE *cn = NULL;
 	char *text_msg = NULL;
 	
 	int nl, cl, quit = FALSE, cam_x = 0, cam_y = 0, cam_dx = 0, cam_dy = 0;
@@ -73,6 +73,8 @@ int main (void)
 	
 	df = load_datafile_object (NATE_DAT, "BATTLE");
 	play_midi ((MIDI *)df->dat, TRUE);
+	
+	elev_floor_goto ();
 
 	while (!quit){
 	
@@ -366,13 +368,18 @@ int main (void)
 				LX (nate.x) == 2 && LY (nate.y) == 3){
 
 				int nx, ny;
-
-				log_print ("GOTO ROOM %s \n", elev_get_floor_goto_name ());
+				char *fs;
 
 				//play_sample ((SAMPLE *)snd_door->dat, 155, 128, 1000, NULL);
 				map_free (m);
 				m = map_new ();
-				load_map (m, NATE_DAT, elev_get_floor_goto_name ());
+				
+				fs = elev_get_floor_goto_name ();
+				
+				if (fs[0] != '\0')
+					load_map (m, NATE_DAT, elev_get_floor_goto_name ());
+				else
+					load_map (m, NATE_DAT, "HOTEL99_NAT");
 				nl = map_get_nl (m);
 				fadeout (5);
 				

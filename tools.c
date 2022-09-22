@@ -21,6 +21,28 @@ log_print (char *log_o, ...)
 	
 }
 
+//void
+//log_print_map (MAP *m)
+//{
+//	int x, y;
+//	int nl = map_get_nl (m);
+//	int w = map_get_w (m);
+//	int h = map_get_h (m);
+//	FILE *ol = fopen ("log.txt", "a");
+//	
+//	for (y = 0; y < h; y++)
+//	{
+//		for (x = 0; x < w; x++)
+//		{
+//			fprintf (ol, "%02x ", map_get_tile_flags (m, 0, x, y));
+//		}
+//		
+//		fprintf (ol, "\n");
+//	}
+//	
+//	fclose (ol);
+//}
+
 char *
 strtmp (char *str)
 {
