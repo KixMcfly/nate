@@ -5,11 +5,7 @@
 #include <stdlib.h>
 #include "tools.h"
 
-typedef struct {
-	int type;
-	void *data;
-	struct NNODE *next;
-} NNODE;
+typedef struct NNODE NNODE;
 
 NNODE *
 node_add (NNODE *head, int type, void *data);

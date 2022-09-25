@@ -1,7 +1,8 @@
 #include <allegro.h>
+#include <dos.h>
 #include "main.h"
 
-int main (void)
+int main (int argc, char **argv)
 {	
 	MAP *m = NULL;
 	NATE nate;

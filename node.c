@@ -1,7 +1,12 @@
 #include "node.h"
 
-NNODE *
-node_add (NNODE *head, int type, void *data)
+struct NNODE {
+	int type;
+	void *data;
+	NNODE *next;
+};
+
+NNODE * node_add (NNODE *head, int type, void *data)
 {
 	NNODE *n_node = (NNODE *) malloc (sizeof (NNODE));
 

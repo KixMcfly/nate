@@ -1,7 +1,6 @@
 #ifndef __MAP_H
 #define __MAP_H
 
-#include <allegro.h>
 #include <string.h>
 #include <stdio.h>
 
@@ -56,7 +55,7 @@ map_get_layer_img (MAP *m, int ln);
 int
 map_get_layer_type (MAP *m, int ln);
 
-NNODE *
+struct NNODE *
 map_get_node_head (MAP *m);
 
 MAP *
