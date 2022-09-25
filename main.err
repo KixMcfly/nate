@@ -1,6 +1,0 @@
-main.c(251): Warning! W103: Parameter count does not agree with previous definition (warning)
-main.c(251): Note! I2002: 'invmenu_init' defined in: inv.h(50)
-main.c(297): Warning! W102: Type mismatch (warning)
-main.c(297): Note! I2003: source conversion type is 'void *'
-main.c(297): Note! I2004: target conversion type is 'int '
-main.c(297): Note! I2002: 'play_sample' defined in: /home/shawn/watcom/h/allegro/digi.h(151)
