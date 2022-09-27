@@ -100,6 +100,8 @@ int main (int argc, char **argv)
 					LY(nate.y) - 1 > -1){
 						grid_snap_up (&nate.x, &nate.y, &nate.dy);
 					}
+						
+				
 
 				nate.ckf = KF_UP;
 			}
@@ -363,14 +365,18 @@ int main (int argc, char **argv)
 			
 		}
 		
+		if (key[KEY_RCONTROL]){
+			map_log (m, nate.x, nate.y);
+		}
+		
 		if (key[KEY_LCONTROL]){
 			
 			if (!strcmp (map_get_name (m), "Elevator") &&
 				LX (nate.x) == 2 && LY (nate.y) == 3){
-
+			
 				int nx, ny;
 				char *fs;
-
+			
 				//play_sample ((SAMPLE *)snd_door->dat, 155, 128, 1000, NULL);
 				map_free (m);
 				m = map_new ();
@@ -429,7 +435,7 @@ int main (int argc, char **argv)
 	nate_exit ();
 	return 0;
 }
-END_OF_MAIN()
+//END_OF_MAIN()
 
 void
 nate_focus_camera (MAP *m, int nx, int ny, int *cam_x, int *cam_y)

@@ -22,6 +22,9 @@ typedef struct MAP MAP;
 typedef struct LAYER LAYER;
 typedef struct TILE TILE;
 
+void
+map_log (MAP *m, int nx, int ny);
+
 int
 map_get_tw (MAP *m);
 

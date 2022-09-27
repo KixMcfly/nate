@@ -35,6 +35,27 @@ struct TILE{
 	
 };
 
+void
+map_log (MAP *m, int nx, int ny)
+{
+	int x, y;
+	FILE *ol = fopen ("log.txt", "a");
+	TILE *data = m->l_list[0].data;
+	
+	fprintf (ol, "NATE X: %d\n", nx);
+	fprintf (ol, "NATE Y: %d\n", ny);
+	fprintf (ol, "MAP WIDTH: %d\n", m->w);
+	fprintf (ol, "MAP HEIGHT: %d\n", m->h);
+	for (y = 0; y < m->h; y++){
+		for (x = 0; x < m->w; x++)
+			fprintf (ol, "%02x ", data[y*m->w+x].flags);
+			
+		fprintf (ol, "\n");
+	}
+
+	fclose (ol);
+}
+
 int
 map_get_tw (MAP *m)
 {
@@ -104,8 +125,8 @@ unsigned char
 map_get_tile_flags (MAP *m, int ln, int x, int y)
 {
 	TILE *data;
-	
-	if (ln <= m->nl){
+	log_print ("Num layers: %d\n", m->nl);
+	if (ln < m->nl){
 		data = m->l_list[ln].data;
 		return data[x+m->w*y].flags;
 	}else
@@ -253,6 +274,7 @@ load_map (MAP *m, char *dat_fn, char *dat_id)
 	m->l_list = (LAYER *)malloc (m->nl * sizeof (LAYER));
 
 	/* Parse layer data */
+	log_print ("load map Num layers: %d\n", m->nl);
 	for (i = 0, ntl = 0; i < m->nl; i++){
 		
 		/* Get layer type */
@@ -284,6 +306,10 @@ load_map (MAP *m, char *dat_fn, char *dat_id)
 			case OBJECTS:
 
 				noo = pack_getc (fp);
+				
+				/* Subtract layer count as object layers are not
+				 * drawn at layer iteration */
+				m->nl -= 1;
 				
 				for (co = 0; co < noo; co++){
 					unsigned long x, y;
@@ -392,7 +418,7 @@ load_map (MAP *m, char *dat_fn, char *dat_id)
 int
 map_free (MAP *m)
 {
-	int i;
+	int i, ct;
 
 	if (m){
 

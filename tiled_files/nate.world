@@ -18,8 +18,8 @@
             "fileName": "elev.tmx",
             "height": 80,
             "width": 120,
-            "x": 40,
-            "y": -140
+            "x": 60,
+            "y": -160
         },
         {
             "fileName": "lobby.tmx",

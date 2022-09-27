@@ -3,7 +3,7 @@ bin = nate.exe
 
 CC = wcc386
 CFLAGS = -zq -3s -s -bt=dos
-LD = wlink libpath /home/shawn/watcom/lib386/dos library alleg.lib system causeway
+LD = wlink library alleg.lib system causeway
 
 $(bin): $(obj)
     $(LD) name $@ file { $(obj) }

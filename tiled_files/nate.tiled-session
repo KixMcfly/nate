@@ -3,26 +3,32 @@
         "height": 4300,
         "width": 2
     },
-    "activeFile": "hotel0.tmx",
+    "activeFile": "hotel99.tmx",
     "expandedProjectPaths": [
         "."
     ],
     "file.lastUsedOpenFilter": "All Files (*)",
     "fileStates": {
         "bat_hotel_1.tmx": {
+            "expandedObjectLayers": [
+                2
+            ],
             "scale": 3,
             "selectedLayer": 1,
             "viewCenter": {
                 "x": 160.16666666666663,
-                "y": 58.16666666666666
+                "y": 81.5
             }
         },
         "elev.tmx": {
+            "expandedObjectLayers": [
+                2
+            ],
             "scale": 2.3091129032258064,
             "selectedLayer": 1,
             "viewCenter": {
-                "x": 60.1962770230154,
-                "y": 40.27520692906786
+                "x": 583.1243669891385,
+                "y": 135.1168232459051
             }
         },
         "enemies.tsx": {
@@ -50,16 +56,19 @@
             "scale": 2.3091129032258064,
             "selectedLayer": 2,
             "viewCenter": {
-                "x": 290.3712499563441,
-                "y": 154.82135996926624
+                "x": 299.6821848915587,
+                "y": 199.64376768064818
             }
         },
         "hotel99.tmx": {
+            "expandedObjectLayers": [
+                3
+            ],
             "scale": 2.3091129032258064,
             "selectedLayer": 2,
             "viewCenter": {
-                "x": 299.6821848915587,
-                "y": 120.39255404603081
+                "x": 442.8107428491601,
+                "y": 95.27468305800997
             }
         },
         "hotel_fight_01.tmx": {
@@ -81,20 +90,23 @@
             "scaleInEditor": 1
         },
         "nateroom.tmx": {
+            "expandedObjectLayers": [
+                3
+            ],
             "scale": 2.3091129032258064,
-            "selectedLayer": 2,
+            "selectedLayer": 0,
             "viewCenter": {
-                "x": 50.23574197604163,
-                "y": 60.1962770230154
+                "x": -23.1690706527433,
+                "y": 168.67949568679495
             }
         }
     },
-    "last.exportedFilePath": "C:/projects/nate/maps",
+    "last.exportedFilePath": "/home/shawn/projects/nate/maps",
     "last.imagePath": "C:/projects/nate/images/enemys",
     "last.objectTypesPath": "C:/projects/nate/tiled_files/propertytypes.json",
-    "last.worldFilePath": "C:/projects/nate/tiled_files",
+    "last.worldFilePath": "/home/shawn/projects/nate/tiled_files",
     "loadedWorlds": [
-        "C:/projects/nate/tiled_files/nate.world"
+        "/home/shawn/projects/nate/tiled_files/nate.world"
     ],
     "map.height": 20,
     "map.lastUsedExportFilter": "Nathyn's Room Chunk Format (*.nat)",
@@ -109,22 +121,22 @@
         "nate.tsx",
         "inter.tsx",
         "hotel.tsx",
-        "enemies.tsx",
         "bat_hotel_1.tmx",
-        "hotel0.tmx"
+        "hotel0.tmx",
+        "enemies.tsx"
     ],
     "project": "nate.tiled-project",
     "property.type": "string",
     "recentFiles": [
         "nateroom.tmx",
-        "hotel99.tmx",
-        "elev.tmx",
-        "nate.tsx",
-        "inter.tsx",
-        "hotel.tsx",
         "enemies.tsx",
-        "bat_hotel_1.tmx",
         "hotel0.tmx",
+        "bat_hotel_1.tmx",
+        "hotel.tsx",
+        "inter.tsx",
+        "nate.tsx",
+        "elev.tmx",
+        "hotel99.tmx",
         "hotel_fight_01.tmx",
         "floor99.tmx"
     ],

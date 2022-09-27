@@ -26,7 +26,7 @@
     </properties>
    </property>
   </properties>
-  <image width="60" height="60" source="../images/enemy/cuterat.bmp"/>
+  <image width="60" height="60" source="../images/cuterat.bmp"/>
  </tile>
  <tile id="1" class="ENEMY">
   <properties>
@@ -51,7 +51,7 @@
     </properties>
    </property>
   </properties>
-  <image width="60" height="60" source="../images/enemy/beachbld.bmp"/>
+  <image width="60" height="60" source="../images/beachbld.bmp"/>
  </tile>
  <tile id="2" class="ENEMY">
   <properties>
@@ -77,7 +77,7 @@
     </properties>
    </property>
   </properties>
-  <image width="40" height="40" source="../images/enemy/madmail.bmp"/>
+  <image width="40" height="40" source="../images/madmail.bmp"/>
  </tile>
  <tile id="3" class="ENEMY">
   <properties>
@@ -103,7 +103,7 @@
     </properties>
    </property>
   </properties>
-  <image width="40" height="40" source="../images/enemy/router.bmp"/>
+  <image width="40" height="40" source="../images/router.bmp"/>
  </tile>
  <tile id="4" x="0" y="0" width="115" height="60" class="ENEMY">
   <properties>
@@ -144,6 +144,6 @@
     </properties>
    </property>
   </properties>
-  <image width="120" height="60" source="../images/enemy/potbelly.bmp"/>
+  <image width="120" height="60" source="../images/potbelly.bmp"/>
  </tile>
 </tileset>
