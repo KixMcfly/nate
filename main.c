@@ -366,7 +366,14 @@ int main (int argc, char **argv)
 		}
 		
 		if (key[KEY_RCONTROL]){
-			map_log (m, nate.x, nate.y);
+			map_free (m);
+			m = map_new ();
+			load_map (m, NATE_DAT, "BAT_HOTEL_1_NAT");
+						
+			nl = map_get_nl (m);
+			fadeout (5);
+			cam_x = 0;
+			cam_y = 0;
 		}
 		
 		if (key[KEY_LCONTROL]){
