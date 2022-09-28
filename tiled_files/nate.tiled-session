@@ -10,25 +10,19 @@
     "file.lastUsedOpenFilter": "All Files (*)",
     "fileStates": {
         "bat_hotel_1.tmx": {
-            "expandedObjectLayers": [
-                2
-            ],
             "scale": 3,
             "selectedLayer": 1,
             "viewCenter": {
-                "x": 160.16666666666663,
-                "y": 81.5
+                "x": 159.83333333333331,
+                "y": 89.83333333333334
             }
         },
         "elev.tmx": {
-            "expandedObjectLayers": [
-                2
-            ],
             "scale": 2.3091129032258064,
             "selectedLayer": 1,
             "viewCenter": {
-                "x": 583.1243669891385,
-                "y": 135.1168232459051
+                "x": 59.979743652429015,
+                "y": 40.058673558481445
             }
         },
         "enemies.tsx": {
@@ -56,19 +50,16 @@
             "scale": 2.3091129032258064,
             "selectedLayer": 2,
             "viewCenter": {
-                "x": 299.6821848915587,
-                "y": 199.64376768064818
+                "x": 299.89871826214505,
+                "y": 200.29336779240737
             }
         },
         "hotel99.tmx": {
-            "expandedObjectLayers": [
-                3
-            ],
-            "scale": 2.3091129032258064,
+            "scale": 2,
             "selectedLayer": 2,
             "viewCenter": {
-                "x": 442.8107428491601,
-                "y": 95.27468305800997
+                "x": 307.75,
+                "y": 159.5
             }
         },
         "hotel_fight_01.tmx": {
@@ -90,14 +81,11 @@
             "scaleInEditor": 1
         },
         "nateroom.tmx": {
-            "expandedObjectLayers": [
-                3
-            ],
             "scale": 2.3091129032258064,
             "selectedLayer": 0,
             "viewCenter": {
-                "x": -23.1690706527433,
-                "y": 168.67949568679495
+                "x": 49.58614186428247,
+                "y": 59.97974365242899
             }
         }
     },
