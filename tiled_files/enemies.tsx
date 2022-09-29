@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<tileset version="1.8" tiledversion="1.8.4" name="enemies" tilewidth="120" tileheight="60" tilecount="5" columns="0" objectalignment="bottomright">
+<tileset version="1.9" tiledversion="1.9.2" name="enemies" tilewidth="120" tileheight="60" tilecount="5" columns="0" objectalignment="bottomright">
  <grid orientation="orthogonal" width="1" height="1"/>
- <tile id="0" type="ENEMY">
+ <tile id="0" class="ENEMY">
   <properties>
    <property name="BITE" type="class" propertytype="ATTACK">
     <properties>
@@ -28,7 +28,7 @@
   </properties>
   <image width="60" height="60" source="../images/cuterat.bmp"/>
  </tile>
- <tile id="1" type="ENEMY">
+ <tile id="1" class="ENEMY">
   <properties>
    <property name="STATS" type="class" propertytype="STAT">
     <properties>
@@ -53,7 +53,7 @@
   </properties>
   <image width="60" height="60" source="../images/beachbld.bmp"/>
  </tile>
- <tile id="2" type="ENEMY">
+ <tile id="2" class="ENEMY">
   <properties>
    <property name="BLOCKS YOUR DRIVEWAY" type="class" propertytype="ATTACK">
     <properties>
@@ -79,7 +79,7 @@
   </properties>
   <image width="40" height="40" source="../images/madmail.bmp"/>
  </tile>
- <tile id="3" type="ENEMY">
+ <tile id="3" class="ENEMY">
   <properties>
    <property name="LOSES PACKETS" type="class" propertytype="ATTACK">
     <properties>
@@ -105,7 +105,7 @@
   </properties>
   <image width="40" height="40" source="../images/router.bmp"/>
  </tile>
- <tile id="4" type="ENEMY">
+ <tile id="4" class="ENEMY">
   <properties>
    <property name="EAT" type="class" propertytype="ATTACK">
     <properties>

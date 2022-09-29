@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objecttypes>
+ <objecttype name="CHGROOM" color="#00ffff">
+  <property name="name" type="string"/>
+  <property name="x" type="string"/>
+  <property name="y" type="string"/>
+ </objecttype>
+</objecttypes>
