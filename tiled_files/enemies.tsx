@@ -17,10 +17,9 @@
      <property name="prob" type="int" value="45"/>
     </properties>
    </property>
-   <property name="STATS" type="class" propertytype="STAT">
+   <property name="STAT" type="class" propertytype="STAT">
     <properties>
      <property name="health" type="int" value="100"/>
-     <property name="item" type="int" propertytype="INV_LIST" value="0"/>
      <property name="money" type="int" value="5"/>
      <property name="name" value="Cute Rat"/>
     </properties>

@@ -1,6 +1,7 @@
 [
     {
-        "id": 12,
+        "color": "#ffa0a0a4",
+        "id": 10,
         "members": [
             {
                 "name": "dam",
@@ -13,13 +14,46 @@
                 "value": "%s %ss"
             },
             {
+                "name": "name",
+                "type": "string",
+                "value": ""
+            },
+            {
                 "name": "prob",
                 "type": "int",
                 "value": 0
             }
         ],
         "name": "ATTACK",
-        "type": "class"
+        "type": "class",
+        "useAs": [
+            "property"
+        ]
+    },
+    {
+        "color": "#ffa0a0a4",
+        "id": 11,
+        "members": [
+            {
+                "name": "STAT",
+                "propertyType": "STAT",
+                "type": "class",
+                "value": {
+                }
+            }
+        ],
+        "name": "ENEMY",
+        "type": "class",
+        "useAs": [
+            "property",
+            "map",
+            "layer",
+            "object",
+            "tile",
+            "tileset",
+            "wangcolor",
+            "wangset"
+        ]
     },
     {
         "id": 1,
@@ -33,6 +67,7 @@
         "valuesAsFlags": true
     },
     {
+        "color": "#ffa0a0a4",
         "id": 2,
         "members": [
             {
@@ -48,7 +83,10 @@
             }
         ],
         "name": "INV_DRDOUCHE",
-        "type": "class"
+        "type": "class",
+        "useAs": [
+            "property"
+        ]
     },
     {
         "id": 3,
@@ -64,6 +102,7 @@
         "valuesAsFlags": false
     },
     {
+        "color": "#ffa0a0a4",
         "id": 4,
         "members": [
             {
@@ -79,9 +118,13 @@
             }
         ],
         "name": "INV_MONEY",
-        "type": "class"
+        "type": "class",
+        "useAs": [
+            "property"
+        ]
     },
     {
+        "color": "#ffa0a0a4",
         "id": 5,
         "members": [
             {
@@ -97,9 +140,13 @@
             }
         ],
         "name": "INV_NONE",
-        "type": "class"
+        "type": "class",
+        "useAs": [
+            "property"
+        ]
     },
     {
+        "color": "#ffa0a0a4",
         "id": 6,
         "members": [
             {
@@ -115,9 +162,13 @@
             }
         ],
         "name": "INV_NUGGETS",
-        "type": "class"
+        "type": "class",
+        "useAs": [
+            "property"
+        ]
     },
     {
+        "color": "#ffa0a0a4",
         "id": 9,
         "members": [
             {
@@ -143,9 +194,13 @@
             }
         ],
         "name": "STAT",
-        "type": "class"
+        "type": "class",
+        "useAs": [
+            "property"
+        ]
     },
     {
+        "color": "#ffa0a0a4",
         "id": 7,
         "members": [
             {
@@ -156,9 +211,13 @@
             }
         ],
         "name": "TILEFLAGS",
-        "type": "class"
+        "type": "class",
+        "useAs": [
+            "property"
+        ]
     },
     {
+        "color": "#ffa0a0a4",
         "id": 8,
         "members": [
             {
@@ -283,6 +342,9 @@
             }
         ],
         "name": "VENDING",
-        "type": "class"
+        "type": "class",
+        "useAs": [
+            "property"
+        ]
     }
 ]

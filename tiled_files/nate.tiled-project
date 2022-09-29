@@ -22,6 +22,11 @@
                     "value": "%s %ss"
                 },
                 {
+                    "name": "name",
+                    "type": "string",
+                    "value": ""
+                },
+                {
                     "name": "prob",
                     "type": "int",
                     "value": 0
@@ -31,6 +36,31 @@
             "type": "class",
             "useAs": [
                 "property"
+            ]
+        },
+        {
+            "color": "#ffa0a0a4",
+            "id": 11,
+            "members": [
+                {
+                    "name": "STAT",
+                    "propertyType": "STAT",
+                    "type": "class",
+                    "value": {
+                    }
+                }
+            ],
+            "name": "ENEMY",
+            "type": "class",
+            "useAs": [
+                "property",
+                "map",
+                "layer",
+                "object",
+                "tile",
+                "tileset",
+                "wangcolor",
+                "wangset"
             ]
         },
         {
