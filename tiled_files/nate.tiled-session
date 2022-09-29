@@ -10,22 +10,19 @@
     "file.lastUsedOpenFilter": "All Files (*)",
     "fileStates": {
         "bat_hotel_1.tmx": {
-            "expandedObjectLayers": [
-                2
-            ],
             "scale": 3,
             "selectedLayer": 1,
             "viewCenter": {
                 "x": 171.16666666666663,
-                "y": 89.99999999999999
+                "y": 89.66666666666664
             }
         },
         "elev.tmx": {
             "scale": 1.5,
             "selectedLayer": 1,
             "viewCenter": {
-                "x": 685,
-                "y": 947.3333333333333
+                "x": 60.33333333333334,
+                "y": 40.33333333333337
             }
         },
         "enemies.tsx": {
@@ -50,36 +47,27 @@
             "scaleInEditor": 1
         },
         "hotel0.tmx": {
-            "expandedObjectLayers": [
-                3
-            ],
             "scale": 1.5,
             "selectedLayer": 0,
             "viewCenter": {
-                "x": 367.6666666666667,
-                "y": 536
+                "x": 299.66666666666663,
+                "y": 200.3333333333333
             }
         },
         "hotel81.tmx": {
-            "expandedObjectLayers": [
-                3
-            ],
             "scale": 1.5,
             "selectedLayer": 2,
             "viewCenter": {
                 "x": 345,
-                "y": 227.33333333333331
+                "y": 227.3333333333333
             }
         },
         "hotel99.tmx": {
-            "expandedObjectLayers": [
-                3
-            ],
             "scale": 1.5,
             "selectedLayer": 2,
             "viewCenter": {
-                "x": -69.66666666666663,
-                "y": 81.33333333333334
+                "x": 299.66666666666663,
+                "y": 120.33333333333334
             }
         },
         "hotel_fight_01.tmx": {
@@ -101,18 +89,15 @@
             "scaleInEditor": 1
         },
         "nateroom.tmx": {
-            "expandedObjectLayers": [
-                3
-            ],
             "scale": 2,
             "selectedLayer": 2,
             "viewCenter": {
-                "x": 50,
-                "y": 60
+                "x": 50.25,
+                "y": 59.75
             }
         }
     },
-    "last.exportedFilePath": "/home/shawn/projects/nate/maps",
+    "last.exportedFilePath": "C:/projects/nate/maps",
     "last.imagePath": "C:/projects/nate/images/enemys",
     "last.objectTypesPath": "C:/projects/nate/tiled_files/propertytypes.json",
     "last.worldFilePath": "/home/shawn/projects/nate/tiled_files",

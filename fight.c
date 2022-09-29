@@ -11,7 +11,7 @@ typedef struct {
 
 struct ENEMY {
 	
-	char *name;
+	char name[20];
 	int money;
 	const int health;
 	ATTACK *att_l;
