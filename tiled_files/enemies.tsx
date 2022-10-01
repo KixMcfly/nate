@@ -3,10 +3,11 @@
  <grid orientation="orthogonal" width="1" height="1"/>
  <tile id="0" class="ENEMY">
   <properties>
-   <property name="BITE" type="class" propertytype="ATTACK">
+   <property name="ATTACK" type="class" propertytype="ATTACK">
     <properties>
      <property name="dam" type="int" value="-5"/>
      <property name="desc" value="%s %sS you!"/>
+     <property name="name" value="BITE"/>
      <property name="prob" type="int" value="45"/>
     </properties>
    </property>
@@ -29,9 +30,9 @@
  </tile>
  <tile id="1" class="ENEMY">
   <properties>
-   <property name="STATS" type="class" propertytype="STAT">
+   <property name="STAT" type="class" propertytype="STAT">
     <properties>
-     <property name="health" type="int" value="30"/>
+     <property name="health" type="int" value="1"/>
      <property name="money" type="int" value="1"/>
      <property name="name" value="Beach Bald"/>
     </properties>
@@ -68,7 +69,7 @@
      <property name="prob" type="int" value="30"/>
     </properties>
    </property>
-   <property name="STATS" type="class" propertytype="STAT">
+   <property name="STAT" type="class" propertytype="STAT">
     <properties>
      <property name="health" type="int" value="150"/>
      <property name="money" type="int" value="8"/>
@@ -87,7 +88,7 @@
      <property name="prob" type="int" value="70"/>
     </properties>
    </property>
-   <property name="STATS" type="class" propertytype="STAT">
+   <property name="STAT" type="class" propertytype="STAT">
     <properties>
      <property name="health" type="int" value="90"/>
      <property name="money" type="int" value="10"/>
@@ -134,10 +135,9 @@
      <property name="prob" type="int" value="40"/>
     </properties>
    </property>
-   <property name="STATS" type="class" propertytype="STAT">
+   <property name="STAT" type="class" propertytype="STAT">
     <properties>
      <property name="health" type="int" value="3000"/>
-     <property name="item" type="int" propertytype="INV_LIST" value="2"/>
      <property name="money" type="int" value="100"/>
      <property name="name" value="Pot Belly Tard"/>
     </properties>

@@ -89,29 +89,40 @@ var customMapFormat = {
 				var curLayer = {type: "objects", data: []};
 				
 				for (var ii = 0; ii < numOfObjects; ii++){
-					var type = layer.objects[ii].type;
 					var ox = layer.objects[ii].x;
 					var oy = layer.objects[ii].y;
-					var props;
+					var props, type;
 					
-					
-					//props are in tile object if this is a battle room
-					if (fileName.indexOf ("bat_") != -1){
+					//If object is derived from a tile
+					if (layer.objects[ii].tile){
 						props = layer.objects[ii].tile.properties();
 						type = layer.objects[ii].tile.className;
-						
 						let afn = layer.objects[ii].tile.imageFileName;
 						afn = getTSName (afn);
-						
 						props.imageID = addAsset (mapAssets, afn);
-						props.objectType = "ENEMY";
-
-						
+					//If object does not have a tile association
 					}else{
+						type = layer.objects[ii].type;
 						props = layer.objects[ii].properties();
 					}
 					
-					curLayer.data.push ({type: type, props: props, x:ox, y:oy});
+					
+					//remove uneeded props from properties
+					var modProps = [];
+					
+					var co = 0;
+					for (var prop in props){
+						
+						if (typeof props[prop] == "object"){
+							modProps.push ({data: props[prop].value, type: props[prop].typeName});
+						}else{
+							modProps.push ({data: props[prop], type: prop});
+						}
+						
+						co++;
+					}
+					
+					curLayer.data.push ({type: type, props: modProps, x:ox, y:oy});
 				}
 			}else{
 				tiled.log ("Dunno what layer type this is.");
@@ -121,7 +132,6 @@ var customMapFormat = {
         }
         
         //Write tileset asset lookup
-        //Number of tileset assets map uses
         sfb.write (Uint8Array.from ([mapAssets.length]).buffer);
         for (var i = 0; i < mapAssets.length; i++){
 			
@@ -146,7 +156,7 @@ var customMapFormat = {
 			tiled.log (proc.readStdOut ());
         
 			if (rc != 0)
-				tiled.log ("Failed to add bmp " + fileName + " to DAT file!");
+				tiled.log ("Failed to add bmp " + fileName + " to DAT file!..");
 			
 		}
   
@@ -193,7 +203,25 @@ var customMapFormat = {
 						sfb.write (strLen (od.type));
 						sfb.write (strCharCodes (od.type));
 						sfb.write (Uint32Array.from([od.x, od.y]).buffer);
-						addPropsBuff (sfb, od.props);
+						
+						//Write props to binary
+						var np = layers[i].data[co].props.length;
+						//tiled.log (JSON.stringify (layers[i].data[co].props[0]));
+						
+						//interate and write object props
+						for (let cp = 0; cp < np; cp++){
+							tiled.log (JSON.stringify ());
+							
+							var prop = layers[i].data[co].props[cp];
+							
+							switch (typeof prop.data){
+								case "object":
+									tiled.log ("OBJECT: " + JSON.stringify (prop));
+									break;
+								default:
+									tiled.log ("NOT OBJECT: " + JSON.stringify (prop));
+							}
+						}
 					}
 				break;
 				default:
@@ -277,78 +305,4 @@ function getTSName (tsAbs){
 	var DATId = tsAbs.substring(n + 1);
 	
 	return DATId.replace (".", "_");
-}
-
-function addPropsBuff (buff, props){
-	
-	var nProps = Object.keys(props).length;
-
-	
-
-	for (var name in props){
-		
-		var varType = typeof props[name];
-		var val = props[name];
-
-		switch (varType){
-			case "boolean":
-				//Write boolean value as 0 or 1, this is what C uses for TRUE and FALSE
-				var bool = (val) ? 1: 0;
-				buff.write (Uint8Array.from ([bool]).buffer);
-				break;
-			case "string":
-				buff.write (strLen (val));
-				buff.write (strCharCodes (val));
-				break;
-			case "number":
-				buff.write (Uint32Array.from([val]).buffer);	
-				break;
-			case "object":
-				var ot = props.objectType;
-
-				if (ot == "ENEMY"){
-	
-					//Collect data in order for binary parsing
-					let enemyData = {stats: {}, attacks:[]};
-	
-					//Write image ID of enemy
-					buff.write (Uint8Array.from([props.imageID]).buffer);
-	
-					//write enemy name
-					buff.write (strLen (props.STATS.value.name));
-					buff.write (strCharCodes (props.STATS.value.name));
-					
-					//writh healthfd
-					buff.write (Uint32Array.from([props.STATS.value.health]).buffer);
-					
-					//write health
-					buff.write (Uint32Array.from([props.STATS.value.money]).buffer);
-	
-					//Number of attacks. Subtract three from props due
-					//to 3 prop not being attacks
-					buff.write (Uint8Array.from([nProps - 3]).buffer);
-	
-					if (name == "STATS"){
-						
-						enemyData.stats.health = props[name].value.health;
-						enemyData.stats.item = props[name].value.item;
-						enemyData.stats.money = props[name].value.money;
-						enemyData.stats.name = props[name].value.name;
-						
-					}else {
-						
-						enemyData.attacks.push[{
-										name:name,
-										dam: props[name].value.dam,
-										desc: props[name].value.desc,
-										prop: props[name].value.prob
-									}];
-									
-									
-						tiled.log (JSON.stringify (enemyData));
-					}
-				}
-				break;
-		}
-	}
 }

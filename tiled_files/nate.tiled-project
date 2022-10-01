@@ -22,11 +22,6 @@
                     "value": "%s %ss"
                 },
                 {
-                    "name": "name",
-                    "type": "string",
-                    "value": ""
-                },
-                {
                     "name": "prob",
                     "type": "int",
                     "value": 0
