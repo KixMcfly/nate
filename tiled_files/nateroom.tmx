@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.8" tiledversion="1.8.4" orientation="orthogonal" renderorder="right-down" width="5" height="6" tilewidth="20" tileheight="20" infinite="0" nextlayerid="4" nextobjectid="5">
+<map version="1.9" tiledversion="1.9.2" orientation="orthogonal" renderorder="right-down" width="5" height="6" tilewidth="20" tileheight="20" infinite="0" nextlayerid="4" nextobjectid="5">
  <editorsettings>
   <export target="../maps/nateroom.nat" format="custom"/>
  </editorsettings>
@@ -29,14 +29,14 @@
 </data>
  </layer>
  <objectgroup id="3" name="triggers">
-  <object id="1" name="FLOOR99_NAT" type="CHGROOM" x="20" y="100" width="20" height="20">
+  <object id="1" name="FLOOR99_NAT" class="CHGROOM" x="20" y="100" width="20" height="20">
    <properties>
     <property name="name" value="HOTEL99_NAT"/>
     <property name="x" type="int" value="1"/>
     <property name="y" type="int" value="2"/>
    </properties>
   </object>
-  <object id="2" name="STAT" type="STAT" x="0" y="40" width="20" height="20"/>
-  <object id="4" name="ITEMBOX" type="ITEMBOX" x="60" y="80" width="20" height="20"/>
+  <object id="2" class="STAT" x="0" y="40" width="20" height="20"/>
+  <object id="4" name="ITEMBOX" class="ITEMBOX" x="60" y="80" width="20" height="20"/>
  </objectgroup>
 </map>

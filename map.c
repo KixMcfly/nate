@@ -321,6 +321,8 @@ load_map (MAP *m, char *dat_fn, char *dat_id)
 					x = pack_igetl (fp);
 					y = pack_igetl (fp);
 
+					log_print ("LOADING OBJECT: %s\n", type);
+
 					if (!strcmp (type, "COMPUTER")){
 						GENERIC *gen = (GENERIC *) malloc (sizeof (GENERIC));
 						gen->x = x;

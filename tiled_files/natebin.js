@@ -102,10 +102,9 @@ var customMapFormat = {
 						props.imageID = addAsset (mapAssets, afn);
 					//If object does not have a tile association
 					}else{
-						type = layer.objects[ii].type;
+						type = layer.objects[ii].className;
 						props = layer.objects[ii].properties();
 					}
-					
 					
 					//remove uneeded props from properties
 					var modProps = [];
@@ -115,8 +114,11 @@ var customMapFormat = {
 						
 						if (typeof props[prop] == "object"){
 							modProps.push ({data: props[prop].value, type: props[prop].typeName});
+							
 						}else{
-							modProps.push ({data: props[prop], type: prop});
+							let data = {};
+							data[prop] = props[prop];
+							modProps.push ({data: data, type: prop});
 						}
 						
 						co++;
@@ -197,6 +199,7 @@ var customMapFormat = {
 					//Number of objects
 					sfb.write (Uint8Array.from ([layers[i].data.length]).buffer);
 					
+					//Iterate and write objects
 					for (var co = 0; co < layers[i].data.length; co++){
 						var od = layers[i].data[co];
 
@@ -204,24 +207,31 @@ var customMapFormat = {
 						sfb.write (strCharCodes (od.type));
 						sfb.write (Uint32Array.from([od.x, od.y]).buffer);
 						
-						//Write props to binary
+						//Write number of props object has
 						var np = layers[i].data[co].props.length;
-						//tiled.log (JSON.stringify (layers[i].data[co].props[0]));
+						sfb.write (Uint8Array.from ([np]).buffer);
+						
+						var nw = 0;
 						
 						//interate and write object props
 						for (let cp = 0; cp < np; cp++){
-							tiled.log (JSON.stringify ());
+							let prop = layers[i].data[co].props[cp];
+							let type = layers[i].data[co].props[cp].type;
+
+							type = type.toUpperCase ();
+
+							//Write prop type
+							sfb.write (strLen (type));
+							sfb.write (strCharCodes (type));
 							
-							var prop = layers[i].data[co].props[cp];
-							
-							switch (typeof prop.data){
-								case "object":
-									tiled.log ("OBJECT: " + JSON.stringify (prop));
-									break;
-								default:
-									tiled.log ("NOT OBJECT: " + JSON.stringify (prop));
-							}
+							//write prop to binary
+							for (data in prop.data)
+								writeProp (sfb, prop.data[data]);
+	
+							nw++;
 						}
+						
+						tiled.log ("Number od props written for " + type + " :" + nw);
 					}
 				break;
 				default:
@@ -253,6 +263,27 @@ var customMapFormat = {
 
 //Register as custom tool in Tiled
 tiled.registerMapFormat("custom", customMapFormat)
+
+function writeProp (buff, prop){
+	
+	tiled.log ("      : " + prop);
+	
+	switch (typeof prop){
+		case "number":
+			buff.write (Uint16Array.from([prop]).buffer);
+			break;
+		case "string":
+			buff.write (strLen (prop));
+			buff.write (strCharCodes (prop));
+			tiled.log ("WRITING " + prop);
+			break;
+		case "boolean":
+			buff.write (Uint8Array.from([(prop ? 1 : 0)]).buffer);
+			break;
+		default:
+			tiled.log ("WARNING: Unexpected data type: " + typeof prop);
+	}
+}
 
 function strLen (str){
 	
