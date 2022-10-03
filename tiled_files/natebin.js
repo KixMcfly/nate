@@ -89,9 +89,9 @@ var customMapFormat = {
 				var curLayer = {type: "objects", data: []};
 				
 				for (var ii = 0; ii < numOfObjects; ii++){
-					var ox = layer.objects[ii].x;
-					var oy = layer.objects[ii].y;
-					var props, klass;
+					let ox = layer.objects[ii].x;
+					let oy = layer.objects[ii].y;
+					let klass, data = undefined;
 					
 					//If object is derived from tile, grab class
 					//name from that
@@ -102,85 +102,73 @@ var customMapFormat = {
 					}else
 						props = layer.objects[ii].properties ();
 					
-					//X Y coords of object
-					sfb.write (Uint16Array.from ([ox, oy]).buffer);
-						
 					switch (klass){
 						case "ENEMY":
-							
-							let name = props.STAT.value.name;
-							let health = props.STAT.value.health;
-							let item = props.STAT.value.item;
-							let money = props.STAT.value.money;
+							data = {};
+							data.attacks = [];
+							data.name = props.STAT.value.name;
+							data.health = props.STAT.value.health;
+							data.item = props.STAT.value.item;
+							data.money = props.STAT.value.money;
 							let afn = layer.objects[ii].tile.imageFileName;
 							afn = getTSName (afn);
-							let imageID = addAsset (mapAssets, afn);
+							data.imageID = addAsset (mapAssets, afn);
 							
-							if (!money)
-								money = 0;
+							//Remove STAT prop
+							delete props.STAT;
+							
+							if (!data.money)
+								data.money = 0;
 								
-							if (!item)
-								item = 0;
+							if (!data.item)
+								data.item = 0;
+
+							//Iterate attacks
+							for (att in props){
+								let ca = {};
+								
+								ca.name = att;
+								ca.dam = props[att].value.dam;
+								ca.desc = props[att].value.desc;
+								ca.prob = props[att].value.prob;
+								
+								if (!ca.dam)
+									ca.dam = 0;
+								
+								
+								
+								data.attacks.push (ca);
+							}
 							
-							sfb.write (strLen (name));
-							sfb.write (strCharCodes (name));
-							sfb.write (Uint8Array.from ([imageID]).buffer);
-							sfb.write (Uint16Array.from ([health, item, money]).buffer);
-							tiled.log (`ENEMY ${name} ${health} ${item} ${money} ${imageID}`);
 							break;
 						case "CHGROOM":
-							tiled.log (`CHGROOM ${props.name} ${props.x} ${props.y}`);
-							break;
-						case "ELEV_BUTT":
-							tiled.log ("Writing ELEV_BUTT");
-							tiled.log (`CHGROOM ${props.name} ${props.x} ${props.y}`);
+							data = {};
+							data.name = props.name;
+							data.x = props.x;
+							data.y = props.y;
 							break;
 						case "VENDING":
-							tiled.log ("Writing VENDING");
-							break;
-						case "ITEMBOX":
-						case "STAT":
+							data = [];
+							
+							//20 potential items can be in a vending machine.
+							for (let ci = 1; ci <= 20; ci++){
+								let item = "ITEM";
+								item += (ci <= 9) ? "0" + ci : ci;
+								
+								if (props[item] == undefined)
+									data.push (0);
+								else
+									data.push (props[item].value);
+							}
 							
 							break;
 						default:
-							tiled.log ("UNKNOWN OBJECT TYPE");
+							tiled.log ("GENERAL OBJECT TYPE: " + klass);
 							
 					}
 					
-					//tiled.log ("FFFFFFFFFFFFFFF: " +  layer.objects[ii].className);
-					
-					////If object is derived from a tile
-					//if (layer.objects[ii].tile){
-					//	props = layer.objects[ii].tile.properties();
-					//	type = layer.objects[ii].tile.className;
-					//	let afn = layer.objects[ii].tile.imageFileName;
-					//	afn = getTSName (afn);
-					//	props.imageID = addAsset (mapAssets, afn);
-					////If object does not have a tile association
-					//}else{
-					//	type = layer.objects[ii].className;
-					//	props = layer.objects[ii].properties();
-					//}
-					//
-					////remove uneeded props from properties
-					//var modProps = [];
-					//
-					//var co = 0;
-					//for (var prop in props){
-					//	
-					//	if (typeof props[prop] == "object"){
-					//		modProps.push ({data: props[prop].value, type: props[prop].typeName});
-					//		
-					//	}else{
-					//		let data = {};
-					//		data[prop] = props[prop];
-					//		modProps.push ({data: data, type: prop});
-					//	}
-					//	
-					//	co++;
-					//}
-					//
-					//curLayer.data.push ({type: type, props: modProps, x:ox, y:oy});
+					curLayer.data.push ({klass: klass, data: data, x:ox, y:oy});
+
 				}
 			}else{
 				tiled.log ("Dunno what layer type this is.");
@@ -259,35 +247,73 @@ var customMapFormat = {
 					for (var co = 0; co < layers[i].data.length; co++){
 						var od = layers[i].data[co];
 
-						sfb.write (strLen (od.type));
-						sfb.write (strCharCodes (od.type));
-						sfb.write (Uint32Array.from([od.x, od.y]).buffer);
+						//Object type to binary
+						sfb.write (strLen (od.klass));
+						sfb.write (strCharCodes (od.klass));
 						
-						//Write number of props object has
-						var np = layers[i].data[co].props.length;
-						sfb.write (Uint8Array.from ([np]).buffer);
+						//Write object X Y coord
+						sfb.write (Uint16Array.from ([od.x, od.y]).buffer);
 						
-						var nw = 0;
-						
-						//interate and write object props
-						for (let cp = 0; cp < np; cp++){
-							let prop = layers[i].data[co].props[cp];
-							let type = layers[i].data[co].props[cp].type;
-
-							type = type.toUpperCase ();
-
-							//Write prop type
-							sfb.write (strLen (type));
-							sfb.write (strCharCodes (type));
+						switch (od.klass){
+							case "ENEMY":
+								//enemy name
+								sfb.write (strLen (od.data.name));
+								sfb.write (strCharCodes (od.data.name));
+								
+								//health
+								sfb.write (Uint16Array.from ([od.data.health]).buffer);
+								
+								//money
+								sfb.write (Uint16Array.from ([od.data.money]).buffer);
+								
+								//item
+								sfb.write (Uint16Array.from ([od.data.item]).buffer);
+								
+								//write num of attacks
+								let na = od.data.attacks.length;
+								sfb.write (Uint8Array.from ([na]).buffer);
+								
+								//write attacks
+								for (let ca = 0; ca < na; ca++){
+									
+									let att = od.data.attacks[ca];
+									
+									//attack name
+									sfb.write (strLen (att.name));
+									sfb.write (strCharCodes (att.name));
+									
+									//attack description
+									sfb.write (strLen (att.desc));
+									sfb.write (strCharCodes (att.desc));
+									
+									//attack damage
+									sfb.write (Uint16Array.from ([att.dam]).buffer);
+									
+									//attack probablity
+									sfb.write (Uint8Array.from ([att.prob]).buffer);
+									
+									tiled.log (JSON.stringify (att));
+								}
+								
+								break;
+							case "CHGROOM":
+								//room to change to
+								sfb.write (strLen (od.data.name));
+								sfb.write (strCharCodes (od.data.name));
+								
+								//Write dest X Y coord
+								sfb.write (Uint16Array.from ([od.data.x, od.data.y]).buffer);
+								
+								tiled.log (`${od.klass} ${od.data.name} ${od.data.x} ${od.data.y}`)
 							
-							//write prop to binary
-							for (data in prop.data)
-								writeProp (sfb, prop.data[data]);
-	
-							nw++;
+								break;
+							case "VENDING":
+								//Write vending machine items
+								sfb.write (Uint16Array.from (od.data).buffer);
+								break;
+							default:
+							
 						}
-						
-						tiled.log ("Number od props written for " + type + " :" + nw);
 					}
 				break;
 				default:
@@ -319,27 +345,6 @@ var customMapFormat = {
 
 //Register as custom tool in Tiled
 tiled.registerMapFormat("custom", customMapFormat)
-
-function writeProp (buff, prop){
-	
-	tiled.log ("      : " + prop);
-	
-	switch (typeof prop){
-		case "number":
-			buff.write (Uint16Array.from([prop]).buffer);
-			break;
-		case "string":
-			buff.write (strLen (prop));
-			buff.write (strCharCodes (prop));
-			tiled.log ("WRITING " + prop);
-			break;
-		case "boolean":
-			buff.write (Uint8Array.from([(prop ? 1 : 0)]).buffer);
-			break;
-		default:
-			tiled.log ("WARNING: Unexpected data type: " + typeof prop);
-	}
-}
 
 function strLen (str){
 	

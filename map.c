@@ -318,6 +318,7 @@ load_map (MAP *m, char *dat_fn, char *dat_id)
 					type = (char *)malloc (size);
 					pack_fread (type, size, fp);
 				
+					/* X Y coord of object */
 					x = pack_igetw (fp);
 					y = pack_igetw (fp);
 
@@ -345,8 +346,8 @@ load_map (MAP *m, char *dat_fn, char *dat_id)
 						
 						room->x = x;
 						room->y = y;
-						room->cx = pack_igetl (fp);
-						room->cy = pack_igetl (fp);
+						room->cx = pack_igetw (fp);
+						room->cy = pack_igetw (fp);
 						
 						/* Add object to map object list */
 						m->so = node_add (m->so, OBJ_CHGROOM, room);
@@ -358,7 +359,7 @@ load_map (MAP *m, char *dat_fn, char *dat_id)
 						vend->y = y;
 
 						for (ci = 0; ci < 20; ci++){
-							vend->inv_list[ci] = pack_igetl (fp);
+							vend->inv_list[ci] = pack_igetw (fp);
 						}
 						
 						/* Add object to map object list */
@@ -373,6 +374,10 @@ load_map (MAP *m, char *dat_fn, char *dat_id)
 						gen->x = x;
 						gen->y = y;
 						m->so = node_add (m->so, OBJ_ELEV_BUTT, gen);
+					}else if (!strcmp (type, "ENEMY")){
+						ENEMY *enemy = (ENEMY *) malloc (sizeof (ENEMY));
+						
+						m->so = node_add (m->so, OBJ_ENEMY, enemy);
 					}
 
 					free (type);

@@ -29,7 +29,7 @@
 </data>
  </layer>
  <objectgroup id="3" name="triggers">
-  <object id="1" name="FLOOR99_NAT" class="CHGROOM" x="20" y="100" width="20" height="20">
+  <object id="1" class="CHGROOM" x="20" y="100" width="20" height="20">
    <properties>
     <property name="name" value="HOTEL99_NAT"/>
     <property name="x" type="int" value="1"/>
@@ -37,6 +37,6 @@
    </properties>
   </object>
   <object id="2" class="STAT" x="0" y="40" width="20" height="20"/>
-  <object id="4" name="ITEMBOX" class="ITEMBOX" x="60" y="80" width="20" height="20"/>
+  <object id="4" class="ITEMBOX" x="60" y="80" width="20" height="20"/>
  </objectgroup>
 </map>
