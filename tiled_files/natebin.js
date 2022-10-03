@@ -91,40 +91,96 @@ var customMapFormat = {
 				for (var ii = 0; ii < numOfObjects; ii++){
 					var ox = layer.objects[ii].x;
 					var oy = layer.objects[ii].y;
-					var props, type;
+					var props, klass;
 					
-					//If object is derived from a tile
-					if (layer.objects[ii].tile){
-						props = layer.objects[ii].tile.properties();
-						type = layer.objects[ii].tile.className;
-						let afn = layer.objects[ii].tile.imageFileName;
-						afn = getTSName (afn);
-						props.imageID = addAsset (mapAssets, afn);
-					//If object does not have a tile association
-					}else{
-						type = layer.objects[ii].className;
-						props = layer.objects[ii].properties();
-					}
+					//If object is derived from tile, grab class
+					//name from that
+					klass = layer.objects[ii].className;
+					if (klass == ""){
+						klass = layer.objects[ii].tile.className;
+						props = layer.objects[ii].tile.properties ();
+					}else
+						props = layer.objects[ii].properties ();
 					
-					//remove uneeded props from properties
-					var modProps = [];
-					
-					var co = 0;
-					for (var prop in props){
+					//X Y coords of object
+					sfb.write (Uint16Array.from ([ox, oy]).buffer);
 						
-						if (typeof props[prop] == "object"){
-							modProps.push ({data: props[prop].value, type: props[prop].typeName});
+					switch (klass){
+						case "ENEMY":
 							
-						}else{
-							let data = {};
-							data[prop] = props[prop];
-							modProps.push ({data: data, type: prop});
-						}
-						
-						co++;
+							let name = props.STAT.value.name;
+							let health = props.STAT.value.health;
+							let item = props.STAT.value.item;
+							let money = props.STAT.value.money;
+							let afn = layer.objects[ii].tile.imageFileName;
+							afn = getTSName (afn);
+							let imageID = addAsset (mapAssets, afn);
+							
+							if (!money)
+								money = 0;
+								
+							if (!item)
+								item = 0;
+							
+							sfb.write (strLen (name));
+							sfb.write (strCharCodes (name));
+							sfb.write (Uint8Array.from ([imageID]).buffer);
+							sfb.write (Uint16Array.from ([health, item, money]).buffer);
+							tiled.log (`ENEMY ${name} ${health} ${item} ${money} ${imageID}`);
+							break;
+						case "CHGROOM":
+							tiled.log (`CHGROOM ${props.name} ${props.x} ${props.y}`);
+							break;
+						case "ELEV_BUTT":
+							tiled.log ("Writing ELEV_BUTT");
+							tiled.log (`CHGROOM ${props.name} ${props.x} ${props.y}`);
+							break;
+						case "VENDING":
+							tiled.log ("Writing VENDING");
+							break;
+						case "ITEMBOX":
+						case "STAT":
+							
+							break;
+						default:
+							tiled.log ("UNKNOWN OBJECT TYPE");
+							
 					}
 					
-					curLayer.data.push ({type: type, props: modProps, x:ox, y:oy});
+					//tiled.log ("FFFFFFFFFFFFFFF: " +  layer.objects[ii].className);
+					
+					////If object is derived from a tile
+					//if (layer.objects[ii].tile){
+					//	props = layer.objects[ii].tile.properties();
+					//	type = layer.objects[ii].tile.className;
+					//	let afn = layer.objects[ii].tile.imageFileName;
+					//	afn = getTSName (afn);
+					//	props.imageID = addAsset (mapAssets, afn);
+					////If object does not have a tile association
+					//}else{
+					//	type = layer.objects[ii].className;
+					//	props = layer.objects[ii].properties();
+					//}
+					//
+					////remove uneeded props from properties
+					//var modProps = [];
+					//
+					//var co = 0;
+					//for (var prop in props){
+					//	
+					//	if (typeof props[prop] == "object"){
+					//		modProps.push ({data: props[prop].value, type: props[prop].typeName});
+					//		
+					//	}else{
+					//		let data = {};
+					//		data[prop] = props[prop];
+					//		modProps.push ({data: data, type: prop});
+					//	}
+					//	
+					//	co++;
+					//}
+					//
+					//curLayer.data.push ({type: type, props: modProps, x:ox, y:oy});
 				}
 			}else{
 				tiled.log ("Dunno what layer type this is.");

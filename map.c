@@ -318,8 +318,8 @@ load_map (MAP *m, char *dat_fn, char *dat_id)
 					type = (char *)malloc (size);
 					pack_fread (type, size, fp);
 				
-					x = pack_igetl (fp);
-					y = pack_igetl (fp);
+					x = pack_igetw (fp);
+					y = pack_igetw (fp);
 
 					log_print ("LOADING OBJECT: %s\n", type);
 
