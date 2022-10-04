@@ -1,4 +1,6 @@
+#include <stdio.h>
 #include "fight.h"
+
 
 #define MAX_ENEMY_NAME 20
 
@@ -25,28 +27,16 @@ struct ENEMY {
 	
 };
 
-static int num_enemy = 0;
-static ENEMY *enemy_list = NULL;
-
-int
-enemy_list_alloc (int ne)
+ENEMY *
+enemy_new (char *name, int dam, int prob, int num_att)
 {
-	if (enemy_list)
-		return 0;
-		
-	enemy_list = (ENEMY *) malloc (ne * sizeof (ENEMY));
 	
-	return 1;
-}
-
-int
-enemy_push (char *name, int dam, int prob, int num_att)
-{
-	if (!enemy_list)
+	ENEMY *enemy = (ENEMY *) malloc (sizeof (ENEMY));
 		
-	
 	if (strlen (name) > MAX_ENEMY_NAME)
 		return 0;
+	
+	
 	
 	return 1;
 }

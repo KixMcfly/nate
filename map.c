@@ -377,6 +377,8 @@ load_map (MAP *m, char *dat_fn, char *dat_id)
 					}else if (!strcmp (type, "ENEMY")){
 						ENEMY *enemy = (ENEMY *) malloc (sizeof (ENEMY));
 						
+						
+						
 						m->so = node_add (m->so, OBJ_ENEMY, enemy);
 					}
 
