@@ -125,7 +125,6 @@ unsigned char
 map_get_tile_flags (MAP *m, int ln, int x, int y)
 {
 	TILE *data;
-	log_print ("Num layers: %d\n", m->nl);
 	if (ln < m->nl){
 		data = m->l_list[ln].data;
 		return data[x+m->w*y].flags;
@@ -274,7 +273,6 @@ load_map (MAP *m, char *dat_fn, char *dat_id)
 	m->l_list = (LAYER *)malloc (m->nl * sizeof (LAYER));
 
 	/* Parse layer data */
-	log_print ("load map Num layers: %d\n", m->nl);
 	for (i = 0, ntl = 0; i < m->nl; i++){
 		
 		/* Get layer type */
@@ -321,8 +319,6 @@ load_map (MAP *m, char *dat_fn, char *dat_id)
 					/* X Y coord of object */
 					x = pack_igetw (fp);
 					y = pack_igetw (fp);
-
-					log_print ("LOADING OBJECT: %s\n", type);
 
 					if (!strcmp (type, "COMPUTER")){
 						GENERIC *gen = (GENERIC *) malloc (sizeof (GENERIC));
@@ -375,9 +371,57 @@ load_map (MAP *m, char *dat_fn, char *dat_id)
 						gen->y = y;
 						m->so = node_add (m->so, OBJ_ELEV_BUTT, gen);
 					}else if (!strcmp (type, "ENEMY")){
+						int na, ca;
 						ENEMY *enemy = (ENEMY *) malloc (sizeof (ENEMY));
 						
+						/* Enemy name */
+						len = pack_getc (fp);
+						pack_fread (enemy->name, len, fp);
 						
+						/* Max health */
+						enemy->max_health = pack_igetw (fp);
+						
+						/* Money */
+						enemy->money = pack_igetw (fp);
+						
+						/* Item */
+						enemy->item = pack_igetw (fp);
+						
+						/* Number of attacks */
+						enemy->na = pack_getc (fp);
+						
+						enemy->att_l = (ATTACK *) malloc (na * sizeof (ATTACK));
+						
+						/*log_print ("ENEMY NAME: %s MAX_H: %d MONEY: %d ITEM: %d NUM ATT: %d\n", 
+							enemy->name,
+							enemy->max_health,
+							enemy->money,
+							enemy->item,
+							enemy->na);*/
+						
+						for (ca = 0; ca < na; ca++){
+							
+							/* Attack name */
+							len = pack_getc (fp);
+							pack_fread (enemy->att_l[ca].name, len, fp);
+							
+							/* Attack desc */
+							len = pack_getc (fp);
+							pack_fread (enemy->att_l[ca].desc, len, fp);
+							
+							/* Attack damage */
+							enemy->att_l[ca].dam = pack_igetw (fp);
+							
+							/* Attack probability */
+							enemy->att_l[ca].prob = pack_getc (fp);
+							
+							log_print ("ATTACK NAME: %s ATT_DESC: %s DAM: %d ATT_PROB: %d\n", 
+								enemy->att_l[ca].name,
+								enemy->att_l[ca].desc,
+								enemy->att_l[ca].dam,
+								enemy->att_l[ca].prob);
+							
+						}
 						
 						m->so = node_add (m->so, OBJ_ENEMY, enemy);
 					}

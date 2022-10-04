@@ -11,7 +11,8 @@ enum {
 	OBJ_VENDING,
 	OBJ_ITEMBOX,
 	OBJ_STAT,
-	OBJ_ELEV_BUTT
+	OBJ_ELEV_BUTT,
+	OBJ_ENEMY
 };
 
 typedef struct {

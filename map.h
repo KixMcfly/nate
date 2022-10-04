@@ -7,6 +7,7 @@
 #include "tileset.h"
 #include "obj.h"
 #include "node.h"
+#include "fight.h"
 
 enum {
 	SOLID

@@ -291,8 +291,7 @@ var customMapFormat = {
 									
 									//attack probablity
 									sfb.write (Uint8Array.from ([att.prob]).buffer);
-									
-									tiled.log (JSON.stringify (att));
+
 								}
 								
 								break;
@@ -303,8 +302,6 @@ var customMapFormat = {
 								
 								//Write dest X Y coord
 								sfb.write (Uint16Array.from ([od.data.x, od.data.y]).buffer);
-								
-								tiled.log (`${od.klass} ${od.data.name} ${od.data.x} ${od.data.y}`)
 							
 								break;
 							case "VENDING":
