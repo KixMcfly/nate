@@ -188,7 +188,8 @@ load_map (MAP *m, char *dat_fn, char *dat_id)
 {
 	char *dat_fnid, *type, head[5];
 	TILE *t_data;
-	int size, i, co, noo, x, y, ntl, len, c, ci;
+	int size, i, co, noo, x, y, ntl, c, ci;
+	signed int len;
 	PACKFILE *fp;
 	
 	/* Non moving objects */
@@ -371,7 +372,7 @@ load_map (MAP *m, char *dat_fn, char *dat_id)
 						gen->y = y;
 						m->so = node_add (m->so, OBJ_ELEV_BUTT, gen);
 					}else if (!strcmp (type, "ENEMY")){
-						int na, ca;
+						int ca;
 						ENEMY *enemy = (ENEMY *) malloc (sizeof (ENEMY));
 						
 						/* Enemy name */
@@ -390,21 +391,14 @@ load_map (MAP *m, char *dat_fn, char *dat_id)
 						/* Number of attacks */
 						enemy->na = pack_getc (fp);
 						
-						enemy->att_l = (ATTACK *) malloc (na * sizeof (ATTACK));
+						enemy->att_l = (ATTACK *) malloc (enemy->na * sizeof (ATTACK));
 						
-						/*log_print ("ENEMY NAME: %s MAX_H: %d MONEY: %d ITEM: %d NUM ATT: %d\n", 
-							enemy->name,
-							enemy->max_health,
-							enemy->money,
-							enemy->item,
-							enemy->na);*/
-						
-						for (ca = 0; ca < na; ca++){
+						for (ca = 0; ca < enemy->na; ca++){
 							
 							/* Attack name */
 							len = pack_getc (fp);
 							pack_fread (enemy->att_l[ca].name, len, fp);
-							
+
 							/* Attack desc */
 							len = pack_getc (fp);
 							pack_fread (enemy->att_l[ca].desc, len, fp);
@@ -415,7 +409,7 @@ load_map (MAP *m, char *dat_fn, char *dat_id)
 							/* Attack probability */
 							enemy->att_l[ca].prob = pack_getc (fp);
 							
-							log_print ("ATTACK NAME: %s ATT_DESC: %s DAM: %d ATT_PROB: %d\n", 
+							log_print ("ATTACK NAME: %s ATT_DESC: %s DAM: %h ATT_PROB: %d\n",
 								enemy->att_l[ca].name,
 								enemy->att_l[ca].desc,
 								enemy->att_l[ca].dam,

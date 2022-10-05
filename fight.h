@@ -10,8 +10,8 @@ typedef struct {
 	
 	char name[MAX_ATTACK_NAME];
 	char desc[MAX_ATTACK_DESC];
-	int dam;
-	int prob;
+	signed short dam;
+	unsigned char prob;
 	
 } ATTACK;
 

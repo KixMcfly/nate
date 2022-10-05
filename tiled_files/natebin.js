@@ -291,7 +291,10 @@ var customMapFormat = {
 									
 									//attack probablity
 									sfb.write (Uint8Array.from ([att.prob]).buffer);
-
+									
+									
+									tiled.log (`${att.name} ${att.desc} ${att.dam} ${att.prob}`);
+									
 								}
 								
 								break;

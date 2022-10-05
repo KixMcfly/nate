@@ -3,7 +3,7 @@
         "height": 4300,
         "width": 2
     },
-    "activeFile": "hotel81.tmx",
+    "activeFile": "bat_hotel_1.tmx",
     "expandedProjectPaths": [
         "."
     ],
@@ -16,7 +16,7 @@
             "scale": 3,
             "selectedLayer": 1,
             "viewCenter": {
-                "x": 171,
+                "x": 171.16666666666669,
                 "y": 90
             }
         },
@@ -27,8 +27,8 @@
             "scale": 1.5,
             "selectedLayer": 1,
             "viewCenter": {
-                "x": 250.99999999999997,
-                "y": 322.6666666666667
+                "x": 59.999999999999986,
+                "y": 40
             }
         },
         "enemies.tsx": {
@@ -59,15 +59,15 @@
             "scale": 1.5,
             "selectedLayer": 2,
             "viewCenter": {
-                "x": 111,
-                "y": 536.6666666666666
+                "x": 300,
+                "y": 200
             }
         },
         "hotel81.tmx": {
             "scale": 1.5,
             "selectedLayer": 2,
             "viewCenter": {
-                "x": 228.99999999999997,
+                "x": -322.3333333333333,
                 "y": -723.3333333333333
             }
         },
@@ -78,8 +78,8 @@
             "scale": 1.5,
             "selectedLayer": 2,
             "viewCenter": {
-                "x": 111,
-                "y": 23.333333333333314
+                "x": 300,
+                "y": 119.99999999999997
             }
         },
         "hotel_fight_01.tmx": {
@@ -107,8 +107,8 @@
             "scale": 1.5,
             "selectedLayer": 2,
             "viewCenter": {
-                "x": 111,
-                "y": 143.33333333333331
+                "x": 49.999999999999986,
+                "y": 59.99999999999997
             }
         }
     },
@@ -146,10 +146,10 @@
         "nate.tsx",
         "inter.tsx",
         "hotel.tsx",
-        "bat_hotel_1.tmx",
-        "hotel0.tmx",
-        "enemies.tsx",
         "hotel81.tmx",
+        "enemies.tsx",
+        "hotel0.tmx",
+        "bat_hotel_1.tmx",
         "hotel_fight_01.tmx",
         "floor99.tmx"
     ],
