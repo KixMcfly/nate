@@ -261,6 +261,8 @@ load_map (MAP *m, char *dat_fn, char *dat_id)
 
 		ret = load_tileset (&m->ts_list[i], dat_fn, ts_id, m->tw, m->th);
 		
+		log_print ("Loading %s\n", ts_id);
+		
 		free (ts_id);
 		
 		if (ret != 1)
