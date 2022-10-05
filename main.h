@@ -1,7 +1,7 @@
 #ifndef __MAIN_H
 #define __MAIN_H
 #include <stdio.h>
-
+#include <allegro.h>
 #include "map.h"
 #include "draw.h"
 #include "sprite.h"
@@ -13,6 +13,7 @@
 #include "grid.h"
 #include "tools.h"
 #include "text.h"
+#include "fight.h"
 
 #define CAMERA_W 			320
 #define CAMERA_H 			200

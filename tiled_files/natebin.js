@@ -256,6 +256,10 @@ var customMapFormat = {
 						
 						switch (od.klass){
 							case "ENEMY":
+							
+								//Image ref
+								sfb.write (Uint16Array.from ([od.data.imageID]).buffer);
+							
 								//enemy name
 								sfb.write (strLen (od.data.name));
 								sfb.write (strCharCodes (od.data.name));
@@ -293,7 +297,6 @@ var customMapFormat = {
 									sfb.write (Uint8Array.from ([att.prob]).buffer);
 									
 									
-									tiled.log (`${att.name} ${att.desc} ${att.dam} ${att.prob}`);
 									
 								}
 								

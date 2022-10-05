@@ -1,4 +1,3 @@
-#include <allegro.h>
 #include <dos.h>
 #include "main.h"
 
@@ -193,8 +192,6 @@ int main (int argc, char **argv)
 			
 			fadeout (20);
 		}
-		
-
 
 		/* Camera adjust */
 		if (nate.x - cam_x <= 60 && cam_x > 0)
@@ -310,6 +307,10 @@ int main (int argc, char **argv)
 						break;
 					}
 				}
+			}else if (node_get_type (cn) == OBJ_ENEMY){
+				ENEMY *enemy = (ENEMY *) node_get_data (cn);
+				
+				
 			}
 			
 			cn = node_get_next (cn);

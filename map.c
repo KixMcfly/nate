@@ -32,7 +32,6 @@ struct TILE{
 	unsigned short tn;
 	unsigned char ts;
 	unsigned char flags;
-	
 };
 
 void
@@ -375,12 +374,20 @@ load_map (MAP *m, char *dat_fn, char *dat_id)
 						int ca;
 						ENEMY *enemy = (ENEMY *) malloc (sizeof (ENEMY));
 						
+						/* Image ID */
+						enemy->imageid = pack_igetw (fp);
+						
+						log_print ("Image ID: %d\n", enemy->imageid);
+						
 						/* Enemy name */
 						len = pack_getc (fp);
 						pack_fread (enemy->name, len, fp);
 						
 						/* Max health */
 						enemy->max_health = pack_igetw (fp);
+						
+						/* Set cur health */
+						enemy->cur_health = enemy->max_health;
 						
 						/* Money */
 						enemy->money = pack_igetw (fp);
@@ -408,12 +415,6 @@ load_map (MAP *m, char *dat_fn, char *dat_id)
 							
 							/* Attack probability */
 							enemy->att_l[ca].prob = pack_getc (fp);
-							
-							log_print ("ATTACK NAME: %s ATT_DESC: %s DAM: %h ATT_PROB: %d\n",
-								enemy->att_l[ca].name,
-								enemy->att_l[ca].desc,
-								enemy->att_l[ca].dam,
-								enemy->att_l[ca].prob);
 							
 						}
 						
@@ -466,6 +467,7 @@ int
 map_free (MAP *m)
 {
 	int i, ct;
+	NNODE *cur;
 
 	if (m){
 
@@ -493,6 +495,19 @@ map_free (MAP *m)
 				
 			free (m->ts_list[i].tiles);
 			m->ts_list[i].tiles = NULL;
+		}
+
+		/* Check nodes for enemy types to free attack data */
+		cur = m->so;
+		while (cur){
+			
+			if (node_get_type (cur) == OBJ_ENEMY){
+				ENEMY *enemy = (ENEMY *) node_get_data (cur);
+				
+				if (enemy->att_l)
+					free (enemy->att_l);
+			}
+			cur = node_get_next (cur);
 		}
 
 		m->so = node_clear (m->so);

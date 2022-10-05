@@ -10,7 +10,7 @@ typedef struct {
 	
 	char name[MAX_ATTACK_NAME];
 	char desc[MAX_ATTACK_DESC];
-	signed short dam;
+	short dam;
 	unsigned char prob;
 	
 } ATTACK;
@@ -23,6 +23,7 @@ typedef struct {
 	int na;
 	int max_health;
 	int cur_health;
+	unsigned short imageid;
 	ATTACK *att_l;
 	
 } ENEMY;
