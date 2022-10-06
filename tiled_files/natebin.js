@@ -39,8 +39,11 @@ var customMapFormat = {
 		 *  layers.
 		 */
 
-		//Lookup table for all layers assets
+		//Lookup table for tileset assets
 		var mapAssets = [];
+		
+		//Lookup for object sprite assets
+		var objectAssets = [];
 		
 		//Holds  all layer data, including object layers
 		var layers = [];
@@ -112,7 +115,7 @@ var customMapFormat = {
 							data.money = props.STAT.value.money;
 							let afn = layer.objects[ii].tile.imageFileName;
 							afn = getTSName (afn);
-							data.imageID = addAsset (mapAssets, afn);
+							data.imageID = addAsset (objectAssets, afn);
 							
 							//Remove STAT prop
 							delete props.STAT;
@@ -331,10 +334,10 @@ var customMapFormat = {
 		var rc;
 		switch (tiled.platform){
 			case "windows":
-				rc = proc.exec ("powershell.exe", ["DATaddMAP", "nate", fileName] );
+				rc = proc.exec ("powershell.exe", ["DATaddMAP", "nate", fileName]);
 				break;
 			case "linux":
-				rc = proc.exec ("pwsh", ["-C", "DATaddMAP", "nate", fileName] );
+				rc = proc.exec ("pwsh", ["-C", "DATaddMAP", "nate", fileName]);
 				break;
 			default:
 				throw new Error ("UNSUPPORTED PLATFORM: " + tiled.platform);
@@ -394,10 +397,39 @@ function getMapName( mapAbs ){
 	return DATId.replace (".TMX", "_NAT");
 }
 
-function getTSName (tsAbs){
+function getDatName (tsAbs){
 	tsAbs = tsAbs.toUpperCase ();
 	var n = tsAbs.lastIndexOf('/');
 	var DATId = tsAbs.substring(n + 1);
 	
 	return DATId.replace (".", "_");
+}
+
+function fileToDAT (DATFileName, pathToFile, filename){
+
+	let fileAbs = pathToFile + "/" + filename;
+	let fileCheck = filename.toUpperCase();
+	let DATop;
+	
+	if (fileCheck.indexOf (".NAT") != -1)
+		DATop = "DATaddMAP";
+	else if (fileCheck.indexOf (".BMP") != -1)
+		DATop = "DATaddBMP";
+	
+	var rc;
+	switch (tiled.platform){
+		case "windows":
+			rc = proc.exec ("powershell.exe", [DATop, DATFileName, fileAbs] );
+			break;
+		case "linux":
+			rc = proc.exec ("pwsh", ["-C", DATop, DATFileName, fileAbs] );
+			break;
+		default:
+			throw new Error ("UNSUPPORTED PLATFORM: " + tiled.platform);
+	}
+	
+	tiled.log (proc.readStdOut ());
+       
+	if (rc != 0)
+		tiled.log ("Failed to add " + fileName + " to " + DATFileName + "!");
 }
