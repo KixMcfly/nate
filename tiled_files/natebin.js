@@ -8,8 +8,6 @@ var customMapFormat = {
 		
 		var sfb = new BinaryFile (fileName, BinaryFile.WriteOnly);
 		
-		var proc = new Process();
-		
 		//Write file header
 		sfb.write (strCharCodes ("NATE"));
 		
@@ -40,10 +38,10 @@ var customMapFormat = {
 		 */
 
 		//Lookup table for tileset assets
-		var mapAssets = [];
+		var TSAssets = [];
 		
 		//Lookup for object sprite assets
-		var objectAssets = [];
+		var objAssets = [];
 		
 		//Holds  all layer data, including object layers
 		var layers = [];
@@ -64,24 +62,21 @@ var customMapFormat = {
 								
 						//Get tileset used for this tile, add it to the global
 						//lookup table
-						var tsId = null;
-						var ts = null;
-						var flags = null;
+						let tsId = null;
+						let ts = null;
+						let flags = null;
 						if (tn >= 0){
 							ts = layer.tileAt (x, y).asset.image;
-							ts = getTSName (ts);
-							tsId = addAsset (mapAssets, ts);
+							tsId = addAsset (TSAssets, ts);
 							
 							//Check if tile has a FLAGS prop type
-							var flagsProp = layer.tileAt (x, y).property("FLAGS");
+							let flagsProp = layer.tileAt (x, y).property("FLAGS");
 							flags = (flagsProp == undefined) ? 0 : flagsProp.value;
 						}else{
 							tn = 65535;
 						}
 						
 						curLayer.data.push ({id: tn, ts: tsId, flags:flags});
-						
-						//tiled.log (flags.toString(2).padStart (8, "0"));
 						
 					}
 				}
@@ -114,8 +109,7 @@ var customMapFormat = {
 							data.item = props.STAT.value.item;
 							data.money = props.STAT.value.money;
 							let afn = layer.objects[ii].tile.imageFileName;
-							afn = getTSName (afn);
-							data.imageID = addAsset (objectAssets, afn);
+							data.imageID = addAsset (objAssets, afn);
 							
 							//Remove STAT prop
 							delete props.STAT;
@@ -137,8 +131,6 @@ var customMapFormat = {
 								
 								if (!ca.dam)
 									ca.dam = 0;
-								
-								
 								
 								data.attacks.push (ca);
 							}
@@ -180,39 +172,27 @@ var customMapFormat = {
 			layers.push (curLayer);
         }
         
-        //Write tileset asset lookup
-        sfb.write (Uint8Array.from ([mapAssets.length]).buffer);
-        for (var i = 0; i < mapAssets.length; i++){
-			
-			sfb.write (strLen (mapAssets[i]));
-			sfb.write (strCharCodes (mapAssets[i]));
-			
-			//Save bitmap to DAT file
-			var BMPAbs = "./images/" + (mapAssets[i].replace ("_", "."));
-			
-			var rc;
-			switch (tiled.platform){
-				case "windows":
-					rc = proc.exec ("powershell.exe", ["DATaddBMP", "nate", BMPAbs] );
-					break;
-				case "linux":
-					rc = proc.exec ("pwsh", ["-C", "DATaddBMP", "nate", BMPAbs] );
-					break;
-				default:
-					throw new Error ("UNSUPPORTED PLATFORM: " + tiled.platform);
-			}
-			
-			tiled.log (proc.readStdOut ());
-        
-			if (rc != 0)
-				tiled.log ("Failed to add bmp " + fileName + " to DAT file!..");
+        //Write tileset assets to lookup
+        sfb.write (Uint8Array.from ([TSAssets.length]).buffer);
+		for (let i = 0; i < TSAssets.length; i++){
+			sfb.write (strLen (TSAssets[i]));
+			sfb.write (strCharCodes (TSAssets[i]));
+			tiled.log ("ADDING TILESET ASSETS: " + TSAssets[i]);
 			
 		}
-  
+		
+		//Write object assets to lookup
+		sfb.write (Uint8Array.from ([objAssets.length]).buffer);
+		for (let i = 0; i < objAssets.length; i++){
+			sfb.write (strLen (objAssets[i]));
+			sfb.write (strCharCodes (objAssets[i]));
+			tiled.log ("ADDING OBJECT ASSETS: " + objAssets[i]);
+		}
+
 		//Number of layers
 		var nLayers = Uint8Array.from ([map.layerCount]).buffer;
 		sfb.write (nLayers);
-  
+
         //Write layer data to buffer
         for (var i = 0; i < layers.length; i++){
 			
@@ -221,7 +201,7 @@ var customMapFormat = {
 					
 					//Layer type (0 = tiles)
 					sfb.write(Uint8Array.from ([0]).buffer);
-					
+
 					for (var ct = 0; ct < layers[i].data.length; ct++){
 						var td = layers[i].data[ct];
 						/*
@@ -298,9 +278,6 @@ var customMapFormat = {
 									
 									//attack probablity
 									sfb.write (Uint8Array.from ([att.prob]).buffer);
-									
-									
-									
 								}
 								
 								break;
@@ -330,22 +307,8 @@ var customMapFormat = {
         //Write binary to disk
         sfb.commit ();
         
-        //Run Allegro DAT script to add map
-		var rc;
-		switch (tiled.platform){
-			case "windows":
-				rc = proc.exec ("powershell.exe", ["DATaddMAP", "nate", fileName]);
-				break;
-			case "linux":
-				rc = proc.exec ("pwsh", ["-C", "DATaddMAP", "nate", fileName]);
-				break;
-			default:
-				throw new Error ("UNSUPPORTED PLATFORM: " + tiled.platform);
-		}
-        tiled.log (proc.readStdOut ());
-        
-        if (rc != 0)
-			tiled.log ("Failed to add map " + fileName + " to DAT file!");
+        //write map file to DAT
+        fileToDAT ("nate", fileName);       
     }
 }
 
@@ -360,8 +323,13 @@ function strLen (str){
 
 function addAsset (assets, fn){
 	
-	//Check if asset is already in lookup
-	var found = false, i;
+	let found = false, i, n;
+	
+	fn = fn.toUpperCase ();
+	n = fn.lastIndexOf('/');
+	fn = fn.substring(n + 1);
+	fn.replace (".", "_");
+	
 	for (i = 0; i < assets.length; i++ ){
 		if (assets[i] == fn ){
 			found = true;
@@ -371,9 +339,8 @@ function addAsset (assets, fn){
 	
 	if (found == false)
 		assets.push (fn);
-		
-	return i;
-	
+
+	return i;	
 }
 
 function strCharCodes (str){
@@ -389,27 +356,13 @@ function strCharCodes (str){
 	return Uint8Array.from (cs).buffer;
 }
 
-function getMapName( mapAbs ){
-	mapAbs = mapAbs.toUpperCase ();
-	var n = mapAbs.lastIndexOf('/');
-	var DATId = mapAbs.substring(n + 1);
-	
-	return DATId.replace (".TMX", "_NAT");
-}
+function fileToDAT (DATFileName, filename){
 
-function getDatName (tsAbs){
-	tsAbs = tsAbs.toUpperCase ();
-	var n = tsAbs.lastIndexOf('/');
-	var DATId = tsAbs.substring(n + 1);
-	
-	return DATId.replace (".", "_");
-}
-
-function fileToDAT (DATFileName, pathToFile, filename){
-
-	let fileAbs = pathToFile + "/" + filename;
-	let fileCheck = filename.toUpperCase();
+	let filebase = FileInfo.fileName (filename);
+	let fileCheck = filebase.toUpperCase();
 	let DATop;
+	
+	let proc = new Process();
 	
 	if (fileCheck.indexOf (".NAT") != -1)
 		DATop = "DATaddMAP";
@@ -419,10 +372,10 @@ function fileToDAT (DATFileName, pathToFile, filename){
 	var rc;
 	switch (tiled.platform){
 		case "windows":
-			rc = proc.exec ("powershell.exe", [DATop, DATFileName, fileAbs] );
+			rc = proc.exec ("powershell.exe", [DATop, DATFileName, filename] );
 			break;
 		case "linux":
-			rc = proc.exec ("pwsh", ["-C", DATop, DATFileName, fileAbs] );
+			rc = proc.exec ("pwsh", ["-C", DATop, DATFileName, filename] );
 			break;
 		default:
 			throw new Error ("UNSUPPORTED PLATFORM: " + tiled.platform);
@@ -432,4 +385,8 @@ function fileToDAT (DATFileName, pathToFile, filename){
        
 	if (rc != 0)
 		tiled.log ("Failed to add " + fileName + " to " + DATFileName + "!");
+	else
+		tiled.log ("Successfully added " + filebase + " to " + DATFileName + "!");
+		
+	proc.close ();
 }
