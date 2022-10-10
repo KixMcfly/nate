@@ -16,8 +16,8 @@
             "scale": 3,
             "selectedLayer": 1,
             "viewCenter": {
-                "x": 171,
-                "y": 90
+                "x": 169.33333333333331,
+                "y": 89.83333333333334
             }
         },
         "elev.tmx": {
@@ -28,7 +28,7 @@
             "selectedLayer": 1,
             "viewCenter": {
                 "x": 59.999999999999986,
-                "y": 40
+                "y": 40.33333333333337
             }
         },
         "enemies.tsx": {
@@ -60,15 +60,15 @@
             "selectedLayer": 2,
             "viewCenter": {
                 "x": 300,
-                "y": 200
+                "y": 200.3333333333333
             }
         },
         "hotel81.tmx": {
             "scale": 1.5,
             "selectedLayer": 2,
             "viewCenter": {
-                "x": 199.99999999999997,
-                "y": 200
+                "x": 200,
+                "y": 199.66666666666669
             }
         },
         "hotel99.tmx": {
@@ -79,7 +79,7 @@
             "selectedLayer": 2,
             "viewCenter": {
                 "x": 300,
-                "y": 119.99999999999997
+                "y": 120.33333333333331
             }
         },
         "hotel_fight_01.tmx": {
@@ -108,11 +108,11 @@
             "selectedLayer": 2,
             "viewCenter": {
                 "x": 49.999999999999986,
-                "y": 59.99999999999997
+                "y": 59.666666666666686
             }
         }
     },
-    "last.exportedFilePath": "/home/shawn/projects/nate/maps",
+    "last.exportedFilePath": "C:/projects/nate/maps",
     "last.imagePath": "C:/projects/nate/images/enemys",
     "last.objectTypesPath": "/home/shawn/projects/nate/tiled_files/propertytypes.json",
     "last.worldFilePath": "/home/shawn/projects/nate/tiled_files",

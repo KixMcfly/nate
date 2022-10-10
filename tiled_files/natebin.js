@@ -166,7 +166,11 @@ var customMapFormat = {
 
 				}
 			}else{
-				tiled.log ("Dunno what layer type this is.");
+				tiled.warn ("Dunno what layer type this is.", () => {
+						
+						tiled.log (`Sorry bro.`);
+					
+					});
 			}
 			
 			layers.push (curLayer);
@@ -178,7 +182,6 @@ var customMapFormat = {
 			sfb.write (strLen (TSAssets[i]));
 			sfb.write (strCharCodes (TSAssets[i]));
 			tiled.log ("ADDING TILESET ASSETS: " + TSAssets[i]);
-			
 		}
 		
 		//Write object assets to lookup
@@ -246,15 +249,12 @@ var customMapFormat = {
 								//enemy name
 								sfb.write (strLen (od.data.name));
 								sfb.write (strCharCodes (od.data.name));
-								
-								//health
-								sfb.write (Uint16Array.from ([od.data.health]).buffer);
-								
-								//money
-								sfb.write (Uint16Array.from ([od.data.money]).buffer);
-								
-								//item
-								sfb.write (Uint16Array.from ([od.data.item]).buffer);
+															
+								sfb.write (Uint16Array.from ([
+									od.data.health,			//health
+									od.data.money, 			//money
+									od.data.item 			//item
+								]).buffer);
 								
 								//write num of attacks
 								let na = od.data.attacks.length;
@@ -308,7 +308,7 @@ var customMapFormat = {
         sfb.commit ();
         
         //write map file to DAT
-        fileToDAT ("nate", fileName);       
+        fileToDAT ("nate", fileName);    
     }
 }
 
@@ -325,9 +325,9 @@ function addAsset (assets, fn){
 	
 	let found = false, i, n;
 	
-	fn = fn.toUpperCase ();
-	n = fn.lastIndexOf('/');
-	fn = fn.substring(n + 1);
+	FileInfo.
+	
+	fn = FileInfo.fileName (fn).toUpperCase ();
 	fn.replace (".", "_");
 	
 	for (i = 0; i < assets.length; i++ ){
@@ -336,7 +336,7 @@ function addAsset (assets, fn){
 			break;
 		}
 	}
-	
+
 	if (found == false)
 		assets.push (fn);
 

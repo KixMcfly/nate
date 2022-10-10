@@ -12,10 +12,12 @@ struct MAP{
 	unsigned char	th;
 	int				nl;
 	int 			nts;
+	int				ni;
 
 	NNODE			*so;
 	LAYER			*l_list;
 	TILESET			*ts_list;
+	BITMAP			**im_list;
 
 };
 
@@ -33,6 +35,7 @@ struct TILE{
 	unsigned char ts;
 	unsigned char flags;
 };
+
 
 void
 map_log (MAP *m, int nx, int ny)
@@ -243,7 +246,7 @@ load_map (MAP *m, char *dat_fn, char *dat_id)
 	size = pack_getc (fp);
 	m->nts = size;
 	m->ts_list = (TILESET *)malloc (size * sizeof (TILESET));
-
+	
 	if (m->l_list == NULL){
 		free (m->name);
 		pack_fclose (fp);
@@ -267,6 +270,13 @@ load_map (MAP *m, char *dat_fn, char *dat_id)
 			printf ("FAILED LOADING TILESET %d RETURN CODE %d\n", i, ret);
 		
 	}
+
+	/* Get number of Object image assets */
+	m->ni = pack_getc (fp);
+	if (m->ni){
+		m->im_list = (BITMAP **) malloc (size * sizeof (BITMAP *));
+	}else
+		m->im_list = NULL;
 
 	/* Get number of layers */
 	m->nl = pack_getc (fp);

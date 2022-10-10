@@ -22,6 +22,7 @@ enum {
 typedef struct MAP MAP;
 typedef struct LAYER LAYER;
 typedef struct TILE TILE;
+typedef struct IMAGE IMAGE;
 
 void
 map_log (MAP *m, int nx, int ny);
