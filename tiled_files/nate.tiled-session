@@ -16,8 +16,8 @@
             "scale": 3,
             "selectedLayer": 1,
             "viewCenter": {
-                "x": 169.33333333333331,
-                "y": 89.83333333333334
+                "x": 169.5,
+                "y": 90
             }
         },
         "elev.tmx": {
@@ -27,8 +27,8 @@
             "scale": 1.5,
             "selectedLayer": 1,
             "viewCenter": {
-                "x": 59.999999999999986,
-                "y": 40.33333333333337
+                "x": 60.333333333333314,
+                "y": 40.66666666666666
             }
         },
         "enemies.tsx": {
@@ -60,15 +60,15 @@
             "selectedLayer": 2,
             "viewCenter": {
                 "x": 300,
-                "y": 200.3333333333333
+                "y": 200
             }
         },
         "hotel81.tmx": {
             "scale": 1.5,
             "selectedLayer": 2,
             "viewCenter": {
-                "x": 200,
-                "y": 199.66666666666669
+                "x": 199.99999999999997,
+                "y": 200
             }
         },
         "hotel99.tmx": {
@@ -78,8 +78,8 @@
             "scale": 1.5,
             "selectedLayer": 2,
             "viewCenter": {
-                "x": 300,
-                "y": 120.33333333333331
+                "x": 198.99999999999997,
+                "y": 58
             }
         },
         "hotel_fight_01.tmx": {
@@ -107,12 +107,12 @@
             "scale": 1.5,
             "selectedLayer": 2,
             "viewCenter": {
-                "x": 49.999999999999986,
-                "y": 59.666666666666686
+                "x": 198.99999999999997,
+                "y": 178
             }
         }
     },
-    "last.exportedFilePath": "C:/projects/nate/maps",
+    "last.exportedFilePath": "/home/shawn/projects/nate/maps",
     "last.imagePath": "C:/projects/nate/images/enemys",
     "last.objectTypesPath": "/home/shawn/projects/nate/tiled_files/propertytypes.json",
     "last.worldFilePath": "/home/shawn/projects/nate/tiled_files",

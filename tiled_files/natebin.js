@@ -325,10 +325,8 @@ function addAsset (assets, fn){
 	
 	let found = false, i, n;
 	
-	FileInfo.
-	
 	fn = FileInfo.fileName (fn).toUpperCase ();
-	fn.replace (".", "_");
+	fn = fn.replace (".", "_");
 	
 	for (i = 0; i < assets.length; i++ ){
 		if (assets[i] == fn ){

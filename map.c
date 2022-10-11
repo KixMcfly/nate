@@ -263,20 +263,39 @@ load_map (MAP *m, char *dat_fn, char *dat_id)
 		pack_fread (ts_id, len, fp);
 
 		ret = load_tileset (&m->ts_list[i], dat_fn, ts_id, m->tw, m->th);
-		
+
 		free (ts_id);
 		
 		if (ret != 1)
 			printf ("FAILED LOADING TILESET %d RETURN CODE %d\n", i, ret);
-		
 	}
 
 	/* Get number of Object image assets */
 	m->ni = pack_getc (fp);
 	if (m->ni){
-		m->im_list = (BITMAP **) malloc (size * sizeof (BITMAP *));
+		m->im_list = (BITMAP **) malloc (m->ni * sizeof (BITMAP *));
 	}else
 		m->im_list = NULL;
+		
+	/* Get object image assest */
+	for (i = 0; i < m->ni; i++){
+		int len = pack_getc (fp);
+		char *tn_id = (char *) malloc (len);
+		BITMAP *t_bmp;
+		DATAFILE *t_dat;
+		
+		pack_fread (tn_id, len, fp);
+
+		t_dat = load_datafile_object (dat_fn, tn_id);
+		t_bmp = (BITMAP *)t_dat->dat;
+		
+		m->im_list[i] = create_bitmap (t_bmp->w, t_bmp->h);
+		blit (t_bmp, m->im_list[i], 0, 0, 0, 0, t_bmp->w, t_bmp->h);
+		
+		unload_datafile_object (t_dat);
+		
+		free (tn_id);
+	}
 
 	/* Get number of layers */
 	m->nl = pack_getc (fp);
@@ -387,8 +406,6 @@ load_map (MAP *m, char *dat_fn, char *dat_id)
 						/* Image ID */
 						enemy->imageid = pack_igetw (fp);
 						
-						log_print ("Image ID: %d\n", enemy->imageid);
-						
 						/* Enemy name */
 						len = pack_getc (fp);
 						pack_fread (enemy->name, len, fp);
@@ -495,6 +512,13 @@ map_free (MAP *m)
 		}
 		
 		free (m->l_list);
+		
+		/* Destroy image assets */
+		for (i = 0; i < m->ni; i++)
+			destroy_bitmap (m->im_list[i]);
+		
+		if (m->ni)
+			free (m->im_list);
 		
 		for (i = 0; i < m->nts; i++){
 			int ct;
