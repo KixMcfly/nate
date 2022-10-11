@@ -28,4 +28,7 @@ typedef struct {
 	
 } ENEMY;
 
+void
+enemy_draw (ENEMY *enemy);
+
 #endif /* __FIGHT_H */
