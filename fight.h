@@ -1,5 +1,6 @@
 #ifndef __FIGHT_H
 #define __FIGHT_H
+#include <stdlib.h>
 
 #define MAX_ENEMY_NAME 20
 

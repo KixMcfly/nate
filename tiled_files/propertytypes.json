@@ -27,6 +27,32 @@
     },
     {
         "color": "#ffa0a0a4",
+        "id": 14,
+        "members": [
+            {
+                "name": "BAT1",
+                "type": "file",
+                "value": ""
+            },
+            {
+                "name": "BAT2",
+                "type": "file",
+                "value": ""
+            },
+            {
+                "name": "BAT3",
+                "type": "file",
+                "value": ""
+            }
+        ],
+        "name": "BAT_LIST",
+        "type": "class",
+        "useAs": [
+            "property"
+        ]
+    },
+    {
+        "color": "#ffa0a0a4",
         "id": 11,
         "members": [
             {

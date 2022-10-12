@@ -31,6 +31,23 @@ var customMapFormat = {
 		var tWidthHeight = Uint8Array.from ([map.tileWidth, map.tileHeight]).buffer;
 		sfb.write (tWidthHeight);
 		
+		//Write maps that are used as battles for room
+		if (map.properties ().BAT_LIST){
+			
+			//Number of battles for room
+			let numBattles = Object.keys (map.properties ().BAT_LIST).length;
+			sfb.write (Uint8Array.from ([numBattles]).buffer);
+			
+			var battleList = map.properties ().BAT_LIST.value;
+			for (bat in battleList){
+				let batDat = FileInfo.fileName (battleList[bat].url.toString ().toUpperCase ().replace (".TMX", "_NAT"));
+				sfb.write (strLen (batDat));
+				sfb.write (strCharCodes (batDat));
+			}
+		}else{
+			sfb.write (Uint8Array.from ([0]).buffer);
+		}
+		
 		/*
 		 *	Here comes the crazy part. We need to hold 
 		 *  a lookup table for all tilesets used in all
@@ -190,7 +207,7 @@ var customMapFormat = {
 		for (let i = 0; i < TSAssets.length; i++){
 			sfb.write (strLen (TSAssets[i]));
 			sfb.write (strCharCodes (TSAssets[i]));
-			tiled.log ("ADDING TILESET ASSETS: " + TSAssets[i]);
+			//tiled.log ("ADDING TILESET ASSETS: " + TSAssets[i]);
 		}
 		
 		//Write object assets to lookup
@@ -198,7 +215,7 @@ var customMapFormat = {
 		for (let i = 0; i < objAssets.length; i++){
 			sfb.write (strLen (objAssets[i]));
 			sfb.write (strCharCodes (objAssets[i]));
-			tiled.log ("ADDING OBJECT ASSETS: " + objAssets[i]);
+			//tiled.log ("ADDING OBJECT ASSETS: " + objAssets[i]);
 		}
 
 		//Number of layers
@@ -249,7 +266,7 @@ var customMapFormat = {
 						//Write object X Y coord
 						sfb.write (Uint16Array.from ([od.x, od.y]).buffer);
 						
-						tiled.log ("X: " + od.x + " Y: " + od.y);
+						//tiled.log ("X: " + od.x + " Y: " + od.y);
 						
 						switch (od.klass){
 							case "ENEMY":

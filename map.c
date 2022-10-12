@@ -13,11 +13,13 @@ struct MAP{
 	int				nl;
 	int 			nts;
 	int				ni;
+	int				nbr;
 
 	NNODE			*so;
 	LAYER			*l_list;
 	TILESET			*ts_list;
 	BITMAP			**im_list;
+	char			**br_list;
 
 };
 
@@ -247,6 +249,19 @@ load_map (MAP *m, char *dat_fn, char *dat_id)
 	/* Logical / physical width and height of map */
 	m->lw = m->w * m->tw;
 	m->lh = m->h * m->th;
+	
+	/* Get map list that are battle rooms */
+	m->nbr = (unsigned char) pack_getc (fp);
+	
+	if (m->nbr){
+		m->br_list = (char **) malloc (m->nbr * sizeof(char *));
+		for (i = 0; i < m->nbr; i++){
+			len = pack_getc (fp);
+			m->br_list[i] = (char *) malloc (len);
+			pack_fread (m->br_list[i], len, fp);
+		}
+	}else
+		m->br_list = NULL;
 	
 	/* Get number of Tilesets */
 	size = pack_getc (fp);
@@ -509,6 +524,15 @@ map_free (MAP *m)
 	if (m){
 
 		free (m->name);
+		
+		/* free map battle memory */
+		if (m->nbr){
+			for (i = 0; i < m->nbr; i++)
+				free (m->br_list[i]);
+				
+			free (m->br_list);
+		}
+		
 		
 		for (i = 0; i < m->nl; i++){
 			if (m->l_list[i].type == TILES){
