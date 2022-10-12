@@ -1,6 +1,8 @@
 #ifndef __FIGHT_H
 #define __FIGHT_H
+#include <allegro.h>
 #include <stdlib.h>
+#include "tools.h"
 
 #define MAX_ENEMY_NAME 20
 
@@ -30,5 +32,21 @@ typedef struct {
 	ATTACK *att_l;
 	
 } ENEMY;
+
+int
+fighting (void);
+
+void
+fight_set_ret_room (char *room, int x, int y);
+
+char *
+fight_get_ret_room (int *x, int *y);
+
+void
+fight_chance_reset (void);
+
+int
+fight_chance_inc (int da);
+
 
 #endif /* __FIGHT_H */

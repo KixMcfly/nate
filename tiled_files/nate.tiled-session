@@ -17,7 +17,7 @@
             "selectedLayer": 1,
             "viewCenter": {
                 "x": 169.5,
-                "y": 83.66666666666666
+                "y": 83.66666666666667
             }
         },
         "elev.tmx": {
@@ -27,8 +27,8 @@
             "scale": 1.5,
             "selectedLayer": 1,
             "viewCenter": {
-                "x": 59.999999999999986,
-                "y": 40
+                "x": 441,
+                "y": 432
             }
         },
         "enemies.tsx": {
@@ -60,15 +60,15 @@
             "selectedLayer": 2,
             "viewCenter": {
                 "x": 301,
-                "y": 199.99999999999997
+                "y": 432
             }
         },
         "hotel81.tmx": {
             "scale": 1.5,
             "selectedLayer": 2,
             "viewCenter": {
-                "x": 199.99999999999997,
-                "y": 200
+                "x": 101,
+                "y": -288
             }
         },
         "hotel99.tmx": {
@@ -78,7 +78,7 @@
             "scale": 1.5,
             "selectedLayer": 2,
             "viewCenter": {
-                "x": 300.33333333333337,
+                "x": 301,
                 "y": 92
             }
         },
@@ -107,17 +107,17 @@
             "scale": 1.5,
             "selectedLayer": 2,
             "viewCenter": {
-                "x": 300.33333333333337,
-                "y": 211.99999999999997
+                "x": 301,
+                "y": 212
             }
         }
     },
-    "last.exportedFilePath": "/home/shawn/projects/nate/maps",
+    "last.exportedFilePath": "C:/projects/nate/maps",
     "last.imagePath": "C:/projects/nate/images/enemys",
     "last.objectTypesPath": "/home/shawn/projects/nate/tiled_files/propertytypes.json",
-    "last.worldFilePath": "/home/shawn/projects/nate/tiled_files",
+    "last.worldFilePath": "C:/projects/nate/tiled_files",
     "loadedWorlds": [
-        "/home/shawn/projects/nate/tiled_files/nate.world"
+        "C:/projects/nate/tiled_files/nate.world"
     ],
     "map.height": 20,
     "map.lastUsedExportFilter": "Nathyn's Room Chunk Format (*.nat)",

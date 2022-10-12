@@ -97,7 +97,9 @@ int main (int argc, char **argv)
 				if (!SOLID(map_get_tile_flags (m, 0, LX(nate.x), LY(nate.y)-1)) &&
 					!SOLID(map_get_tile_flags (m, 1, LX(nate.x), LY(nate.y)-1)) &&
 					LY(nate.y) - 1 > -1){
-						grid_snap_up (&nate.x, &nate.y, &nate.dy);
+						
+						if (!fight_chance_inc (1))
+							grid_snap_up (&nate.x, &nate.y, &nate.dy);
 					}
 						
 				
@@ -122,7 +124,9 @@ int main (int argc, char **argv)
 				if (!SOLID(map_get_tile_flags (m, 0, LX(nate.x), LY(nate.y)+1)) &&
 					!SOLID(map_get_tile_flags (m, 1, LX(nate.x), LY(nate.y)+1)) &&
 					LY(nate.y) + 1 < map_get_h (m)){
-						grid_snap_down (&nate.x, &nate.y, &nate.dy);
+						
+						if (!fight_chance_inc (1))
+							grid_snap_down (&nate.x, &nate.y, &nate.dy);
 					}
 
 				nate.ckf = KF_DOWN;
@@ -143,7 +147,10 @@ int main (int argc, char **argv)
 				if (!SOLID(map_get_tile_flags (m, 0, LX(nate.x)-1, LY(nate.y))) &&
 					!SOLID(map_get_tile_flags (m, 1, LX(nate.x)-1, LY(nate.y))) &&
 					LX(nate.x)-1 > -1){
-						grid_snap_left (&nate.x, &nate.y, &nate.dx);
+						
+						if (nate.x % map_get_tw () == -1)
+							if (!fight_chance_inc (1))
+								grid_snap_left (&nate.x, &nate.y, &nate.dx);
 					}
 					
 				nate.ckf = KF_LEFT;
@@ -165,7 +172,9 @@ int main (int argc, char **argv)
 				if (!SOLID(map_get_tile_flags (m, 0, LX(nate.x)+1, LY(nate.y))) &&
 					!SOLID(map_get_tile_flags (m, 1, LX(nate.x)+1, LY(nate.y))) &&
 					LX(nate.x) + 1 < map_get_w (m)){
-						grid_snap_right (&nate.x, &nate.y, &nate.dx);
+						
+						if (!fight_chance_inc (1))
+							grid_snap_right (&nate.x, &nate.y, &nate.dx);
 					}
 				
 				nate.ckf = KF_RIGHT;
@@ -361,7 +370,6 @@ int main (int argc, char **argv)
 					ENEMY *enemy = node_get_data (cn);
 					BITMAP *img = map_get_object_ass (m, enemy->imageid);
 					blit (img, get_backbuff (), 0, 0, enemy->x, enemy->y, img->w, img->h);
-					log_print ("LOL Drawing enemy X: %d Y: %d\n", enemy->x, enemy->y);
 				}
 				
 				cn = node_get_next (cn);

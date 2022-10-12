@@ -251,14 +251,16 @@ load_map (MAP *m, char *dat_fn, char *dat_id)
 	m->lh = m->h * m->th;
 	
 	/* Get map list that are battle rooms */
-	m->nbr = (unsigned char) pack_getc (fp);
+	m->nbr = pack_getc (fp);
 	
 	if (m->nbr){
 		m->br_list = (char **) malloc (m->nbr * sizeof(char *));
 		for (i = 0; i < m->nbr; i++){
 			len = pack_getc (fp);
+			
 			m->br_list[i] = (char *) malloc (len);
 			pack_fread (m->br_list[i], len, fp);
+			//log_print ("Battle Room %d: %s\n", i, m->br_list[i]);
 		}
 	}else
 		m->br_list = NULL;
