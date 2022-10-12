@@ -85,30 +85,39 @@ var customMapFormat = {
 				
 				var numOfObjects = layer.objects.length;
 				var curLayer = {type: "objects", data: []};
+				var objs;
 				
+				//Sort objects based on y position
+				//prevents incorrectly overlapped objects
+				objs = layer.objects.sort((a, b) => {return b.y - a.y});
+
 				for (var ii = 0; ii < numOfObjects; ii++){
-					let ox = layer.objects[ii].x;
-					let oy = layer.objects[ii].y;
+					let ox = objs[ii].x;
+					let oy = objs[ii].y;
 					let klass, data = undefined;
+					
+					tiled.log (typeof objs[ii].x);
 					
 					//If object is derived from tile, grab class
 					//name from that
-					klass = layer.objects[ii].className;
+					klass = objs[ii].className;
 					if (klass == ""){
-						klass = layer.objects[ii].tile.className;
-						props = layer.objects[ii].tile.properties ();
+						klass = objs[ii].tile.className;
+						props = objs[ii].tile.properties ();
 					}else
-						props = layer.objects[ii].properties ();
+						props = objs[ii].properties ();
 					
 					switch (klass){
 						case "ENEMY":
 							data = {};
+							data.x = props.x;
+							data.y = props.y;
 							data.attacks = [];
 							data.name = props.STAT.value.name;
 							data.health = props.STAT.value.health;
 							data.item = props.STAT.value.item;
 							data.money = props.STAT.value.money;
-							let afn = layer.objects[ii].tile.imageFileName;
+							let afn = objs[ii].tile.imageFileName;
 							data.imageID = addAsset (objAssets, afn);
 							
 							//Remove STAT prop
@@ -239,6 +248,8 @@ var customMapFormat = {
 						
 						//Write object X Y coord
 						sfb.write (Uint16Array.from ([od.x, od.y]).buffer);
+						
+						tiled.log ("X: " + od.x + " Y: " + od.y);
 						
 						switch (od.klass){
 							case "ENEMY":

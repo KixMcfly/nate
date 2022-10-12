@@ -307,12 +307,7 @@ int main (int argc, char **argv)
 						break;
 					}
 				}
-			}else if (node_get_type (cn) == OBJ_ENEMY){
-				ENEMY *enemy = (ENEMY *) node_get_data (cn);
-				
-				
 			}
-			
 			cn = node_get_next (cn);
 		}
 
@@ -358,6 +353,19 @@ int main (int argc, char **argv)
 			clear (get_backbuff ());
 			for (cl = 0; cl < nl; cl++)
 				draw_map_layer (m, cl, -cam_x, -cam_y);
+		
+			/* Iterate object list for enemies */
+			cn = map_get_node_head (m);
+			while (cn){
+				if (node_get_type (cn) == OBJ_ENEMY){
+					ENEMY *enemy = node_get_data (cn);
+					BITMAP *img = map_get_object_ass (m, enemy->imageid);
+					blit (img, get_backbuff (), 0, 0, enemy->x, enemy->y, img->w, img->h);
+					log_print ("LOL Drawing enemy X: %d Y: %d\n", enemy->x, enemy->y);
+				}
+				
+				cn = node_get_next (cn);
+			}
 		
 			/* draw nathyn on backbuff */
 			sprite_draw (nate.s, get_backbuff (), nate.ckf, nate.cf, nate.x-cam_x, nate.y-cam_y-TILE_H);

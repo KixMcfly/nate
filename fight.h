@@ -12,12 +12,14 @@ typedef struct {
 	char desc[MAX_ATTACK_DESC];
 	short dam;
 	unsigned char prob;
-	
+
 } ATTACK;
 
 typedef struct {
 	
 	char name[MAX_ENEMY_NAME];
+	int x;
+	int y;
 	int money;
 	int item;
 	int na;
@@ -27,8 +29,5 @@ typedef struct {
 	ATTACK *att_l;
 	
 } ENEMY;
-
-void
-enemy_draw (ENEMY *enemy);
 
 #endif /* __FIGHT_H */

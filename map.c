@@ -118,6 +118,12 @@ map_get_layer_img (MAP *m, int ln)
 	return m->l_list[ln].img;
 }
 
+BITMAP *
+map_get_object_ass (MAP *m, int id)
+{
+	return m->im_list[id];
+}
+
 int
 map_get_layer_type (MAP *m, int ln){
 	return m->l_list[ln].type;
@@ -402,6 +408,10 @@ load_map (MAP *m, char *dat_fn, char *dat_id)
 					}else if (!strcmp (type, "ENEMY")){
 						int ca;
 						ENEMY *enemy = (ENEMY *) malloc (sizeof (ENEMY));
+						
+						/* Enemy XY pos*/
+						enemy->x = x;
+						enemy->y = y;
 						
 						/* Image ID */
 						enemy->imageid = pack_igetw (fp);

@@ -57,6 +57,9 @@ map_get_name (MAP *m);
 BITMAP *
 map_get_layer_img (MAP *m, int ln);
 
+BITMAP *
+map_get_object_ass (MAP *m, int id);
+
 int
 map_get_layer_type (MAP *m, int ln);
 
