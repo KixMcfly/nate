@@ -44,7 +44,7 @@ static INVMENU invmenu = { .vis = FALSE, .sp = 0, .active = FALSE };
 static BOXMENU boxmenu = { .b_pos = 0, .focus = FALSE, .active = FALSE};
 
 static INVITEM itembox[MAX_ITEMBOX] = {{0}};
-static INVITEM inv[MAX_INV] = {	{.id = INV_MONEY, .num = 120},
+static INVITEM inv[MAX_INV] = {	{.id = INV_MONEY, .num = 700},
 								{.id = INV_NONE, .num = 0},
 								{.id = INV_NONE, .num = 0},
 								{.id = INV_NONE, .num = 0},

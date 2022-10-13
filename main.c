@@ -14,6 +14,7 @@ int main (int argc, char **argv)
 	char *text_msg = NULL;
 	
 	int nl, cl, quit = FALSE, cam_x = 0, cam_y = 0, cam_dx = 0, cam_dy = 0;
+	int game_speed = 10;
 
 	/* Initialize Nate */
 	nate_init ();
@@ -60,8 +61,8 @@ int main (int argc, char **argv)
 	sprite_keyframe_dat_div (nate.s, 3, 4, NATE_DAT, "NATESPR_BMP");
 	nate_def (&nate);
 
-	grid_set_w (20);
-	grid_set_h (20);
+	grid_set_w (map_get_tw (m));
+	grid_set_h (map_get_th (m));
 	
 	grid_snap_queue_add (&cam_x, &cam_y, &cam_dx, &cam_dy);
 	grid_snap_queue_add (&nate.x, &nate.y, &nate.dx, &nate.dy);
@@ -441,7 +442,7 @@ int main (int argc, char **argv)
 		while (elapsed_time > 0)
 			;
 			
-		elapsed_time = 10;
+		elapsed_time = game_speed;
 	}
 	
 	/* Unload sounds */

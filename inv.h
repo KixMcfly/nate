@@ -16,7 +16,10 @@ enum {
 	/* FOOD */
 	INV_NUGGETS,
 	INV_DRDOUCHE,
-	INV_NUM
+	INV_NUM,
+	
+	/* WEAPONS */
+	INV_KNIFE
 };
 
 void
