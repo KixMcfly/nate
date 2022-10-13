@@ -63,6 +63,9 @@ map_get_object_ass (MAP *m, int id);
 int
 map_get_layer_type (MAP *m, int ln);
 
+char *
+map_get_rand_battle_map (MAP *m);
+
 struct NNODE *
 map_get_node_head (MAP *m);
 

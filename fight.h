@@ -48,5 +48,11 @@ fight_chance_reset (void);
 int
 fight_chance_inc (int da);
 
+void
+fight_draw_stuff (BITMAP *bf);
+
+void
+fight_free_stuff (void);
+
 
 #endif /* __FIGHT_H */

@@ -142,6 +142,14 @@ map_get_tile_flags (MAP *m, int ln, int x, int y)
 		return 0;
 }
 
+char *
+map_get_rand_battle_map (MAP *m)
+{
+	int rn = rand() % (m->nbr);
+	
+	return m->br_list[rn];
+}
+
 NNODE *
 map_get_node_head (MAP *m)
 {

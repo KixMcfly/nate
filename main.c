@@ -92,14 +92,13 @@ int main (int argc, char **argv)
 			}else if (vend_vis ()){
 				
 				vend_move_up ();
-			}else{
+			}else if (!fighting ()){
 				
 				if (!SOLID(map_get_tile_flags (m, 0, LX(nate.x), LY(nate.y)-1)) &&
 					!SOLID(map_get_tile_flags (m, 1, LX(nate.x), LY(nate.y)-1)) &&
 					LY(nate.y) - 1 > -1){
 						
-						if (!fight_chance_inc (1))
-							grid_snap_up (&nate.x, &nate.y, &nate.dy);
+						grid_snap_up (&nate.x, &nate.y, &nate.dy);
 					}
 						
 				
@@ -120,13 +119,13 @@ int main (int argc, char **argv)
 			}else if (vend_vis ()){
 				
 				vend_move_down ();
-			}else{
+			}else if (!fighting ()){
 				if (!SOLID(map_get_tile_flags (m, 0, LX(nate.x), LY(nate.y)+1)) &&
 					!SOLID(map_get_tile_flags (m, 1, LX(nate.x), LY(nate.y)+1)) &&
 					LY(nate.y) + 1 < map_get_h (m)){
 						
-						if (!fight_chance_inc (1))
-							grid_snap_down (&nate.x, &nate.y, &nate.dy);
+
+						grid_snap_down (&nate.x, &nate.y, &nate.dy);
 					}
 
 				nate.ckf = KF_DOWN;
@@ -143,14 +142,12 @@ int main (int argc, char **argv)
 				vend_move_left ();
 			}else if (elev_vis ()){
 				elev_sel_left ();
-			}else {
+			}else if (!fighting ()){
 				if (!SOLID(map_get_tile_flags (m, 0, LX(nate.x)-1, LY(nate.y))) &&
 					!SOLID(map_get_tile_flags (m, 1, LX(nate.x)-1, LY(nate.y))) &&
 					LX(nate.x)-1 > -1){
 						
-						if (nate.x % map_get_tw () == -1)
-							if (!fight_chance_inc (1))
-								grid_snap_left (&nate.x, &nate.y, &nate.dx);
+						grid_snap_left (&nate.x, &nate.y, &nate.dx);
 					}
 					
 				nate.ckf = KF_LEFT;
@@ -168,13 +165,12 @@ int main (int argc, char **argv)
 				
 			}else if (elev_vis ()){
 				elev_sel_right ();
-			}else{
+			}else if (!fighting ()){
 				if (!SOLID(map_get_tile_flags (m, 0, LX(nate.x)+1, LY(nate.y))) &&
 					!SOLID(map_get_tile_flags (m, 1, LX(nate.x)+1, LY(nate.y))) &&
 					LX(nate.x) + 1 < map_get_w (m)){
 						
-						if (!fight_chance_inc (1))
-							grid_snap_right (&nate.x, &nate.y, &nate.dx);
+						grid_snap_right (&nate.x, &nate.y, &nate.dx);
 					}
 				
 				nate.ckf = KF_RIGHT;
@@ -215,6 +211,24 @@ int main (int argc, char **argv)
 		if (nate.y - cam_y >= 120 && cam_y + SCREEN_H < map_get_lh (m))
 			grid_snap_down (&cam_x, &cam_y, &cam_dy);
 	
+		if ((+nate.x % map_get_tw (m) == 1) || (+nate.y % map_get_th (m) == 1)){
+			fight_chance_inc (1);
+			
+			/* Get random map from maps battle list */
+			if (fighting ()){
+				char *bat_map = strtmp (map_get_rand_battle_map (m));
+				
+				map_free (m);
+				m = map_new ();
+				load_map (m, NATE_DAT, bat_map);
+				
+				nl = map_get_nl (m);
+				fadeout (5);
+				cam_x = 0;
+				cam_y = 0;
+			}
+		}
+	
 		/* Snap all queued coord to grid */
 		grid_snap_queue_proc ();
 		temp_global_process ();
@@ -232,7 +246,7 @@ int main (int argc, char **argv)
 
 		/* Check objects */
 		cn = map_get_node_head (m);
-		while (cn && !vend_vis () && !invmenu_vis () && !temp_vis () && !elev_vis ()){
+		while (cn && !vend_vis () && !invmenu_vis () && !temp_vis () && !elev_vis () && !fighting ()){
 		
 			if (node_get_type (cn) == OBJ_COMPUTER ){
 				
@@ -363,34 +377,26 @@ int main (int argc, char **argv)
 			for (cl = 0; cl < nl; cl++)
 				draw_map_layer (m, cl, -cam_x, -cam_y);
 		
-			/* Iterate object list for enemies */
-			cn = map_get_node_head (m);
-			while (cn){
-				if (node_get_type (cn) == OBJ_ENEMY){
-					ENEMY *enemy = node_get_data (cn);
-					BITMAP *img = map_get_object_ass (m, enemy->imageid);
-					blit (img, get_backbuff (), 0, 0, enemy->x, enemy->y, img->w, img->h);
+			if (fighting ()){
+				/* Iterate object list for enemies */
+				cn = map_get_node_head (m);
+				while (cn){
+					if (node_get_type (cn) == OBJ_ENEMY){
+						ENEMY *enemy = node_get_data (cn);
+						BITMAP *img = map_get_object_ass (m, enemy->imageid);
+						blit (img, get_backbuff (), 0, 0, enemy->x, enemy->y, img->w, img->h);
+					}
+					
+					cn = node_get_next (cn);
 				}
 				
-				cn = node_get_next (cn);
-			}
-		
-			/* draw nathyn on backbuff */
-			sprite_draw (nate.s, get_backbuff (), nate.ckf, nate.cf, nate.x-cam_x, nate.y-cam_y-TILE_H);
+				fight_draw_stuff (get_backbuff ());
+				
+			}else
+				sprite_draw (nate.s, get_backbuff (), nate.ckf, nate.cf, nate.x-cam_x, nate.y-cam_y-TILE_H);
 			
 			text_print_center (get_backbuff (), text_msg);
 			
-		}
-		
-		if (key[KEY_RCONTROL]){
-			map_free (m);
-			m = map_new ();
-			load_map (m, NATE_DAT, "BAT_HOTEL_1_NAT");
-						
-			nl = map_get_nl (m);
-			fadeout (5);
-			cam_x = 0;
-			cam_y = 0;
 		}
 		
 		if (key[KEY_LCONTROL]){
