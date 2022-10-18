@@ -16,11 +16,17 @@ enum {
 	/* FOOD */
 	INV_NUGGETS,
 	INV_DRDOUCHE,
-	INV_NUM,
 	
 	/* WEAPONS */
-	INV_KNIFE
+	INV_KNIFE,
+	
+	
+	
+	INV_NUM
 };
+
+void
+inv_draw_battle (BITMAP *bf);
 
 void
 invmenu_draw_backbuff (BITMAP *bf);

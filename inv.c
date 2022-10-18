@@ -18,6 +18,10 @@
 #define SCROLL_X			201
 #define SCROLL_Y			89
 
+#define INV_BAT_C_WEAPON	76
+#define INV_BAT_C_HEAL		124
+#define INV_BAT_C_GENERAL	60
+
 typedef struct {
 	
 	int id;
@@ -93,7 +97,10 @@ static char *inv_list[INV_NUM][2] = {
 	
 	/* FOOD */
 	{"NUGGETS", "Yummy nuggets"},
-	{"DR. DOUCHE", "Remember, DO THE DOUCHE! Don't forget to drink much SODA!"}
+	{"DR. DOUCHE", "Remember, DO THE DOUCHE! Don't forget to drink much SODA!"},
+	
+	/* Weapons */
+	{"STABBIN' KNIFE", "KNIFE FOR STABBIN."}
 
 };
 
@@ -123,6 +130,24 @@ text_area_draw (BITMAP *b, char *s, int x, int y)
 	}
 	
 	free (ts);
+}
+
+void
+inv_draw_battle (BITMAP *bf)
+{
+	int i, c, x, y = 180;
+	for (i = 0, x = 200; i < MAX_INV; i++, x += 20){
+		
+		if (inv[i].id >= INV_KNIFE){
+			c = INV_BAT_C_WEAPON;
+		}else if (inv[i].id >= INV_NUGGETS){
+			c = INV_BAT_C_HEAL;
+		}else{
+			c = INV_BAT_C_GENERAL;
+		}
+	}
+	
+	rectfill (bf, x, y, x+w, y+h, c);
 }
 
 void

@@ -32,7 +32,7 @@ static int ic[20] =
 			 0,				/* INV MONEY */
 			 60,			/* INV_DRDOUCHE */
 			 45,			/* INV_NUGGETS */
-			 0,
+			 80,			/* INV_KNIFE */
 			 0,
 			 0,
 			 0,

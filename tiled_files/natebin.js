@@ -38,8 +38,6 @@ var customMapFormat = {
 			let numBattles = Object.keys (map.properties ().BAT_LIST.value).length;
 			sfb.write (Uint8Array.from ([numBattles]).buffer);
 			
-			tiled.log ("NUM BATTLES: " + numBattles);
-			
 			var battleList = map.properties ().BAT_LIST.value;
 			for (bat in battleList){
 				let batDat = FileInfo.fileName (battleList[bat].url.toString ().toUpperCase ().replace (".TMX", "_NAT"));

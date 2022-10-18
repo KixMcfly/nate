@@ -118,7 +118,8 @@
             "INV_NONE",
             "INV_MONEY",
             "INV_NUGGETS",
-            "INV_DRDOUCHE"
+            "INV_DRDOUCHE",
+            "INV_KNIFE"
         ],
         "valuesAsFlags": false
     },

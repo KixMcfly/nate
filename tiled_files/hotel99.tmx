@@ -63,7 +63,7 @@
    <properties>
     <property name="ITEM01" type="int" propertytype="INV_LIST" value="2"/>
     <property name="ITEM02" type="int" propertytype="INV_LIST" value="3"/>
-    <property name="ITEM03" type="int" propertytype="INV_LIST" value="0"/>
+    <property name="ITEM03" type="int" propertytype="INV_LIST" value="4"/>
     <property name="ITEM04" type="int" propertytype="INV_LIST" value="0"/>
     <property name="ITEM05" type="int" propertytype="INV_LIST" value="0"/>
     <property name="ITEM06" type="int" propertytype="INV_LIST" value="0"/>
