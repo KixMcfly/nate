@@ -135,19 +135,21 @@ text_area_draw (BITMAP *b, char *s, int x, int y)
 void
 inv_draw_battle (BITMAP *bf)
 {
-	int i, c, x, y = 180;
+	int i, c, x, y = 180, w = 20, h = 20;
 	for (i = 0, x = 200; i < MAX_INV; i++, x += 20){
 		
 		if (inv[i].id >= INV_KNIFE){
 			c = INV_BAT_C_WEAPON;
 		}else if (inv[i].id >= INV_NUGGETS){
 			c = INV_BAT_C_HEAL;
-		}else{
+		}else if (){
 			c = INV_BAT_C_GENERAL;
 		}
+		
+		rectfill (bf, x, y, x+w, y+h, c);
 	}
 	
-	rectfill (bf, x, y, x+w, y+h, c);
+	
 }
 
 void
