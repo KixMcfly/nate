@@ -2,15 +2,27 @@
 
 #define FIGHT_CHANCE_MAX 1000
 
+enum {
+	FIGHT_ITEM_SEL_1,
+	FIGHT_ITEM_SEL_2,
+	FIGHT_ITEM_SEL_3,
+	FIGHT_ITEM_SEL_4,
+	FIGHT_ITEM_SEL_5,
+	FIGHT_ITEM_SEL_6,
+	FIGHT_ITEM_SEL_7,
+	FIGHT_ITEM_SEL_8
+};
+
 static int fight_chance = 1;
 static int fight = FALSE;
 static char ret_room[100];
 static int ret_x, ret_y;
-static BITMAP *gui = NULL;
+static BITMAP *gui = NULL, *inv = NULL;
 static int fire_pos = 320 / 2;
 static int fire_pos_dir = -1;
 static int fire_pos_spd_set = 0;
 static int fire_pos_spd = 0;
+static int fight_inv_sel = FALSE;
 
 int
 fighting (void)
@@ -52,12 +64,17 @@ fight_chance_inc (int da)
 		
 	rn = rand() % (FIGHT_CHANCE_MAX + 1);
 	if ( rn < fight_chance){
+		
+		/* Load battle GUI */
 		DATAFILE *t_dat = load_datafile_object ("NATE.dat", "BAT_GUI_BMP");
 		BITMAP *t_bmp = t_dat->dat;
 		
 		gui = create_bitmap (t_bmp->w, t_bmp->h);
 		blit (t_bmp, gui, 0, 0, 0, 0, t_bmp->w, t_bmp->h);
 		unload_datafile_object (t_dat);
+		
+		/* Load inv for battle view */
+		t_dat = load_datafile_object ("NATE.dat", "");
 		
 		fight = TRUE;
 		fight_chance = 1;
