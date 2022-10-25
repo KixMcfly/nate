@@ -395,6 +395,10 @@ int main (int argc, char **argv)
 				fight_draw_stuff (get_backbuff ());
 				inv_draw_battle (get_backbuff ());
 				
+				if (key[KEY_]){
+					
+				}
+				
 			}else
 				sprite_draw (nate.s, get_backbuff (), nate.ckf, nate.cf, nate.x-cam_x, nate.y-cam_y-TILE_H);
 			

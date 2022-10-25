@@ -68,13 +68,17 @@ fight_chance_inc (int da)
 		/* Load battle GUI */
 		DATAFILE *t_dat = load_datafile_object ("NATE.dat", "BAT_GUI_BMP");
 		BITMAP *t_bmp = t_dat->dat;
-		
 		gui = create_bitmap (t_bmp->w, t_bmp->h);
 		blit (t_bmp, gui, 0, 0, 0, 0, t_bmp->w, t_bmp->h);
 		unload_datafile_object (t_dat);
 		
 		/* Load inv for battle view */
-		t_dat = load_datafile_object ("NATE.dat", "");
+		t_dat = load_datafile_object ("NATE.dat", "ITEMS_BMP");
+		t_bmp = t_dat->dat;
+		inv = create_bitmap (t_bmp->w, t_bmp->h);
+		blit (t_bmp, inv, 0, 0, 0, 0, t_bmp->w, t_bmp->h);
+		unload_datafile_object (t_dat);
+		
 		
 		fight = TRUE;
 		fight_chance = 1;
@@ -108,5 +112,6 @@ void
 fight_free_stuff (void)
 {
 	destroy_bitmap (gui);
+	destroy_bitmap (inv);
 	gui = NULL;
 }
