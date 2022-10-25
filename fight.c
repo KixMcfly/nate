@@ -83,7 +83,7 @@ fight_draw_stuff (BITMAP *bf)
 		fire_pos_spd = fire_pos_spd_set;
 	}
 	
-	blit (gui, bf, 0, 0, 0, 165, gui->w, gui->h);
+	blit (gui, bf, 0, 0, 0, 160, gui->w, gui->h);
 	rectfill (bf, fire_pos-2, 170, fire_pos+2, 170+10, 2);
 }
 

@@ -385,7 +385,8 @@ int main (int argc, char **argv)
 					if (node_get_type (cn) == OBJ_ENEMY){
 						ENEMY *enemy = node_get_data (cn);
 						BITMAP *img = map_get_object_ass (m, enemy->imageid);
-						blit (img, get_backbuff (), 0, 0, enemy->x, enemy->y, img->w, img->h);
+						//blit (img, get_backbuff (), 0, 0, enemy->x, enemy->y, img->w, img->h);
+						draw_sprite (get_backbuff (), img, enemy->x, enemy->y);
 					}
 					
 					cn = node_get_next (cn);

@@ -20,8 +20,6 @@ enum {
 	/* WEAPONS */
 	INV_KNIFE,
 	
-	
-	
 	INV_NUM
 };
 
