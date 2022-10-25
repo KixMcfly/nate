@@ -1,5 +1,7 @@
 doxy/
-*.exe
+*.EXE
+*.OBJ
 *.obj
 *.txt
-*.err
+*.TXT
+*.ERR
