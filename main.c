@@ -16,34 +16,29 @@ int main (int argc, char **argv)
 	int nl, cl, quit = FALSE, cam_x = 0, cam_y = 0, cam_dx = 0, cam_dy = 0;
 	int game_speed = 10;
 
-	/* Initialize Nate */
+	/* Initialize Allegro */
 	nate_init ();
 	
-	/* START MAIN MENU ************************/
+	/* TITLE SCREEN */
 	
-	/* Title BMP */
 	df = load_datafile_object (NATE_DAT, "TITLE_BMP");
 	title = (BITMAP *)df->dat;
 	blit (title, get_backbuff (), 0, 0, 0, 0, title->w, title->h);
 	unload_datafile_object (df);
 	set_pal (NATE_DAT, "TITLE_PAL");
 	show_backbuff (0, 0);
-	
-	/* Load title MIDI */
 	df = load_datafile_object (NATE_DAT, "TITLE_MID");
 	play_midi ((MIDI *)df->dat, TRUE);
 
-	/* Press any key */
 	while (!keypressed ())
 		;
 
 	fadeout (10);
 
-	/* Stop title midi */
 	stop_midi ();
 	unload_datafile_object (df);
-
-	/* END MAIN MENU ************************/
+	
+	/* PREPARE MAIN GAME LOOP */
 	
 	/* Load nate font */
 	text_load_font_dat (NATE_DAT);
@@ -77,6 +72,7 @@ int main (int argc, char **argv)
 	
 	elev_floor_goto ();
 
+	/* MAIN GAME LOOP */
 	while (!quit){
 	
 		if (key[KEY_Q])
@@ -91,7 +87,6 @@ int main (int argc, char **argv)
 			}else if (elev_vis ()){
 				elev_sel_up ();
 			}else if (vend_vis ()){
-				
 				vend_move_up ();
 			}else if (!fighting ()){
 				
@@ -101,8 +96,6 @@ int main (int argc, char **argv)
 						
 						grid_snap_up (&nate.x, &nate.y, &nate.dy);
 					}
-						
-				
 
 				nate.ckf = KF_UP;
 			}
@@ -111,21 +104,19 @@ int main (int argc, char **argv)
 		if (key[KEY_DOWN]){
 			
 			if (invmenu_vis ()){
-				
 				invmenu_sel_down ();
 			}else if (temp_vis ()){
 				temp_pos_down ();
 			}else if (elev_vis ()){
 				elev_sel_down ();
 			}else if (vend_vis ()){
-				
 				vend_move_down ();
-			}else if (!fighting ()){
+			}else if (fighting ()){
+				fight_inv_sel_set (TRUE);
+			}else{
 				if (!SOLID(map_get_tile_flags (m, 0, LX(nate.x), LY(nate.y)+1)) &&
 					!SOLID(map_get_tile_flags (m, 1, LX(nate.x), LY(nate.y)+1)) &&
 					LY(nate.y) + 1 < map_get_h (m)){
-						
-
 						grid_snap_down (&nate.x, &nate.y, &nate.dy);
 					}
 
@@ -136,9 +127,7 @@ int main (int argc, char **argv)
 		if (key[KEY_LEFT]){
 			
 			if (invmenu_vis ()){
-					
 				invmenu_sel_left ();
-				
 			}else if (vend_vis ()){
 				vend_move_left ();
 			}else if (elev_vis ()){
@@ -147,7 +136,6 @@ int main (int argc, char **argv)
 				if (!SOLID(map_get_tile_flags (m, 0, LX(nate.x)-1, LY(nate.y))) &&
 					!SOLID(map_get_tile_flags (m, 1, LX(nate.x)-1, LY(nate.y))) &&
 					LX(nate.x)-1 > -1){
-						
 						grid_snap_left (&nate.x, &nate.y, &nate.dx);
 					}
 					
@@ -157,20 +145,15 @@ int main (int argc, char **argv)
 			
 		if (key[KEY_RIGHT]){
 			if (invmenu_vis ()){
-			
 				invmenu_sel_right ();
-				
 			}else if (vend_vis ()){
-				
 				vend_move_right ();
-				
 			}else if (elev_vis ()){
 				elev_sel_right ();
 			}else if (!fighting ()){
 				if (!SOLID(map_get_tile_flags (m, 0, LX(nate.x)+1, LY(nate.y))) &&
 					!SOLID(map_get_tile_flags (m, 1, LX(nate.x)+1, LY(nate.y))) &&
 					LX(nate.x) + 1 < map_get_w (m)){
-						
 						grid_snap_right (&nate.x, &nate.y, &nate.dx);
 					}
 				
@@ -179,17 +162,13 @@ int main (int argc, char **argv)
 		}
 		
 		if (key[KEY_ESC]){
-
 			if (vend_vis ()){
 				vend_free_dat ();
-				
 			}else if (temp_vis ()){
 				temp_uninit ();
-				
 			}else if (elev_vis ()){
 				elev_free ();
 			}else {
-	
 				if (!invmenu_vis ())
 					invmenu_init (NATE_DAT, "INVMENU_BMP", "ITEMS_BMP");
 				else
@@ -199,7 +178,7 @@ int main (int argc, char **argv)
 			fadeout (20);
 		}
 
-		/* Camera adjust */
+		/* Camera adjust on nate */
 		if (nate.x - cam_x <= 60 && cam_x > 0)
 			grid_snap_left (&cam_x, &cam_y, &cam_dx);
 			
@@ -212,6 +191,8 @@ int main (int argc, char **argv)
 		if (nate.y - cam_y >= 120 && cam_y + SCREEN_H < map_get_lh (m))
 			grid_snap_down (&cam_x, &cam_y, &cam_dy);
 	
+		/* When nate is about to fully snap to new grid square, roll
+		 * the dice to fight */
 		if ((+nate.x % map_get_tw (m) == 1) || (+nate.y % map_get_th (m) == 1)){
 			fight_chance_inc (1);
 			
@@ -219,43 +200,62 @@ int main (int argc, char **argv)
 			if (fighting ()){
 				char *bat_map = strtmp (map_get_rand_battle_map (m));
 				
+				/* Free current map and load battle map */
 				map_free (m);
 				m = map_new ();
 				load_map (m, NATE_DAT, bat_map);
-				
 				nl = map_get_nl (m);
-				fadeout (5);
+				
+				/* Battle maps are always 320x200 
+				 * so set camera to 0, 0 */
 				cam_x = 0;
 				cam_y = 0;
+				
+				fadeout (5);
 			}
 		}
 	
 		/* Snap all queued coord to grid */
 		grid_snap_queue_proc ();
+		
+		/* Hotel temp always factored */
 		temp_global_process ();
 
 		/* NATE ANIMATION SPEED CONTROL */
 		nate.ar--;
 		if (nate.ar <= 0){
+			
 			nate.cf++;
-	
 			if (nate.cf >= sprite_keyframe_get_num_frames (nate.s, nate.ckf))
 				nate.cf = 0;
 				
 			nate.ar = sprite_keyframe_get_frame_rest (nate.s, nate.ckf, nate.cf);
 		}
 
-		/* Check objects */
+		/* Check objects. Don't if any GUIs are active or no objects
+		 * are in map */
 		cn = map_get_node_head (m);
-		while (cn && !vend_vis () && !invmenu_vis () && !temp_vis () && !elev_vis () && !fighting ()){
+		while (cn &&
+		       !vend_vis () && 
+			   !invmenu_vis () &&
+			   !temp_vis () &&
+			   !elev_vis () &&
+			   !fighting ()
+			){
 		
+			/* Nate's computer will be a computer in a 
+			 * computer */
 			if (node_get_type (cn) == OBJ_COMPUTER ){
 				
 				gn = node_get_data (cn);
 				if (nate.x == gn->x && nate.y == gn->y){
 					
+					break;
 				}
+
+			/* Nate activates a thermostat */
 			}else if (node_get_type (cn) == OBJ_STAT){
+				
 				gn = node_get_data (cn);
 				if (nate.x == gn->x && nate.y == gn->y){
 					if (key[KEY_LCONTROL]){
@@ -265,6 +265,8 @@ int main (int argc, char **argv)
 						
 					break;
 				}
+				
+			/* Nate opens an itembox */
 			}else if (node_get_type (cn) == OBJ_ITEMBOX){
 				
 				gn = node_get_data (cn);
@@ -279,12 +281,11 @@ int main (int argc, char **argv)
 					break;
 				}
 				
+			/* Nate checks out what's in the vending machine */
 			}else if (node_get_type (cn) == OBJ_VENDING){
 				
 				vn = node_get_data (cn);
-
 				if (nate.x == vn->x && nate.y == vn->y){
-					
 					if (key[KEY_LCONTROL]){
 						vend_init_dat (vn, NATE_DAT, "VEND_BMP", "ITEMS_BMP");
 					}else
@@ -292,21 +293,21 @@ int main (int argc, char **argv)
 						
 					break;
 				}
+			/* Nate looks at what floors are open on elevator */
 			}else if (node_get_type (cn) == OBJ_ELEV_BUTT){
-				gn = node_get_data (cn);
 				
+				gn = node_get_data (cn);
 				if (nate.x == gn->x && nate.y == gn->y){
-					
 					if (key[KEY_LCONTROL]){
 						elev_init (NATE_DAT, "ELEV_BMP");
-
 					}else{
 						text_msg = strtmp ("Change Floor");
 					}
 						
 					break;
 				}
-				
+			
+			/* Nate is standing on room change object */
 			}else if (node_get_type (cn) == OBJ_CHGROOM){
 				cr = node_get_data (cn);
 				
@@ -332,16 +333,18 @@ int main (int argc, char **argv)
 					}
 				}
 			}
+			
 			cn = node_get_next (cn);
 		}
 
+		/* GUI CONTROL */
+		
+		/* Vending machine */
 		if (vend_vis ()){
 			
-			int tc = inv_get_item_total (INV_MONEY);
-			int ib;
+			int tc = inv_get_item_total (INV_MONEY), ib;
 
 			if (key[KEY_LCONTROL]){
-				
 				ib = vend_buy_item (vn, tc);
 				inv_add (ib, 1);
 				inv_sub (INV_MONEY, vend_get_cost (ib));
@@ -349,29 +352,30 @@ int main (int argc, char **argv)
 
 			vend_draw_backbuff (vn, tc, get_backbuff ());
 		
+		/* Thermostat */
 		}else if (temp_vis ()){
 			
 			temp_draw_backbuff (get_backbuff (), NATE_DAT);
 			
+		/* Elevator buttons */
 		}else if (elev_vis ()){
 			
-			if (key[KEY_LCONTROL]){
+			if (key[KEY_LCONTROL])
 				elev_press ();
-			}
 			
 			elev_draw_backbuff (get_backbuff ());
-			
+		
+		/* Item box or inv menu */	
 		}else if (invmenu_vis ()){
 		
 			if (key[KEY_LCONTROL]){
-				
 				if (boxmenu_active ())
 					boxmenu_set_src_dest ();
-					
 			}
 			
 			invmenu_draw_backbuff (get_backbuff ());
-			
+		
+		/* No special GUI visible? Draw game map and stuff instead */
 		}else{
 			/* Draw map layers */
 			clear (get_backbuff ());
@@ -385,7 +389,6 @@ int main (int argc, char **argv)
 					if (node_get_type (cn) == OBJ_ENEMY){
 						ENEMY *enemy = node_get_data (cn);
 						BITMAP *img = map_get_object_ass (m, enemy->imageid);
-						//blit (img, get_backbuff (), 0, 0, enemy->x, enemy->y, img->w, img->h);
 						draw_sprite (get_backbuff (), img, enemy->x, enemy->y);
 					}
 					
@@ -395,21 +398,23 @@ int main (int argc, char **argv)
 				fight_draw_stuff (get_backbuff ());
 				inv_draw_battle (get_backbuff ());
 				
-				if (key[KEY_]){
-					
-				}
-				
 			}else
 				sprite_draw (nate.s, get_backbuff (), nate.ckf, nate.cf, nate.x-cam_x, nate.y-cam_y-TILE_H);
 			
 			text_print_center (get_backbuff (), text_msg);
-			
 		}
 		
+		/* Special use key check to exit elevator room */
 		if (key[KEY_LCONTROL]){
 			
-			if (!strcmp (map_get_name (m), "Elevator") &&
-				LX (nate.x) == 2 && LY (nate.y) == 3){
+			if (fighting ()){
+				
+				if (fight_inv_sel ()){
+					
+				}
+				
+			}else if (!strcmp (map_get_name (m), "Elevator") &&
+					  LX (nate.x) == 2 && LY (nate.y) == 3){
 			
 				int nx, ny;
 				char *fs;
@@ -429,11 +434,10 @@ int main (int argc, char **argv)
 				
 				nx = map_get_elev_x_pos (m);
 				ny = map_get_elev_y_pos (m);
-				nate_set_xy (&nate, nx, ny+20);
+				nate_set_xy (&nate, nx, ny+map_get_th());
 				
 				/* Set camera based on nate location */
 				nate_focus_camera (m, nate.x, nate.y, &cam_x, &cam_y);
-				
 			}
 		}
 		

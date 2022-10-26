@@ -37,6 +37,12 @@ int
 fighting (void);
 
 void
+fight_inv_sel_set (int bool);
+
+int
+fight_inv_sel ();
+
+void
 fight_set_ret_room (char *room, int x, int y);
 
 char *

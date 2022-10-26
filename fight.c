@@ -23,11 +23,24 @@ static int fire_pos_dir = -1;
 static int fire_pos_spd_set = 0;
 static int fire_pos_spd = 0;
 static int fight_inv_sel = FALSE;
+static int fight_inv_sel_pos = FIGHT_ITEM_SEL_1;
 
 int
 fighting (void)
 {
 	return fight;
+}
+
+void
+fight_inv_sel_set (int bool)
+{
+	fight_inv_sel = bool;
+}
+
+int
+fight_inv_sel ()
+{
+	return fight_inv_sel;
 }
 
 void
@@ -100,12 +113,15 @@ fight_draw_stuff (BITMAP *bf)
 		
 	fire_pos += fire_pos_dir;
 	
-	if (--fire_pos_spd < 0){
+	if (--fire_pos_spd < 0)
 		fire_pos_spd = fire_pos_spd_set;
-	}
 	
 	blit (gui, bf, 0, 0, 0, 160, gui->w, gui->h);
 	rectfill (bf, fire_pos-2, 170, fire_pos+2, 170+10, 2);
+	
+	if (fight_inv_sel){
+		
+	}
 }
 
 void
