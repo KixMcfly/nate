@@ -3,6 +3,7 @@
 #include <allegro.h>
 #include <stdlib.h>
 #include "tools.h"
+#include "sprite.h"
 
 #define MAX_ENEMY_NAME 20
 
@@ -40,7 +41,7 @@ void
 fight_inv_sel_set (int bool);
 
 int
-fight_inv_sel ();
+fight_inv_is_sel ();
 
 void
 fight_set_ret_room (char *room, int x, int y);

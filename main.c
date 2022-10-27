@@ -409,7 +409,7 @@ int main (int argc, char **argv)
 			
 			if (fighting ()){
 				
-				if (fight_inv_sel ()){
+				if (fight_inv_is_sel ()){
 					
 				}
 				
@@ -434,7 +434,7 @@ int main (int argc, char **argv)
 				
 				nx = map_get_elev_x_pos (m);
 				ny = map_get_elev_y_pos (m);
-				nate_set_xy (&nate, nx, ny+map_get_th());
+				nate_set_xy (&nate, nx, ny+map_get_th(m));
 				
 				/* Set camera based on nate location */
 				nate_focus_camera (m, nate.x, nate.y, &cam_x, &cam_y);

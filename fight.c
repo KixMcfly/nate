@@ -17,7 +17,8 @@ static int fight_chance = 1;
 static int fight = FALSE;
 static char ret_room[100];
 static int ret_x, ret_y;
-static BITMAP *gui = NULL, *inv = NULL;
+static BITMAP *gui = NULL;
+static SPRITE *inv = NULL;
 static int fire_pos = 320 / 2;
 static int fire_pos_dir = -1;
 static int fire_pos_spd_set = 0;
@@ -38,7 +39,7 @@ fight_inv_sel_set (int bool)
 }
 
 int
-fight_inv_sel ()
+fight_inv_is_sel ()
 {
 	return fight_inv_sel;
 }
@@ -86,12 +87,8 @@ fight_chance_inc (int da)
 		unload_datafile_object (t_dat);
 		
 		/* Load inv for battle view */
-		t_dat = load_datafile_object ("NATE.dat", "ITEMS_BMP");
-		t_bmp = t_dat->dat;
-		inv = create_bitmap (t_bmp->w, t_bmp->h);
-		blit (t_bmp, inv, 0, 0, 0, 0, t_bmp->w, t_bmp->h);
-		unload_datafile_object (t_dat);
-		
+		inv = sprite_new ();
+		sprite_keyframe_dat_div (inv, 7, 1, "NATE.dat", "ITEMS_BMP");
 		
 		fight = TRUE;
 		fight_chance = 1;
@@ -120,14 +117,14 @@ fight_draw_stuff (BITMAP *bf)
 	rectfill (bf, fire_pos-2, 170, fire_pos+2, 170+10, 2);
 	
 	if (fight_inv_sel){
-		
+		//draw_sprite (bf, inv, );
 	}
 }
-
+  
 void
 fight_free_stuff (void)
 {
 	destroy_bitmap (gui);
-	destroy_bitmap (inv);
+	sprite_free (inv);
 	gui = NULL;
 }
