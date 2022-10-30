@@ -68,4 +68,10 @@ inv_sub (int id, int amt);
 int
 inv_add (int id, int amt);
 
+int
+inv_get_item_id (int pos);
+
+int *
+inv_get_item_amount (int pos);
+
 #endif

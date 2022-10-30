@@ -39,9 +39,33 @@ fight_inv_sel_set (int bool)
 }
 
 int
-fight_inv_is_sel ()
+fight_inv_is_sel (void)
 {
 	return fight_inv_sel;
+}
+
+int
+fight_inv_get_sel (void)
+{
+	return fight_inv_sel_pos;
+}
+
+void
+fight_inv_sel_right (void)
+{
+	fight_inv_sel_pos++;
+	
+	if (fight_inv_sel_pos > FIGHT_ITEM_SEL_8)
+		fight_inv_sel_pos = 0;
+}
+
+void
+fight_inv_sel_left (void)
+{
+	fight_inv_sel_pos--;
+	
+	if (fight_inv_sel_pos < 0)
+		fight_inv_sel_pos = FIGHT_ITEM_SEL_8;
 }
 
 void
@@ -100,7 +124,7 @@ fight_chance_inc (int da)
 }
 
 void
-fight_draw_stuff (BITMAP *bf)
+fight_draw_stuff (BITMAP *bf, int id, int *item_amt)
 {
 	if (fire_pos < 5)
 		fire_pos_dir = 1;
@@ -117,8 +141,9 @@ fight_draw_stuff (BITMAP *bf)
 	rectfill (bf, fire_pos-2, 170, fire_pos+2, 170+10, 2);
 	
 	if (fight_inv_sel){
-		//draw_sprite (bf, inv, );
+		sprite_draw (inv, bf, 0, id, 100, 100);
 	}
+
 }
   
 void

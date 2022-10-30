@@ -43,6 +43,15 @@ fight_inv_sel_set (int bool);
 int
 fight_inv_is_sel ();
 
+int
+fight_inv_get_sel (void);
+
+void
+fight_inv_sel_right (void);
+
+void
+fight_inv_sel_left (void);
+
 void
 fight_set_ret_room (char *room, int x, int y);
 
@@ -56,7 +65,7 @@ int
 fight_chance_inc (int da);
 
 void
-fight_draw_stuff (BITMAP *bf);
+fight_draw_stuff (BITMAP *bf, int id, int *item_amt);
 
 void
 fight_free_stuff (void);

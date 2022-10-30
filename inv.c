@@ -496,3 +496,15 @@ inv_add (int id, int amt)
 	
 	return 0;
 }
+
+int
+inv_get_item_id (int pos)
+{
+	return inv[pos].id;
+}
+
+int *
+inv_get_item_amount (int pos)
+{
+	return &(inv[pos].num);
+}

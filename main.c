@@ -383,6 +383,10 @@ int main (int argc, char **argv)
 				draw_map_layer (m, cl, -cam_x, -cam_y);
 		
 			if (fighting ()){
+				
+				int item_sel_id = inv_get_item_id (fight_inv_get_sel ());
+				int *item_sel_amt = inv_get_item_amount (fight_inv_get_sel ());
+				
 				/* Iterate object list for enemies */
 				cn = map_get_node_head (m);
 				while (cn){
@@ -395,7 +399,7 @@ int main (int argc, char **argv)
 					cn = node_get_next (cn);
 				}
 				
-				fight_draw_stuff (get_backbuff ());
+				fight_draw_stuff (get_backbuff (), item_sel_id, item_sel_amt);
 				inv_draw_battle (get_backbuff ());
 				
 			}else
