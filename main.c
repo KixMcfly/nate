@@ -56,12 +56,6 @@ int main (int argc, char **argv)
 	sprite_keyframe_dat_div (nate.s, 3, 4, NATE_DAT, "NATESPR_BMP");
 	nate_def (&nate);
 
-	grid_set_w (map_get_tw (m));
-	grid_set_h (map_get_th (m));
-	
-	grid_snap_queue_add (&cam_x, &cam_y, &cam_dx, &cam_dy);
-	grid_snap_queue_add (&nate.x, &nate.y, &nate.dx, &nate.dy);
-
 	nate_focus_camera (m, nate.x, nate.y, &cam_x, &cam_y);
 	
 	/* Get palette for fade in */
@@ -94,7 +88,7 @@ int main (int argc, char **argv)
 					!SOLID(map_get_tile_flags (m, 1, LX(nate.x), LY(nate.y)-1)) &&
 					LY(nate.y) - 1 > -1){
 						
-						grid_snap_up (&nate.x, &nate.y, &nate.dy);
+						nate.y--;
 					}
 
 				nate.ckf = KF_UP;
@@ -117,7 +111,7 @@ int main (int argc, char **argv)
 				if (!SOLID(map_get_tile_flags (m, 0, LX(nate.x), LY(nate.y)+1)) &&
 					!SOLID(map_get_tile_flags (m, 1, LX(nate.x), LY(nate.y)+1)) &&
 					LY(nate.y) + 1 < map_get_h (m)){
-						grid_snap_down (&nate.x, &nate.y, &nate.dy);
+						nate.y++;
 					}
 
 				nate.ckf = KF_DOWN;
@@ -136,7 +130,7 @@ int main (int argc, char **argv)
 				if (!SOLID(map_get_tile_flags (m, 0, LX(nate.x)-1, LY(nate.y))) &&
 					!SOLID(map_get_tile_flags (m, 1, LX(nate.x)-1, LY(nate.y))) &&
 					LX(nate.x)-1 > -1){
-						grid_snap_left (&nate.x, &nate.y, &nate.dx);
+						nate.x--;
 					}
 					
 				nate.ckf = KF_LEFT;
@@ -154,7 +148,7 @@ int main (int argc, char **argv)
 				if (!SOLID(map_get_tile_flags (m, 0, LX(nate.x)+1, LY(nate.y))) &&
 					!SOLID(map_get_tile_flags (m, 1, LX(nate.x)+1, LY(nate.y))) &&
 					LX(nate.x) + 1 < map_get_w (m)){
-						grid_snap_right (&nate.x, &nate.y, &nate.dx);
+						nate.x++;
 					}
 				
 				nate.ckf = KF_RIGHT;
@@ -177,46 +171,6 @@ int main (int argc, char **argv)
 			
 			fadeout (20);
 		}
-
-		/* Camera adjust on nate */
-		if (nate.x - cam_x <= 60 && cam_x > 0)
-			grid_snap_left (&cam_x, &cam_y, &cam_dx);
-			
-		if (nate.x - cam_x >= 220 && cam_x + SCREEN_W < map_get_lw (m))
-			grid_snap_right (&cam_x, &cam_y, &cam_dx);
-			
-		if (nate.y - cam_y <= 80 && cam_y)
-			grid_snap_up (&cam_x, &cam_y, &cam_dy);
-			
-		if (nate.y - cam_y >= 120 && cam_y + SCREEN_H < map_get_lh (m))
-			grid_snap_down (&cam_x, &cam_y, &cam_dy);
-	
-		/* When nate is about to fully snap to new grid square, roll
-		 * the dice to fight */
-		if ((+nate.x % map_get_tw (m) == 1) || (+nate.y % map_get_th (m) == 1)){
-			fight_chance_inc (1);
-			
-			/* Get random map from maps battle list */
-			if (fighting ()){
-				char *bat_map = strtmp (map_get_rand_battle_map (m));
-				
-				/* Free current map and load battle map */
-				map_free (m);
-				m = map_new ();
-				load_map (m, NATE_DAT, bat_map);
-				nl = map_get_nl (m);
-				
-				/* Battle maps are always 320x200 
-				 * so set camera to 0, 0 */
-				cam_x = 0;
-				cam_y = 0;
-				
-				fadeout (5);
-			}
-		}
-	
-		/* Snap all queued coord to grid */
-		grid_snap_queue_proc ();
 		
 		/* Hotel temp always factored */
 		temp_global_process ();
@@ -422,8 +376,7 @@ int main (int argc, char **argv)
 			
 				int nx, ny;
 				char *fs;
-			
-				//play_sample ((SAMPLE *)snd_door->dat, 155, 128, 1000, NULL);
+
 				map_free (m);
 				m = map_new ();
 				

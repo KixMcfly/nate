@@ -10,10 +10,8 @@
 #include "vend.h"
 #include "elev.h"
 #include "temp.h"
-#include "grid.h"
 #include "tools.h"
 #include "text.h"
-#include "fight.h"
 
 #define CAMERA_W 			320
 #define CAMERA_H 			200
