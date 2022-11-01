@@ -63,12 +63,11 @@ draw_map_layer (MAP *m, int ln, int x, int y)
 		case TILES:
 			img = map_get_layer_img (m, ln);
 
-			if (!img){
-				img = NULL;
+			if (!img)
 				return 0;
-			}
 			
 			masked_blit (img, backbuff, 0, 0, x, y, img->w, img->h);
+			
 		break;
 		case OBJECTS:
 		
@@ -80,7 +79,21 @@ draw_map_layer (MAP *m, int ln, int x, int y)
 	return 1;
 }
 
-int faded (void)
+void
+draw_load_blit_show (char *bn, char *dfn)
+{
+	BITMAP *t_bmp;
+	DATAFILE *df = load_datafile_object (bn, dfn);
+
+	t_bmp = (BITMAP *)df->dat;
+	blit (title, backbuff, 0, 0, 0, 0, t_bmp->w, t_bmp->h);
+	unload_datafile_object (df);
+	set_palette (df->dat);
+	show_backbuff (0, 0);
+}
+
+int
+faded (void)
 {
 	return fd;
 }

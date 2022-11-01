@@ -11,7 +11,7 @@ int main (int argc, char **argv)
 	BITMAP *title = NULL;
 	DATAFILE *df = NULL, *pal = NULL, *snd_door = NULL;
 	NNODE *cn = NULL;
-	char *text_msg = NULL;
+	char *text_msg = NULL:
 	
 	int nl, cl, quit = FALSE, cam_x = 0, cam_y = 0, cam_dx = 0, cam_dy = 0;
 	int game_speed = 10;
@@ -20,28 +20,16 @@ int main (int argc, char **argv)
 	nate_init ();
 	
 	/* TITLE SCREEN */
-	
-	df = load_datafile_object (NATE_DAT, "TITLE_BMP");
-	title = (BITMAP *)df->dat;
-	blit (title, get_backbuff (), 0, 0, 0, 0, title->w, title->h);
-	unload_datafile_object (df);
-	set_pal (NATE_DAT, "TITLE_PAL");
-	show_backbuff (0, 0);
-	df = load_datafile_object (NATE_DAT, "TITLE_MID");
-	play_midi ((MIDI *)df->dat, TRUE);
+	draw_load_blit_show (NATE_DAT, "TITLE_BMP");
+	sound_midi_load_play ("TITLE_MID", NATE_DAT);
 
 	while (!keypressed ())
 		;
 
 	fadeout (10);
-
-	stop_midi ();
-	unload_datafile_object (df);
+	sound_midi_stop_free ();
 	
 	/* PREPARE MAIN GAME LOOP */
-	
-	/* Load nate font */
-	text_load_font_dat (NATE_DAT);
 
 	/* Load sounds */
 	snd_door = load_datafile_object (NATE_DAT, "DOOR_WAV");
@@ -61,9 +49,6 @@ int main (int argc, char **argv)
 	/* Get palette for fade in */
 	pal = load_datafile_object (NATE_DAT, "NATE_PAL");
 	
-	df = load_datafile_object (NATE_DAT, "BATTLE");
-	play_midi ((MIDI *)df->dat, TRUE);
-	
 	elev_floor_goto ();
 
 	/* MAIN GAME LOOP */
@@ -82,7 +67,7 @@ int main (int argc, char **argv)
 				elev_sel_up ();
 			}else if (vend_vis ()){
 				vend_move_up ();
-			}else if (!fighting ()){
+			}else {
 				
 				if (!SOLID(map_get_tile_flags (m, 0, LX(nate.x), LY(nate.y)-1)) &&
 					!SOLID(map_get_tile_flags (m, 1, LX(nate.x), LY(nate.y)-1)) &&
@@ -105,8 +90,6 @@ int main (int argc, char **argv)
 				elev_sel_down ();
 			}else if (vend_vis ()){
 				vend_move_down ();
-			}else if (fighting ()){
-				fight_inv_sel_set (TRUE);
 			}else{
 				if (!SOLID(map_get_tile_flags (m, 0, LX(nate.x), LY(nate.y)+1)) &&
 					!SOLID(map_get_tile_flags (m, 1, LX(nate.x), LY(nate.y)+1)) &&
@@ -126,7 +109,7 @@ int main (int argc, char **argv)
 				vend_move_left ();
 			}else if (elev_vis ()){
 				elev_sel_left ();
-			}else if (!fighting ()){
+			}else{
 				if (!SOLID(map_get_tile_flags (m, 0, LX(nate.x)-1, LY(nate.y))) &&
 					!SOLID(map_get_tile_flags (m, 1, LX(nate.x)-1, LY(nate.y))) &&
 					LX(nate.x)-1 > -1){
@@ -144,7 +127,7 @@ int main (int argc, char **argv)
 				vend_move_right ();
 			}else if (elev_vis ()){
 				elev_sel_right ();
-			}else if (!fighting ()){
+			}else{
 				if (!SOLID(map_get_tile_flags (m, 0, LX(nate.x)+1, LY(nate.y))) &&
 					!SOLID(map_get_tile_flags (m, 1, LX(nate.x)+1, LY(nate.y))) &&
 					LX(nate.x) + 1 < map_get_w (m)){
@@ -212,10 +195,9 @@ int main (int argc, char **argv)
 				
 				gn = node_get_data (cn);
 				if (nate.x == gn->x && nate.y == gn->y){
-					if (key[KEY_LCONTROL]){
+					if (key[KEY_LCONTROL])
 						temp_set_vis ();
-					}else
-						text_msg = strtmp ("Thermostat");
+
 						
 					break;
 				}
@@ -229,8 +211,7 @@ int main (int argc, char **argv)
 					if (key[KEY_LCONTROL]){
 						invmenu_init (NATE_DAT, "INVMENU_BMP", "ITEMS_BMP", "INV_FNT");
 						boxmenu_set_active (TRUE);
-					}else
-						text_msg = strtmp ("ITEMBOX");
+					}
 						
 					break;
 				}
@@ -240,10 +221,9 @@ int main (int argc, char **argv)
 				
 				vn = node_get_data (cn);
 				if (nate.x == vn->x && nate.y == vn->y){
-					if (key[KEY_LCONTROL]){
+					if (key[KEY_LCONTROL])
 						vend_init_dat (vn, NATE_DAT, "VEND_BMP", "ITEMS_BMP");
-					}else
-						text_msg = strtmp ("Vending machine!");
+
 						
 					break;
 				}
@@ -252,11 +232,9 @@ int main (int argc, char **argv)
 				
 				gn = node_get_data (cn);
 				if (nate.x == gn->x && nate.y == gn->y){
-					if (key[KEY_LCONTROL]){
+					if (key[KEY_LCONTROL])
 						elev_init (NATE_DAT, "ELEV_BMP");
-					}else{
-						text_msg = strtmp ("Change Floor");
-					}
+
 						
 					break;
 				}
@@ -266,13 +244,13 @@ int main (int argc, char **argv)
 				cr = node_get_data (cn);
 				
 				if (nate.x == cr->x && nate.y == cr->y){
-					
-					text_msg = strtmp (cr->name);
+
 					
 					/* Change to room if use button is pressed */
 					if (key[KEY_LCONTROL]){
 						nate_set_xy (&nate, cr->cx * TILE_W, cr->cy * TILE_H);
 						play_sample ((SAMPLE *)snd_door->dat, 155, 128, 1000, NULL);
+						//text_msg = strtmp (
 						map_free (m);
 						m = map_new ();
 						load_map (m, NATE_DAT, text_msg);
@@ -336,42 +314,15 @@ int main (int argc, char **argv)
 			for (cl = 0; cl < nl; cl++)
 				draw_map_layer (m, cl, -cam_x, -cam_y);
 		
-			if (fighting ()){
-				
-				int item_sel_id = inv_get_item_id (fight_inv_get_sel ());
-				int *item_sel_amt = inv_get_item_amount (fight_inv_get_sel ());
-				
-				/* Iterate object list for enemies */
-				cn = map_get_node_head (m);
-				while (cn){
-					if (node_get_type (cn) == OBJ_ENEMY){
-						ENEMY *enemy = node_get_data (cn);
-						BITMAP *img = map_get_object_ass (m, enemy->imageid);
-						draw_sprite (get_backbuff (), img, enemy->x, enemy->y);
-					}
-					
-					cn = node_get_next (cn);
-				}
-				
-				fight_draw_stuff (get_backbuff (), item_sel_id, item_sel_amt);
-				inv_draw_battle (get_backbuff ());
-				
-			}else
-				sprite_draw (nate.s, get_backbuff (), nate.ckf, nate.cf, nate.x-cam_x, nate.y-cam_y-TILE_H);
+
+			sprite_draw (nate.s, get_backbuff (), nate.ckf, nate.cf, nate.x-cam_x, nate.y-cam_y-TILE_H);
 			
-			text_print_center (get_backbuff (), text_msg);
 		}
 		
 		/* Special use key check to exit elevator room */
 		if (key[KEY_LCONTROL]){
 			
-			if (fighting ()){
-				
-				if (fight_inv_is_sel ()){
-					
-				}
-				
-			}else if (!strcmp (map_get_name (m), "Elevator") &&
+			if (!strcmp (map_get_name (m), "Elevator") &&
 					  LX (nate.x) == 2 && LY (nate.y) == 3){
 			
 				int nx, ny;
@@ -398,8 +349,6 @@ int main (int argc, char **argv)
 			}
 		}
 		
-		text_msg = NULL;
-		
 		/* Blit backbuff to CRT */
 		show_backbuff (0, 0);
 		
@@ -414,13 +363,6 @@ int main (int argc, char **argv)
 	
 	/* Unload sounds */
 	unload_datafile_object (snd_door);
-	
-	/* Unload music */
-	stop_midi ();
-	unload_datafile_object (df);
-	
-	/* Destroy Nate font */
-	text_destroy_font ();
 	
 	/* free nate sprite */
 	sprite_free (nate.s);

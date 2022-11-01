@@ -21,6 +21,9 @@ set_pal (char *df, char *id);
 int
 draw_map_layer (MAP *m, int ln, int x, int y);
 
+void
+draw_load_blit_show (char *bn, char *dfn);
+
 int
 faded (void);
 

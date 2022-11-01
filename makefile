@@ -1,4 +1,4 @@
-obj = main.obj tileset.obj map.obj draw.obj sprite.obj text.obj inv.obj vend.obj temp.obj elev.obj node.obj tools.obj
+obj = main.obj tileset.obj map.obj draw.obj sprite.obj inv.obj vend.obj sound.obj temp.obj elev.obj node.obj tools.obj
 bin = nate.exe
 
 CC = wcc386
