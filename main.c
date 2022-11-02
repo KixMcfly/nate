@@ -5,45 +5,43 @@ int main (int argc, char **argv)
 {	
 	MAP *m = NULL;
 	NATE nate;
-	CHGROOM *cr = NULL;
-	GENERIC *gn = NULL;
+
 	VENDING *vn = NULL;
-	BITMAP *title = NULL;
-	DATAFILE *df = NULL, *pal = NULL, *snd_door = NULL;
+
+	DATAFILE *pal = NULL;
 	NNODE *cn = NULL;
-	char *text_msg = NULL:
+	char *text_msg = NULL;
 	
 	int nl, cl, quit = FALSE, cam_x = 0, cam_y = 0, cam_dx = 0, cam_dy = 0;
 	int game_speed = 10;
 
-	/* Initialize Allegro */
+	/* Initialize Nathyn's Quest */
 	nate_init ();
 	
-	/* TITLE SCREEN */
-	draw_load_blit_show (NATE_DAT, "TITLE_BMP");
-	sound_midi_load_play ("TITLE_MID", NATE_DAT);
+	/* Title Screen stuff */
+	draw_load_blit_show (NATE_DAT, "TITLE_BMP", "TITLE_PAL");
+	sound_midi_load_play (NATE_DAT, "TITLE_MID");
 
 	while (!keypressed ())
 		;
-
 	fadeout (10);
 	sound_midi_stop_free ();
 	
-	/* PREPARE MAIN GAME LOOP */
-
-	/* Load sounds */
-	snd_door = load_datafile_object (NATE_DAT, "DOOR_WAV");
+	/* Prepare main loop */
 	
 	/* set starting room */
 	m = map_new ();
 	load_map (m, NATE_DAT, "NATEROOM_NAT");
 	nl = map_get_nl (m);
 
-	/* Init nate player data */
+	/* Load player sprite */
 	nate.s = sprite_new ();
 	sprite_keyframe_dat_div (nate.s, 3, 4, NATE_DAT, "NATESPR_BMP");
+	
+	/* players starting stats */
 	nate_def (&nate);
 
+	/* focus view on player position */
 	nate_focus_camera (m, nate.x, nate.y, &cam_x, &cam_y);
 	
 	/* Get palette for fade in */
@@ -69,12 +67,9 @@ int main (int argc, char **argv)
 				vend_move_up ();
 			}else {
 				
-				if (!SOLID(map_get_tile_flags (m, 0, LX(nate.x), LY(nate.y)-1)) &&
-					!SOLID(map_get_tile_flags (m, 1, LX(nate.x), LY(nate.y)-1)) &&
-					LY(nate.y) - 1 > -1){
-						
-						nate.y--;
-					}
+				if (nate.y){	
+					nate.y--;
+				}
 
 				nate.ckf = KF_UP;
 			}
@@ -91,11 +86,12 @@ int main (int argc, char **argv)
 			}else if (vend_vis ()){
 				vend_move_down ();
 			}else{
-				if (!SOLID(map_get_tile_flags (m, 0, LX(nate.x), LY(nate.y)+1)) &&
-					!SOLID(map_get_tile_flags (m, 1, LX(nate.x), LY(nate.y)+1)) &&
-					LY(nate.y) + 1 < map_get_h (m)){
-						nate.y++;
-					}
+				if (nate.y + TILE_H < map_get_h (m) * map_get_th (m)){
+					
+					if (nate.y / 10)
+					
+					nate.y++;
+				}
 
 				nate.ckf = KF_DOWN;
 			}
@@ -110,11 +106,9 @@ int main (int argc, char **argv)
 			}else if (elev_vis ()){
 				elev_sel_left ();
 			}else{
-				if (!SOLID(map_get_tile_flags (m, 0, LX(nate.x)-1, LY(nate.y))) &&
-					!SOLID(map_get_tile_flags (m, 1, LX(nate.x)-1, LY(nate.y))) &&
-					LX(nate.x)-1 > -1){
-						nate.x--;
-					}
+				if (nate.x){
+					nate.x--;
+				}
 					
 				nate.ckf = KF_LEFT;
 			}
@@ -128,11 +122,9 @@ int main (int argc, char **argv)
 			}else if (elev_vis ()){
 				elev_sel_right ();
 			}else{
-				if (!SOLID(map_get_tile_flags (m, 0, LX(nate.x)+1, LY(nate.y))) &&
-					!SOLID(map_get_tile_flags (m, 1, LX(nate.x)+1, LY(nate.y))) &&
-					LX(nate.x) + 1 < map_get_w (m)){
-						nate.x++;
-					}
+				if (nate.x + TILE_W < map_get_w (m) * map_get_tw (m)){
+					nate.x++;
+				}
 				
 				nate.ckf = KF_RIGHT;
 			}
@@ -147,7 +139,7 @@ int main (int argc, char **argv)
 				elev_free ();
 			}else {
 				if (!invmenu_vis ())
-					invmenu_init (NATE_DAT, "INVMENU_BMP", "ITEMS_BMP");
+					invmenu_init (NATE_DAT);
 				else
 					invmenu_free ();
 			}
@@ -176,15 +168,14 @@ int main (int argc, char **argv)
 		       !vend_vis () && 
 			   !invmenu_vis () &&
 			   !temp_vis () &&
-			   !elev_vis () &&
-			   !fighting ()
+			   !elev_vis ()
 			){
 		
 			/* Nate's computer will be a computer in a 
 			 * computer */
 			if (node_get_type (cn) == OBJ_COMPUTER ){
 				
-				gn = node_get_data (cn);
+				GENERIC *gn = node_get_data (cn);
 				if (nate.x == gn->x && nate.y == gn->y){
 					
 					break;
@@ -193,7 +184,7 @@ int main (int argc, char **argv)
 			/* Nate activates a thermostat */
 			}else if (node_get_type (cn) == OBJ_STAT){
 				
-				gn = node_get_data (cn);
+				GENERIC *gn = node_get_data (cn);
 				if (nate.x == gn->x && nate.y == gn->y){
 					if (key[KEY_LCONTROL])
 						temp_set_vis ();
@@ -205,11 +196,11 @@ int main (int argc, char **argv)
 			/* Nate opens an itembox */
 			}else if (node_get_type (cn) == OBJ_ITEMBOX){
 				
-				gn = node_get_data (cn);
+				GENERIC *gn = node_get_data (cn);
 				if (nate.x == gn->x && nate.y == gn->y){
 					
 					if (key[KEY_LCONTROL]){
-						invmenu_init (NATE_DAT, "INVMENU_BMP", "ITEMS_BMP", "INV_FNT");
+						invmenu_init (NATE_DAT);
 						boxmenu_set_active (TRUE);
 					}
 						
@@ -230,7 +221,7 @@ int main (int argc, char **argv)
 			/* Nate looks at what floors are open on elevator */
 			}else if (node_get_type (cn) == OBJ_ELEV_BUTT){
 				
-				gn = node_get_data (cn);
+				GENERIC *gn = node_get_data (cn);
 				if (nate.x == gn->x && nate.y == gn->y){
 					if (key[KEY_LCONTROL])
 						elev_init (NATE_DAT, "ELEV_BMP");
@@ -241,7 +232,7 @@ int main (int argc, char **argv)
 			
 			/* Nate is standing on room change object */
 			}else if (node_get_type (cn) == OBJ_CHGROOM){
-				cr = node_get_data (cn);
+				CHGROOM *cr = node_get_data (cn);
 				
 				if (nate.x == cr->x && nate.y == cr->y){
 
@@ -249,8 +240,8 @@ int main (int argc, char **argv)
 					/* Change to room if use button is pressed */
 					if (key[KEY_LCONTROL]){
 						nate_set_xy (&nate, cr->cx * TILE_W, cr->cy * TILE_H);
-						play_sample ((SAMPLE *)snd_door->dat, 155, 128, 1000, NULL);
-						//text_msg = strtmp (
+						sound_play (SND_DOOR);
+						text_msg = strtmp (cr->name);
 						map_free (m);
 						m = map_new ();
 						load_map (m, NATE_DAT, text_msg);
@@ -314,16 +305,14 @@ int main (int argc, char **argv)
 			for (cl = 0; cl < nl; cl++)
 				draw_map_layer (m, cl, -cam_x, -cam_y);
 		
-
 			sprite_draw (nate.s, get_backbuff (), nate.ckf, nate.cf, nate.x-cam_x, nate.y-cam_y-TILE_H);
-			
 		}
 		
 		/* Special use key check to exit elevator room */
 		if (key[KEY_LCONTROL]){
 			
-			if (!strcmp (map_get_name (m), "Elevator") &&
-					  LX (nate.x) == 2 && LY (nate.y) == 3){
+			if (!strcmp (map_get_name (m), "Elevator")
+					  /*LX (nate.x) == 2 && LY (nate.y) == 3*/){
 			
 				int nx, ny;
 				char *fs;
@@ -360,10 +349,7 @@ int main (int argc, char **argv)
 			
 		elapsed_time = game_speed;
 	}
-	
-	/* Unload sounds */
-	unload_datafile_object (snd_door);
-	
+
 	/* free nate sprite */
 	sprite_free (nate.s);
 	
@@ -392,18 +378,17 @@ nate_focus_camera (MAP *m, int nx, int ny, int *cam_x, int *cam_y)
 	th = map_get_th (m);
 	
 	if (mw < CAMERA_W / tw){
-		*cam_x = -((CAMERA_W - mw * TILE_W) / 2);
+		*cam_x = -((CAMERA_W - mw * tw) / 2);
 	}else
 		for (*cam_x = 0; *cam_x + 160 <= nx; *cam_x += tw)
 			;
 
 	if (mh < CAMERA_H / th)
-		*cam_y = -((CAMERA_H - mh * TILE_H) / 2);
+		*cam_y = -((CAMERA_H - mh * th) / 2);
 	else{
 		for (*cam_y = 0; *cam_y + 100 <= ny && *cam_y + CAMERA_H != mh * TILE_H; *cam_y += th)
 			;
 		}
-
 }
 
 void
@@ -463,11 +448,17 @@ nate_init (void)
     }
     
     init_backbuff (320, 200);
+    
+    /* Load global sounds */
+    sound_load (NATE_DAT);
 }
 
 void
 nate_exit( void )
 {
+	/* free assets */
+	sound_free ();
+	
     remove_keyboard ();
     remove_sound ();
     set_gfx_mode (GFX_TEXT, 0, 0, 0, 0);

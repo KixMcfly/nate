@@ -22,7 +22,7 @@ int
 draw_map_layer (MAP *m, int ln, int x, int y);
 
 void
-draw_load_blit_show (char *bn, char *dfn);
+draw_load_blit_show (char *dfn, char *bn, char *pn);
 
 int
 faded (void);

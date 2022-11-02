@@ -46,7 +46,7 @@ elev_push_floor (unsigned long id, char *fn)
 	
 	nf->id = id;
 	strcpy (nf->name, fn);
-	elev.fl = node_add (elev.fl, NULL, nf);
+	elev.fl = node_add (elev.fl, 0, nf);
 }
 
 int
@@ -148,9 +148,9 @@ elev_press (void)
 		
 		}else if (cp == 11){
 			elev_floor_goto ();
-			play_sample ((SAMPLE *)elevrun_wav->dat, 255, 128, 1000, NULL);
+			play_sample ((SAMPLE *)elevrun_wav->dat, 255, 128, 1000, 0);
 		}
-		play_sample ((SAMPLE *)elevbutt_wav->dat, 255, 128, 1000, NULL);
+		play_sample ((SAMPLE *)elevbutt_wav->dat, 255, 128, 1000, 0);
 		
 		e_rest = 20;
 	}

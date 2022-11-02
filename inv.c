@@ -256,7 +256,7 @@ boxmenu_set_src_dest (void)
 				boxmenu.focus = TRUE;
 				src = &inv[invmenu.sp];
 			}
-			play_sample ((SAMPLE *)put_wav->dat, 155, 128, 1000, NULL);
+			play_sample ((SAMPLE *)put_wav->dat, 155, 128, 1000, 0);
 			
 		}else{
 			t_id = src->id;
@@ -276,7 +276,7 @@ boxmenu_set_src_dest (void)
 				inv[invmenu.sp].id = t_id;
 				inv[invmenu.sp].num = t_num;
 			}
-			play_sample ((SAMPLE *)unput_wav->dat, 155, 128, 1000, NULL);
+			play_sample ((SAMPLE *)unput_wav->dat, 155, 128, 1000, 0);
 			src = NULL;
 		}
 		
@@ -292,7 +292,7 @@ invmenu_sel_up (void)
 		if (boxmenu.focus){
 			
 			boxmenu.b_pos--;
-			play_sample ((SAMPLE *)invsel_wav->dat, 155, 128, 1000, NULL);
+			play_sample ((SAMPLE *)invsel_wav->dat, 155, 128, 1000, 0);
 			m_rest = SEL_R;
 			if (boxmenu.b_pos < 0)
 				boxmenu.b_pos = MAX_ITEMBOX - 1;
@@ -300,7 +300,7 @@ invmenu_sel_up (void)
 			
 			if (invmenu.sp > 1){
 				invmenu.sp -= 2;
-				play_sample ((SAMPLE *)invsel_wav->dat, 155, 128, 1000, NULL);
+				play_sample ((SAMPLE *)invsel_wav->dat, 155, 128, 1000, 0);
 				m_rest = SEL_R;
 			}
 		}
@@ -316,13 +316,13 @@ invmenu_sel_down (void)
 			
 			m_rest = SEL_R;
 			boxmenu.b_pos++;
-			play_sample ((SAMPLE *)invsel_wav->dat, 155, 128, 1000, NULL);
+			play_sample ((SAMPLE *)invsel_wav->dat, 155, 128, 1000, 0);
 			if (boxmenu.b_pos > MAX_ITEMBOX - 1)
 				boxmenu.b_pos = 0;
 
 		}else{
 			if (invmenu.sp < 6){
-				play_sample ((SAMPLE *)invsel_wav->dat, 155, 128, 1000, NULL);
+				play_sample ((SAMPLE *)invsel_wav->dat, 155, 128, 1000, 0);
 				invmenu.sp += 2;
 				m_rest = SEL_R;
 			}
@@ -336,7 +336,7 @@ invmenu_sel_right (void)
 	if (!m_rest){
 
 		if ((invmenu.sp == 0 || invmenu.sp == 2 || invmenu.sp == 4 || invmenu.sp == 6) && !boxmenu.focus){
-			play_sample ((SAMPLE *)invsel_wav->dat, 155, 128, 1000, NULL);
+			play_sample ((SAMPLE *)invsel_wav->dat, 155, 128, 1000, 0);
 			invmenu.sp++;
 		}else if (boxmenu.active && boxmenu.focus && !src){
 			boxmenu.focus = FALSE;
@@ -351,7 +351,7 @@ invmenu_sel_left (void)
 {
 	if (!m_rest){
 		if ((invmenu.sp == 1 || invmenu.sp == 3 || invmenu.sp == 5 || invmenu.sp == 7) && !boxmenu.focus){
-			play_sample ((SAMPLE *)invsel_wav->dat, 155, 128, 1000, NULL);
+			play_sample ((SAMPLE *)invsel_wav->dat, 155, 128, 1000, 0);
 			invmenu.sp--;
 		}else if (boxmenu.active && !src){
 			boxmenu.focus = TRUE;
@@ -368,12 +368,12 @@ invmenu_vis (void)
 }
 
 void
-invmenu_init (char *dfn, char *invb, char *itemb)
+invmenu_init (char *dfn)
 {
 	char *names[] = {"INV_FNT", NULL};
 	
-	inv_bmp = load_datafile_object (dfn, invb);
-	items_bmp = load_datafile_object (dfn, itemb);
+	inv_bmp = load_datafile_object (dfn, "INVMENU_BMP");
+	items_bmp = load_datafile_object (dfn, "ITEMS_BMP");
 	inv_fnt = load_dat_font (dfn, NULL, names);
 	invsel_wav = load_datafile_object (dfn, "INVSEL_WAV");
 	put_wav = load_datafile_object (dfn, "PUT_WAV");

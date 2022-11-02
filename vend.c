@@ -64,7 +64,7 @@ vend_buy_item (VENDING *vend, int cash)
 {
 	if (cash >= ic[vend->inv_list[vp]] && vend->inv_list[vp] > 0 && !pr){
 		pr = 100;
-		play_sample ((SAMPLE *)vend_wav->dat, 255, 128, 1000, NULL);
+		play_sample ((SAMPLE *)vend_wav->dat, 255, 128, 1000, 0);
 		hide_msg = FALSE;
 		return vend->inv_list[vp];
 		

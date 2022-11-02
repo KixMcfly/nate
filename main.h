@@ -5,13 +5,13 @@
 #include "map.h"
 #include "draw.h"
 #include "sprite.h"
+#include "sound.h"
 #include "node.h"
 #include "inv.h"
 #include "vend.h"
 #include "elev.h"
 #include "temp.h"
 #include "tools.h"
-#include "text.h"
 
 #define CAMERA_W 			320
 #define CAMERA_H 			200
@@ -21,13 +21,10 @@
 
 #define NATE_DAT 			"nate.DAT"
 
-#define LX(x)				(x / TILE_W)
-#define LY(y)				(y / TILE_H)
-
 #define SOLID(b)			(b & 0x01)
 #define GRASS(b)			(b & 0x02)
 
-/* Make EXE smaller by removing unused driverss */
+/* Make EXE smaller by removing unused drivers */
 BEGIN_GFX_DRIVER_LIST
 	GFX_DRIVER_VGA
 END_GFX_DRIVER_LIST
@@ -51,7 +48,6 @@ END_JOYSTICK_DRIVER_LIST
 volatile int elapsed_time;
 void __inc_elapsed_time(){ elapsed_time--; };
 END_OF_FUNCTION( __inc_elapsed_time );
-
 
 enum {
 	KF_DOWN,

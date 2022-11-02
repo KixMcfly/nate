@@ -54,7 +54,7 @@ int
 invmenu_vis (void);
 
 void
-invmenu_init (char *dfn, char *invb, char *itemb);
+invmenu_init (char *dfn);
 
 void
 invmenu_free (void);

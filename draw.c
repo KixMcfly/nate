@@ -80,15 +80,15 @@ draw_map_layer (MAP *m, int ln, int x, int y)
 }
 
 void
-draw_load_blit_show (char *bn, char *dfn)
+draw_load_blit_show (char *dfn, char *bn, char *pn)
 {
 	BITMAP *t_bmp;
-	DATAFILE *df = load_datafile_object (bn, dfn);
+	DATAFILE *df = load_datafile_object (dfn, bn);
 
 	t_bmp = (BITMAP *)df->dat;
-	blit (title, backbuff, 0, 0, 0, 0, t_bmp->w, t_bmp->h);
+	blit (t_bmp, backbuff, 0, 0, 0, 0, t_bmp->w, t_bmp->h);
 	unload_datafile_object (df);
-	set_palette (df->dat);
+	set_pal (dfn, pn);
 	show_backbuff (0, 0);
 }
 
