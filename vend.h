@@ -27,7 +27,7 @@ int
 vend_vis (void);
 
 void
-vend_draw_backbuff (VENDING *vend, int money, BITMAP *bf);
+vend_process (VENDING *vend, int money, BITMAP *bf);
 
 int
 vend_init_dat (VENDING *v, char *dfn, char *vb, char *ib);

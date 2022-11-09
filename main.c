@@ -189,7 +189,6 @@ int main (int argc, char **argv)
 					if (key[KEY_LCONTROL])
 						temp_set_vis ();
 
-						
 					break;
 				}
 				

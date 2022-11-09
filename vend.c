@@ -115,7 +115,7 @@ vend_vis (void)
 }
 
 void
-vend_draw_backbuff (VENDING *vend, int money, BITMAP *bf)
+vend_process (VENDING *vend, int money, BITMAP *bf)
 {
 	
 	BITMAP *v = vend_bmp->dat;
