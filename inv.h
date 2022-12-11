@@ -2,9 +2,6 @@
 #define __INV_H
 
 #include <allegro.h>
-#include <stdio.h>
-#include <string.h>
-#include "tools.h"
 
 /* Inventory list */
 enum {

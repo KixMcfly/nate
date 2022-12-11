@@ -16,7 +16,7 @@ void
 sound_play (int sn);
 
 void
-sound_load (char *dfn);
+sound_global_load (char *dfn);
 
 void
 sound_free (void);

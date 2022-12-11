@@ -28,7 +28,7 @@ sound_play (int sn)
 }
 
 void
-sound_load (char *dfn)
+sound_global_load (char *dfn)
 {
 	int i;
 	sound_list = (DATAFILE **) malloc (NUM_SOUNDS * sizeof (DATAFILE *));

@@ -1,4 +1,7 @@
+#include <stdio.h>
+#include <string.h>
 #include "inv.h"
+#include "tools.h"
 
 #define MAX_ITEMBOX 		100
 #define MAX_INV				8

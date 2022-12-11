@@ -25,6 +25,7 @@
 #define GRASS(b)			(b & 0x02)
 
 /* Make EXE smaller by removing unused drivers */
+
 BEGIN_GFX_DRIVER_LIST
 	GFX_DRIVER_VGA
 END_GFX_DRIVER_LIST
@@ -43,6 +44,8 @@ END_MIDI_DRIVER_LIST
 
 BEGIN_JOYSTICK_DRIVER_LIST
 END_JOYSTICK_DRIVER_LIST
+
+/* END DRIVER SETTINGS **************************/
 
 /* Timer chain */
 volatile int elapsed_time;

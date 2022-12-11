@@ -1,30 +1,32 @@
 #include "vend.h"
+#include "inv.h"
+#include "tools.h"
 
-#define MAX_VEND 		20
-#define X 				0
-#define Y				1
+#define MAX_VEND 	20
+#define X 			0
+#define Y			1
 
-#define SW				41
-#define SH				31
-#define SC				13
-#define PR_MAX			9
+#define SW			41
+#define SH			31
+#define SC			13
+#define PR_MAX		9
 
-static DATAFILE *vend_bmp = NULL;
-static DATAFILE *items_bmp = NULL;
+static DATAFILE 	*vend_bmp = NULL;
+static DATAFILE 	*items_bmp = NULL;
 
-static FONT *vend_font = NULL;
+static FONT 		*vend_font = NULL;
 
-static DATAFILE *vend_wav = NULL;
+static DATAFILE 	*vend_wav = NULL;
 
-static int hide_msg = TRUE;
+static int 			hide_msg = TRUE;
 
-static int ps[MAX_VEND][2] = 
+static int 			ps[MAX_VEND][2] = 
 
-			{{95, 7},   {139, 7},  {183, 7}, {227, 7},
-			{95, 49},  {139, 49}, {183, 49}, {227, 49},
-			{95, 86}, {139, 86}, {183, 86}, {227, 86},
-			{95, 125}, {139, 125}, {183, 125}, {227, 125},
-			{95, 162}, {139, 162}, {183, 162}, {227, 162}};
+					{{95, 7},   {139, 7},  {183, 7}, {227, 7},
+					{95, 49},  {139, 49}, {183, 49}, {227, 49},
+					{95, 86}, {139, 86}, {183, 86}, {227, 86},
+					{95, 125}, {139, 125}, {183, 125}, {227, 125},
+					{95, 162}, {139, 162}, {183, 162}, {227, 162}};
 			
 static int ic[20] = 
 
@@ -72,7 +74,7 @@ vend_buy_item (VENDING *vend, int cash)
 		return 0;
 }
 
-void
+static void
 vend_move_up (void)
 {
 	if (vp > 3 && !pr){
@@ -81,7 +83,7 @@ vend_move_up (void)
 	}
 }
 
-void
+static void
 vend_move_down (void)
 {
 	if (vp < 16 && !pr){
@@ -90,7 +92,7 @@ vend_move_down (void)
 	}
 }
 
-void
+static void
 vend_move_left (void)
 {
 	if ((vp > 0 || vp > 4 || vp > 8 || vp > 12 || vp > 16) && !pr){
@@ -99,7 +101,7 @@ vend_move_left (void)
 	}
 }
 
-void
+static void
 vend_move_right (void)
 {
 	if ((vp < 3 || vp < 7 || vp < 11 || vp < 15 || vp < 19) && !pr){
@@ -122,31 +124,45 @@ vend_process (VENDING *vend, int money, BITMAP *bf)
 	BITMAP *i = items_bmp->dat;
 	int ci;
 	
-	blit (v, bf, 0, 0, 0, 0, v->w, v->h);
-
-	for (ci = 0; ci < MAX_VEND; ci++)
-		masked_blit (i, bf, vend->inv_list[ci]*SW, 0, ps[ci][X], ps[ci][Y], SW, SH);
+	/* *vend must be not null and vending GUI must be visible */
+	if (vend && vv)
+	{
+		if (key[KEY_LCONTROL])
+		{
+			int tc = inv_get_item_total (INV_MONEY), ib;
+			
+			ib = vend_buy_item (vend, tc);
+			inv_add (ib, 1);
+			inv_sub (INV_MONEY, vend_get_cost (ib));	
+		}
+		
+		blit (v, bf, 0, 0, 0, 0, v->w, v->h);
 	
-	rect(bf, ps[vp][X], ps[vp][Y], ps[vp][X]+SW, ps[vp][Y]+SH, SC);
-	
-	/* Show thanks message if something was just bought */
-	if (hide_msg)
-		rectfill(bf, 31, 96, 64, 112, 48);
-	
-	/* draw cost on vending LCD */
-	if (ic[vend->inv_list[vp]])
-		textprintf_ex (bf, vend_font, 32, 53, 116, -1, "%d", ic[vend->inv_list[vp]]);
-	
-	/* Draw money on hand */
-	if (money)
-		textprintf_ex (bf, font, 33, 83, 116, -1, "%04d", money);
-	else
-		textprintf_ex (bf, font, 33, 83, 73, -1, "%04d", money);
-	
-	if (pr)
-		pr--;
-	else
-		hide_msg = TRUE;
+		for (ci = 0; ci < MAX_VEND; ci++)
+			masked_blit (i, bf, vend->inv_list[ci]*SW, 0, ps[ci][X], ps[ci][Y], SW, SH);
+		
+		rect(bf, ps[vp][X], ps[vp][Y], ps[vp][X]+SW, ps[vp][Y]+SH, SC);
+		
+		/* Show thanks message if something was just bought */
+		if (hide_msg)
+			rectfill(bf, 31, 96, 64, 112, 48);
+		
+		/* draw cost on vending LCD */
+		if (ic[vend->inv_list[vp]])
+			textprintf_ex (bf, vend_font, 32, 53, 116, -1, "%d", ic[vend->inv_list[vp]]);
+		
+		/* Draw money on hand */
+		if (money)
+			textprintf_ex (bf, font, 33, 83, 116, -1, "%04d", money);
+		else
+			textprintf_ex (bf, font, 33, 83, 73, -1, "%04d", money);
+		
+		if (pr)
+			pr--;
+		else
+			hide_msg = TRUE;
+			
+	}
 }
 
 int

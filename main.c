@@ -24,6 +24,7 @@ int main (int argc, char **argv)
 
 	while (!keypressed ())
 		;
+	
 	fadeout (10);
 	sound_midi_stop_free ();
 	
@@ -63,8 +64,6 @@ int main (int argc, char **argv)
 				temp_pos_up ();
 			}else if (elev_vis ()){
 				elev_sel_up ();
-			}else if (vend_vis ()){
-				vend_move_up ();
 			}else {
 				
 				if (nate.y){	
@@ -83,8 +82,6 @@ int main (int argc, char **argv)
 				temp_pos_down ();
 			}else if (elev_vis ()){
 				elev_sel_down ();
-			}else if (vend_vis ()){
-				vend_move_down ();
 			}else{
 				if (nate.y + TILE_H < map_get_h (m) * map_get_th (m)){
 					
@@ -101,8 +98,6 @@ int main (int argc, char **argv)
 			
 			if (invmenu_vis ()){
 				invmenu_sel_left ();
-			}else if (vend_vis ()){
-				vend_move_left ();
 			}else if (elev_vis ()){
 				elev_sel_left ();
 			}else{
@@ -117,8 +112,6 @@ int main (int argc, char **argv)
 		if (key[KEY_RIGHT]){
 			if (invmenu_vis ()){
 				invmenu_sel_right ();
-			}else if (vend_vis ()){
-				vend_move_right ();
 			}else if (elev_vis ()){
 				elev_sel_right ();
 			}else{
@@ -260,22 +253,10 @@ int main (int argc, char **argv)
 		}
 
 		/* GUI CONTROL */
-		
-		/* Vending machine */
-		if (vend_vis ()){
-			
-			int tc = inv_get_item_total (INV_MONEY), ib;
-
-			if (key[KEY_LCONTROL]){
-				ib = vend_buy_item (vn, tc);
-				inv_add (ib, 1);
-				inv_sub (INV_MONEY, vend_get_cost (ib));
-			}
-
-			vend_draw_backbuff (vn, tc, get_backbuff ());
+		vend_process (vn, inv_get_item_total (INV_MONEY), get_backbuff ());
 		
 		/* Thermostat */
-		}else if (temp_vis ()){
+		if (temp_vis ()){
 			
 			temp_draw_backbuff (get_backbuff (), NATE_DAT);
 			
@@ -449,7 +430,7 @@ nate_init (void)
     init_backbuff (320, 200);
     
     /* Load global sounds */
-    sound_load (NATE_DAT);
+    sound_global_load (NATE_DAT);
 }
 
 void

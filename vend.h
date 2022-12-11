@@ -3,25 +3,12 @@
 
 #include <allegro.h>
 #include "obj.h"
-#include "tools.h"
 
 int
 vend_get_cost (int id);
 
 int
 vend_buy_item (VENDING *vend, int cash);
-
-void
-vend_move_up (void);
-
-void
-vend_move_down (void);
-
-void
-vend_move_left (void);
-
-void
-vend_move_right (void);
 
 int
 vend_vis (void);
