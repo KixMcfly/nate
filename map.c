@@ -13,13 +13,11 @@ struct MAP{
 	int				nl;
 	int 			nts;
 	int				ni;
-	int				nbr;
 
 	NNODE			*so;
 	LAYER			*l_list;
 	TILESET			*ts_list;
 	BITMAP			**im_list;
-	char			**br_list;
 
 };
 
@@ -142,14 +140,6 @@ map_get_tile_flags (MAP *m, int ln, int x, int y)
 		return 0;
 }
 
-char *
-map_get_rand_battle_map (MAP *m)
-{
-	int rn = rand() % (m->nbr);
-	
-	return m->br_list[rn];
-}
-
 NNODE *
 map_get_node_head (MAP *m)
 {
@@ -257,21 +247,6 @@ load_map (MAP *m, char *dat_fn, char *dat_id)
 	/* Logical / physical width and height of map */
 	m->lw = m->w * m->tw;
 	m->lh = m->h * m->th;
-	
-	/* Get map list that are battle rooms */
-	m->nbr = pack_getc (fp);
-	
-	if (m->nbr){
-		m->br_list = (char **) malloc (m->nbr * sizeof(char *));
-		for (i = 0; i < m->nbr; i++){
-			len = pack_getc (fp);
-			
-			m->br_list[i] = (char *) malloc (len);
-			pack_fread (m->br_list[i], len, fp);
-			//log_print ("Battle Room %d: %s\n", i, m->br_list[i]);
-		}
-	}else
-		m->br_list = NULL;
 	
 	/* Get number of Tilesets */
 	size = pack_getc (fp);
@@ -414,9 +389,8 @@ load_map (MAP *m, char *dat_fn, char *dat_id)
 						vend->x = x;
 						vend->y = y;
 
-						for (ci = 0; ci < 20; ci++){
+						for (ci = 0; ci < 20; ci++)
 							vend->inv_list[ci] = pack_igetw (fp);
-						}
 						
 						/* Add object to map object list */
 						m->so = node_add (m->so, OBJ_VENDING, vend);
@@ -430,58 +404,58 @@ load_map (MAP *m, char *dat_fn, char *dat_id)
 						gen->x = x;
 						gen->y = y;
 						m->so = node_add (m->so, OBJ_ELEV_BUTT, gen);
-					}else if (!strcmp (type, "ENEMY")){
-						int ca;
-						ENEMY *enemy = (ENEMY *) malloc (sizeof (ENEMY));
-						
-						/* Enemy XY pos*/
-						enemy->x = x;
-						enemy->y = y;
-						
-						/* Image ID */
-						enemy->imageid = pack_igetw (fp);
-						
-						/* Enemy name */
-						len = pack_getc (fp);
-						pack_fread (enemy->name, len, fp);
-						
-						/* Max health */
-						enemy->max_health = pack_igetw (fp);
-						
-						/* Set cur health */
-						enemy->cur_health = enemy->max_health;
-						
-						/* Money */
-						enemy->money = pack_igetw (fp);
-						
-						/* Item */
-						enemy->item = pack_igetw (fp);
-						
-						/* Number of attacks */
-						enemy->na = pack_getc (fp);
-						
-						enemy->att_l = (ATTACK *) malloc (enemy->na * sizeof (ATTACK));
-						
-						for (ca = 0; ca < enemy->na; ca++){
-							
-							/* Attack name */
-							len = pack_getc (fp);
-							pack_fread (enemy->att_l[ca].name, len, fp);
-
-							/* Attack desc */
-							len = pack_getc (fp);
-							pack_fread (enemy->att_l[ca].desc, len, fp);
-							
-							/* Attack damage */
-							enemy->att_l[ca].dam = pack_igetw (fp);
-							
-							/* Attack probability */
-							enemy->att_l[ca].prob = pack_getc (fp);
-							
-						}
-						
-						m->so = node_add (m->so, OBJ_ENEMY, enemy);
 					}
+					//}else if (!strcmp (type, "ENEMY")){
+					//	int ca;
+					//	ENEMY *enemy = (ENEMY *) malloc (sizeof (ENEMY));
+					//	
+					//	/* Enemy XY pos*/
+					//	enemy->x = x;
+					//	enemy->y = y;
+					//	
+					//	/* Image ID */
+					//	enemy->imageid = pack_igetw (fp);
+					//	
+					//	/* Enemy name */
+					//	len = pack_getc (fp);
+					//	pack_fread (enemy->name, len, fp);
+					//	
+					//	/* Max health */
+					//	enemy->max_health = pack_igetw (fp);
+					//	
+					//	/* Set cur health */
+					//	enemy->cur_health = enemy->max_health;
+					//	
+					//	/* Money */
+					//	enemy->money = pack_igetw (fp);
+					//	
+					//	/* Item */
+					//	enemy->item = pack_igetw (fp);
+					//	
+					//	/* Number of attacks */
+					//	enemy->na = pack_getc (fp);
+					//	
+					//	enemy->att_l = (ATTACK *) malloc (enemy->na * sizeof (ATTACK));
+					//	
+					//	for (ca = 0; ca < enemy->na; ca++){
+					//		
+					//		/* Attack name */
+					//		len = pack_getc (fp);
+					//		pack_fread (enemy->att_l[ca].name, len, fp);
+					//
+					//		/* Attack desc */
+					//		len = pack_getc (fp);
+					//		pack_fread (enemy->att_l[ca].desc, len, fp);
+					//		
+					//		/* Attack damage */
+					//		enemy->att_l[ca].dam = pack_igetw (fp);
+					//		
+					//		/* Attack probability */
+					//		enemy->att_l[ca].prob = pack_getc (fp);
+					//	}
+					//	
+					//	m->so = node_add (m->so, OBJ_ENEMY, enemy);
+					//}
 
 					free (type);
 				}
@@ -534,15 +508,6 @@ map_free (MAP *m)
 	if (m){
 
 		free (m->name);
-		
-		/* free map battle memory */
-		if (m->nbr){
-			for (i = 0; i < m->nbr; i++)
-				free (m->br_list[i]);
-				
-			free (m->br_list);
-		}
-		
 		
 		for (i = 0; i < m->nl; i++){
 			if (m->l_list[i].type == TILES){

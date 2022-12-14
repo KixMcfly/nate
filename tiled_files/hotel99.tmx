@@ -4,11 +4,6 @@
   <export target="../maps/hotel99.nat" format="custom"/>
  </editorsettings>
  <properties>
-  <property name="BAT_LIST" type="class" propertytype="BAT_LIST">
-   <properties>
-    <property name="BAT1" type="file" value="bat_hotel_1.tmx"/>
-   </properties>
-  </property>
   <property name="name" value="Floor 99"/>
  </properties>
  <tileset firstgid="1" source="hotel.tsx"/>

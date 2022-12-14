@@ -133,7 +133,7 @@ vend_process (VENDING *vend, int money, BITMAP *bf)
 			
 			ib = vend_buy_item (vend, tc);
 			inv_add (ib, 1);
-			inv_sub (INV_MONEY, vend_get_cost (ib));	
+			inv_sub (INV_MONEY, vend_get_cost (ib));
 		}
 		
 		blit (v, bf, 0, 0, 0, 0, v->w, v->h);

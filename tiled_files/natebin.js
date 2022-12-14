@@ -31,23 +31,6 @@ var customMapFormat = {
 		var tWidthHeight = Uint8Array.from ([map.tileWidth, map.tileHeight]).buffer;
 		sfb.write (tWidthHeight);
 		
-		//Write maps that are used as battles for room
-		if (map.properties ().BAT_LIST){
-			
-			//Number of battles for room
-			let numBattles = Object.keys (map.properties ().BAT_LIST.value).length;
-			sfb.write (Uint8Array.from ([numBattles]).buffer);
-			
-			var battleList = map.properties ().BAT_LIST.value;
-			for (bat in battleList){
-				let batDat = FileInfo.fileName (battleList[bat].url.toString ().toUpperCase ().replace (".TMX", "_NAT"));
-				sfb.write (strLen (batDat));
-				sfb.write (strCharCodes (batDat));
-			}
-		}else{
-			sfb.write (Uint8Array.from ([0]).buffer);
-		}
-		
 		/*
 		 *	Here comes the crazy part. We need to hold 
 		 *  a lookup table for all tilesets used in all
@@ -125,43 +108,43 @@ var customMapFormat = {
 						props = objs[ii].properties ();
 					
 					switch (klass){
-						case "ENEMY":
-							data = {};
-							data.x = props.x;
-							data.y = props.y;
-							data.attacks = [];
-							data.name = props.STAT.value.name;
-							data.health = props.STAT.value.health;
-							data.item = props.STAT.value.item;
-							data.money = props.STAT.value.money;
-							let afn = objs[ii].tile.imageFileName;
-							data.imageID = addAsset (objAssets, afn);
-							
-							//Remove STAT prop
-							delete props.STAT;
-							
-							if (!data.money)
-								data.money = 0;
-								
-							if (!data.item)
-								data.item = 0;
-
-							//Iterate attacks
-							for (att in props){
-								let ca = {};
-								
-								ca.name = att;
-								ca.dam = props[att].value.dam;
-								ca.desc = props[att].value.desc;
-								ca.prob = props[att].value.prob;
-								
-								if (!ca.dam)
-									ca.dam = 0;
-								
-								data.attacks.push (ca);
-							}
-							
-							break;
+						//case "ENEMY":
+						//	data = {};
+						//	data.x = props.x;
+						//	data.y = props.y;
+						//	data.attacks = [];
+						//	data.name = props.STAT.value.name;
+						//	data.health = props.STAT.value.health;
+						//	data.item = props.STAT.value.item;
+						//	data.money = props.STAT.value.money;
+						//	let afn = objs[ii].tile.imageFileName;
+						//	data.imageID = addAsset (objAssets, afn);
+						//	
+						//	//Remove STAT prop
+						//	delete props.STAT;
+						//	
+						//	if (!data.money)
+						//		data.money = 0;
+						//		
+						//	if (!data.item)
+						//		data.item = 0;
+						//
+						//	//Iterate attacks
+						//	for (att in props){
+						//		let ca = {};
+						//		
+						//		ca.name = att;
+						//		ca.dam = props[att].value.dam;
+						//		ca.desc = props[att].value.desc;
+						//		ca.prob = props[att].value.prob;
+						//		
+						//		if (!ca.dam)
+						//			ca.dam = 0;
+						//		
+						//		data.attacks.push (ca);
+						//	}
+						//	
+						//	break;
 						case "CHGROOM":
 							data = {};
 							data.name = props.name;
@@ -193,10 +176,8 @@ var customMapFormat = {
 				}
 			}else{
 				tiled.warn ("Dunno what layer type this is.", () => {
-						
-						tiled.log (`Sorry bro.`);
-					
-					});
+						tiled.log (`Sorry bro, dunno what layer type this is.`);	
+				});
 			}
 			
 			layers.push (curLayer);
@@ -408,7 +389,7 @@ function fileToDAT (DATFileName, filename){
 	}
 	
 	tiled.log (proc.readStdOut ());
-       
+
 	if (rc != 0)
 		tiled.log ("Failed to add " + fileName + " to " + DATFileName + "!");
 	else

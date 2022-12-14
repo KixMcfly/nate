@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.8" tiledversion="1.8.4" orientation="orthogonal" renderorder="right-down" width="30" height="20" tilewidth="20" tileheight="20" infinite="0" nextlayerid="4" nextobjectid="11">
+<map version="1.9" tiledversion="1.9.2" orientation="orthogonal" renderorder="right-down" width="30" height="20" tilewidth="20" tileheight="20" infinite="0" nextlayerid="4" nextobjectid="11">
  <editorsettings>
   <export target="../maps/hotel0.nat" format="custom"/>
  </editorsettings>
@@ -57,7 +57,7 @@
 </data>
  </layer>
  <objectgroup id="3" name="triggers">
-  <object id="7" name="VENDING" type="VENDING" x="440" y="60" width="20" height="20">
+  <object id="7" name="VENDING" class="VENDING" x="440" y="60" width="20" height="20">
    <properties>
     <property name="ITEM01" type="int" propertytype="INV_LIST" value="2"/>
     <property name="ITEM02" type="int" propertytype="INV_LIST" value="3"/>
@@ -81,7 +81,7 @@
     <property name="ITEM20" type="int" propertytype="INV_LIST" value="0"/>
    </properties>
   </object>
-  <object id="8" name="VENDING" type="VENDING" x="460" y="60" width="20" height="20">
+  <object id="8" name="VENDING" class="VENDING" x="460" y="60" width="20" height="20">
    <properties>
     <property name="ITEM01" type="int" propertytype="INV_LIST" value="0"/>
     <property name="ITEM02" type="int" propertytype="INV_LIST" value="0"/>
@@ -105,8 +105,8 @@
     <property name="ITEM20" type="int" propertytype="INV_LIST" value="0"/>
    </properties>
   </object>
-  <object id="9" name="ITEMBOX" type="ITEMBOX" x="240" y="140" width="20" height="20"/>
-  <object id="10" name="ELEV_NAT" type="CHGROOM" x="260" y="220" width="20" height="20">
+  <object id="9" name="ITEMBOX" class="ITEMBOX" x="240" y="140" width="20" height="20"/>
+  <object id="10" name="ELEV_NAT" class="CHGROOM" x="260" y="220" width="20" height="20">
    <properties>
     <property name="name" value="ELEV_NAT"/>
     <property name="x" type="int" value="2"/>

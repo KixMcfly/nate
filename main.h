@@ -75,6 +75,9 @@ typedef struct {
 void
 nate_focus_camera (MAP *m, int nx, int ny, int *cam_x, int *cam_y);
 
+int
+nate_obj_at_pos (NATE *n, int x, int y, int w, int h);
+
 void
 nate_set_xy (NATE *n, int x, int y);
 
