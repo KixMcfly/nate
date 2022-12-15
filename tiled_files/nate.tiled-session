@@ -3,7 +3,7 @@
         "height": 4300,
         "width": 2
     },
-    "activeFile": "bat_hotel_1.tmx",
+    "activeFile": "hotel81.tmx",
     "expandedProjectPaths": [
         "."
     ],
@@ -28,7 +28,7 @@
             "selectedLayer": 1,
             "viewCenter": {
                 "x": 60.333333333333314,
-                "y": 39.333333333333314
+                "y": 39.33333333333337
             }
         },
         "enemies.tsx": {
@@ -59,16 +59,19 @@
             "scale": 1.5,
             "selectedLayer": 2,
             "viewCenter": {
-                "x": 300.33333333333337,
-                "y": 199.99999999999997
+                "x": 401,
+                "y": 520
             }
         },
         "hotel81.tmx": {
+            "expandedObjectLayers": [
+                3
+            ],
             "scale": 1.5,
             "selectedLayer": 2,
             "viewCenter": {
-                "x": 200.33333333333331,
-                "y": 199.99999999999997
+                "x": 201,
+                "y": 100
             }
         },
         "hotel99.tmx": {
@@ -78,8 +81,8 @@
             "scale": 1.5,
             "selectedLayer": 2,
             "viewCenter": {
-                "x": 300.33333333333337,
-                "y": 119.99999999999999
+                "x": 401,
+                "y": 780
             }
         },
         "hotel_fight_01.tmx": {
@@ -107,12 +110,12 @@
             "scale": 1.5,
             "selectedLayer": 2,
             "viewCenter": {
-                "x": 50.333333333333314,
-                "y": 59.333333333333314
+                "x": 401,
+                "y": 800
             }
         }
     },
-    "last.exportedFilePath": "/home/shawn/projects/nate/maps",
+    "last.exportedFilePath": "C:/projects/nate/maps",
     "last.imagePath": "C:/projects/nate/images/enemys",
     "last.objectTypesPath": "C:/projects/nate/tiled_files/propertytypes.json",
     "last.worldFilePath": "C:/projects/nate/tiled_files",
@@ -132,24 +135,22 @@
         "nate.tsx",
         "inter.tsx",
         "hotel.tsx",
-        "bat_hotel_1.tmx",
         "hotel0.tmx",
-        "enemies.tsx",
         "hotel81.tmx"
     ],
     "project": "nate.tiled-project",
     "property.type": "file",
     "recentFiles": [
-        "enemies.tsx",
-        "bat_hotel_1.tmx",
         "nateroom.tmx",
         "hotel99.tmx",
         "elev.tmx",
         "nate.tsx",
         "inter.tsx",
         "hotel.tsx",
-        "hotel81.tmx",
         "hotel0.tmx",
+        "hotel81.tmx",
+        "enemies.tsx",
+        "bat_hotel_1.tmx",
         "hotel_fight_01.tmx",
         "floor99.tmx"
     ],

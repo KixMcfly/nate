@@ -74,37 +74,37 @@ vend_buy_item (VENDING *vend, int cash)
 		return 0;
 }
 
-static void
+void
 vend_move_up (void)
 {
-	if (vp > 3 && !pr){
+	if (vp > 3 && !pr && vv){
 		vp -= 4;
 		pr = PR_MAX;
 	}
 }
 
-static void
+void
 vend_move_down (void)
 {
-	if (vp < 16 && !pr){
+	if (vp < 16 && !pr && vv){
 		vp += 4;
 		pr = PR_MAX;
 	}
 }
 
-static void
+void
 vend_move_left (void)
 {
-	if ((vp > 0 || vp > 4 || vp > 8 || vp > 12 || vp > 16) && !pr){
+	if ((vp > 0 || vp > 4 || vp > 8 || vp > 12 || vp > 16) && !pr && vv){
 		vp--;
 		pr = PR_MAX;
 	}
 }
 
-static void
+void
 vend_move_right (void)
 {
-	if ((vp < 3 || vp < 7 || vp < 11 || vp < 15 || vp < 19) && !pr){
+	if ((vp < 3 || vp < 7 || vp < 11 || vp < 15 || vp < 19) && !pr && vv){
 		vp++;
 		pr = PR_MAX;
 	}
@@ -117,24 +117,24 @@ vend_vis (void)
 }
 
 void
+vend_buy (void)
+{
+	int tc = inv_get_item_total (INV_MONEY), ib;
+			
+	ib = vend_buy_item (vend, tc);
+	inv_add (ib, 1);
+	inv_sub (INV_MONEY, vend_get_cost (ib));
+}
+
+void
 vend_process (VENDING *vend, int money, BITMAP *bf)
 {
-	
-	BITMAP *v = vend_bmp->dat;
-	BITMAP *i = items_bmp->dat;
-	int ci;
-	
 	/* *vend must be not null and vending GUI must be visible */
 	if (vend && vv)
 	{
-		if (key[KEY_LCONTROL])
-		{
-			int tc = inv_get_item_total (INV_MONEY), ib;
-			
-			ib = vend_buy_item (vend, tc);
-			inv_add (ib, 1);
-			inv_sub (INV_MONEY, vend_get_cost (ib));
-		}
+		BITMAP *v = vend_bmp->dat;
+		BITMAP *i = items_bmp->dat;
+		int ci;
 		
 		blit (v, bf, 0, 0, 0, 0, v->w, v->h);
 	
