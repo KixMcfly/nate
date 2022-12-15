@@ -153,8 +153,6 @@ int main (int argc, char **argv)
 			/* Check objects. Don't if any GUIs are active or no objects
 			* are in map */
 			
-			
-			
 			cn = map_get_node_head (m);
 			while (cn &&
 				!vend_vis () && 
