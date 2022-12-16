@@ -214,7 +214,7 @@ int main (int argc, char **argv)
 					}else if (node_get_type (cn) == OBJ_STAT){
 						
 						GENERIC *gn = node_get_data (cn);
-						if (nate.x == gn->x && nate.y == gn->y){
+						if (nate_obj_at_pos (&nate, gn->x, gn->y, 20, 20)){
 							temp_set_vis ();
 							break;
 						}
@@ -300,6 +300,7 @@ int main (int argc, char **argv)
 		invmenu_draw_backbuff (get_backbuff ());
 		elev_draw_backbuff (get_backbuff ());
 		vend_process (vn, inv_get_item_total (INV_MONEY), get_backbuff ());
+		temp_draw_backbuff (get_backbuff (), NATE_DAT);
 		
 		/* Blit backbuff to CRT */
 		show_backbuff (0, 0);

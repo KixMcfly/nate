@@ -3,7 +3,7 @@
         "height": 4300,
         "width": 2
     },
-    "activeFile": "hotel81.tmx",
+    "activeFile": "nateroom.tmx",
     "expandedProjectPaths": [
         "."
     ],
@@ -27,8 +27,8 @@
             "scale": 1.5,
             "selectedLayer": 1,
             "viewCenter": {
-                "x": 60.333333333333314,
-                "y": 39.33333333333337
+                "x": 59.999999999999986,
+                "y": 40
             }
         },
         "enemies.tsx": {
@@ -59,8 +59,8 @@
             "scale": 1.5,
             "selectedLayer": 2,
             "viewCenter": {
-                "x": 401,
-                "y": 520
+                "x": 322,
+                "y": 200
             }
         },
         "hotel81.tmx": {
@@ -70,8 +70,8 @@
             "scale": 1.5,
             "selectedLayer": 2,
             "viewCenter": {
-                "x": 201,
-                "y": 100
+                "x": 200.99999999999997,
+                "y": 99.99999999999999
             }
         },
         "hotel99.tmx": {
@@ -81,8 +81,8 @@
             "scale": 1.5,
             "selectedLayer": 2,
             "viewCenter": {
-                "x": 401,
-                "y": 780
+                "x": 300,
+                "y": 119.99999999999997
             }
         },
         "hotel_fight_01.tmx": {
@@ -110,8 +110,8 @@
             "scale": 1.5,
             "selectedLayer": 2,
             "viewCenter": {
-                "x": 401,
-                "y": 800
+                "x": 61,
+                "y": 148
             }
         }
     },
@@ -141,14 +141,14 @@
     "project": "nate.tiled-project",
     "property.type": "file",
     "recentFiles": [
-        "nateroom.tmx",
-        "hotel99.tmx",
-        "elev.tmx",
-        "nate.tsx",
-        "inter.tsx",
-        "hotel.tsx",
-        "hotel0.tmx",
         "hotel81.tmx",
+        "hotel0.tmx",
+        "hotel.tsx",
+        "inter.tsx",
+        "nate.tsx",
+        "elev.tmx",
+        "hotel99.tmx",
+        "nateroom.tmx",
         "enemies.tsx",
         "bat_hotel_1.tmx",
         "hotel_fight_01.tmx",

@@ -70,7 +70,7 @@ temp_set_up (void)
 {
 	if (thermostat.set_temp < HI_MAX && !t_rest){
 		thermostat.set_temp++;
-		t_rest = 10;
+		t_rest = 20;
 	}
 }
 
@@ -79,7 +79,7 @@ temp_set_down (void)
 {
 	if (thermostat.set_temp > LOW_MAX && !t_rest){
 		thermostat.set_temp--;
-		t_rest = 10;
+		t_rest = 20;
 	}
 }
 
@@ -118,7 +118,7 @@ temp_pos_down (void)
 int
 temp_global_process (void)
 {
-	if (--thermostat.rate == 0 && thermostat.vis){
+	if (--thermostat.rate == 0){
 		thermostat.rate = thermostat.rate_set;
 
 		switch (thermostat.mode){
