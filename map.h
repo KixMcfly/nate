@@ -86,4 +86,4 @@ load_map (MAP *m, char *dat_fn, char *dat_id);
 int
 map_free (MAP *map);
 
-#endif
+#endif /* __MAP_H */

@@ -25,5 +25,4 @@ temp_draw_backbuff (BITMAP *bf, char *dfn);
 void
 temp_uninit (void);
 
-
-#endif
+#endif /* __TEMP_H */

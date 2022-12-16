@@ -117,16 +117,6 @@ vend_vis (void)
 }
 
 void
-vend_buy (void)
-{
-	int tc = inv_get_item_total (INV_MONEY), ib;
-			
-	ib = vend_buy_item (vend, tc);
-	inv_add (ib, 1);
-	inv_sub (INV_MONEY, vend_get_cost (ib));
-}
-
-void
 vend_process (VENDING *vend, int money, BITMAP *bf)
 {
 	/* *vend must be not null and vending GUI must be visible */

@@ -42,4 +42,4 @@ elev_free (void);
 int
 elev_init (char *dfn, char *bn);
 
-#endif
+#endif /* __ELEV_H */

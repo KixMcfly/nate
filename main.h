@@ -90,4 +90,4 @@ nate_init (void);
 void
 nate_exit (void);
 
-#endif
+#endif /* __MAIN_H */

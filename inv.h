@@ -71,4 +71,4 @@ inv_get_item_id (int pos);
 int *
 inv_get_item_amount (int pos);
 
-#endif
+#endif /* __INV_H */

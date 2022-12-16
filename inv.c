@@ -152,85 +152,87 @@ inv_draw_battle (BITMAP *bf)
 
 void
 invmenu_draw_backbuff (BITMAP *bf)
-{ 
-	
-	int px = pos_lookup[invmenu.sp][X], py = pos_lookup[invmenu.sp][Y];
-	int ci;
-	
-	/* Draw inv menu */		
-	blit ((BITMAP *)inv_bmp->dat, bf, 0, 0, 0, 0, 320, 200);
-	
-	/* Draw items */
-	for (ci = 0; ci < MAX_INV; ci++){
-		if (inv[ci].id){
-			masked_blit ((BITMAP *)items_bmp->dat, bf, inv[ci].id * 41, 0, ip_lookup[ci][X], ip_lookup[ci][Y], 41, 31);
-			textprintf_right_ex (bf, inv_fnt, inp_lookup[ci][X], inp_lookup[ci][Y], -1, -1, "%d", inv[ci].num);
-		}
-	}
+{ 	
+	if (invmenu.vis){
 
-	/* Draw inventory select */
-	if (!boxmenu.focus)
-		rect(bf, px, py, px + SEL_W, py + SEL_H, SEL_C);
+		int px = pos_lookup[invmenu.sp][X], py = pos_lookup[invmenu.sp][Y];
+		int ci;
+		
+		/* Draw inv menu */		
+		blit ((BITMAP *)inv_bmp->dat, bf, 0, 0, 0, 0, 320, 200);
+		
+		/* Draw items */
+		for (ci = 0; ci < MAX_INV; ci++){
+			if (inv[ci].id){
+				masked_blit ((BITMAP *)items_bmp->dat, bf, inv[ci].id * 41, 0, ip_lookup[ci][X], ip_lookup[ci][Y], 41, 31);
+				textprintf_right_ex (bf, inv_fnt, inp_lookup[ci][X], inp_lookup[ci][Y], -1, -1, "%d", inv[ci].num);
+			}
+		}
 	
-	/* When inv was actived at item box */
-	if (boxmenu.active){
+		/* Draw inventory select */
+		if (!boxmenu.focus)
+			rect(bf, px, py, px + SEL_W, py + SEL_H, SEL_C);
 		
-		BITMAP *bt = itemsslot_bmp->dat;
-		int p1, p2, p3;
+		/* When inv was actived at item box */
+		if (boxmenu.active){
+			
+			BITMAP *bt = itemsslot_bmp->dat;
+			int p1, p2, p3;
+			
+			p1 = boxmenu.b_pos;
+			
+			if (p1 == 0){
+				p2 = 99;
+				p3 = 1;
+			}else if (p1 == 99){
+				p2 = 98;
+				p3 = 0;
+			}else{
+				p2 = p1 - 1;
+				p3 = p1 + 1;
+			}
+			
+			blit (bt, bf, 0, 0, 9, 89, bt->w, bt->h);
+			blit (bt, bf, 0, 0, 9, 89+13, bt->w, bt->h);
+			blit (bt, bf, 0, 0, 9, 89+26, bt->w, bt->h);
+			textprintf_ex (bf, inv_fnt, 11, 89+3, -1, -1, "%-30s", inv_list[itembox[p2].id][0]);
+			textprintf_ex (bf, inv_fnt, 11, 89+3+13, -1, -1, "%-30s", inv_list[itembox[p1].id][0]);
+			textprintf_ex (bf, inv_fnt, 11, 89+3+26, -1, -1, "%-30s", inv_list[itembox[p3].id][0]);
+	
+			if (itembox[p2].num)
+				textprintf_right_ex (bf, inv_fnt, 197, 89+3, -1, -1, "%d", itembox[p2].num);
+				
+			if (itembox[p1].num)
+				textprintf_right_ex (bf, inv_fnt, 197, 89+3+13, -1, -1, "%d", itembox[p1].num);
+				
+			if (itembox[p3].num)
+				textprintf_right_ex (bf, inv_fnt, 197, 89+3+26, -1, -1, "%d", itembox[p3].num);
+	
+			/* Item box selected item yellow rect */
+			rect(bf, 9, 102, 9+bt->w - 2, 102+bt->h, 3);
+			
+			/* SCROLL BAR HEIGHT * (ITEMBOX_POS - SCROLL_POS_H) / MAX_ITEMBOX_SLOTS */
+			
+			ci = SCROLL_H*(boxmenu.b_pos - 2) / MAX_ITEMBOX;
+			
+			/* Itembox scroll bar */
+			rectfill(bf, SCROLL_X, SCROLL_Y+ci, SCROLL_X+4, SCROLL_Y+ci+2, 15);
+		}
 		
-		p1 = boxmenu.b_pos;
-		
-		if (p1 == 0){
-			p2 = 99;
-			p3 = 1;
-		}else if (p1 == 99){
-			p2 = 98;
-			p3 = 0;
+		if (!inv[invmenu.sp].id){
+			rectfill(bf, 9, 9, 200, 88, 48);
 		}else{
-			p2 = p1 - 1;
-			p3 = p1 + 1;
+			
+			char *name = inv_list[inv[invmenu.sp].id][0];
+			char *desc = inv_list[inv[invmenu.sp].id][1];
+			
+			textprintf_ex (bf, inv_fnt, 14, 14, -1, -1, "%s:", name);
+			text_area_draw (bf, desc, 14, 24);
 		}
-		
-		blit (bt, bf, 0, 0, 9, 89, bt->w, bt->h);
-		blit (bt, bf, 0, 0, 9, 89+13, bt->w, bt->h);
-		blit (bt, bf, 0, 0, 9, 89+26, bt->w, bt->h);
-		textprintf_ex (bf, inv_fnt, 11, 89+3, -1, -1, "%-30s", inv_list[itembox[p2].id][0]);
-		textprintf_ex (bf, inv_fnt, 11, 89+3+13, -1, -1, "%-30s", inv_list[itembox[p1].id][0]);
-		textprintf_ex (bf, inv_fnt, 11, 89+3+26, -1, -1, "%-30s", inv_list[itembox[p3].id][0]);
-
-		if (itembox[p2].num)
-			textprintf_right_ex (bf, inv_fnt, 197, 89+3, -1, -1, "%d", itembox[p2].num);
-			
-		if (itembox[p1].num)
-			textprintf_right_ex (bf, inv_fnt, 197, 89+3+13, -1, -1, "%d", itembox[p1].num);
-			
-		if (itembox[p3].num)
-			textprintf_right_ex (bf, inv_fnt, 197, 89+3+26, -1, -1, "%d", itembox[p3].num);
-
-		/* Item box selected item yellow rect */
-		rect(bf, 9, 102, 9+bt->w - 2, 102+bt->h, 3);
-		
-		/* SCROLL BAR HEIGHT * (ITEMBOX_POS - SCROLL_POS_H) / MAX_ITEMBOX_SLOTS */
-		
-		ci = SCROLL_H*(boxmenu.b_pos - 2) / MAX_ITEMBOX;
-		
-		/* Itembox scroll bar */
-		rectfill(bf, SCROLL_X, SCROLL_Y+ci, SCROLL_X+4, SCROLL_Y+ci+2, 15);
-	}
 	
-	if (!inv[invmenu.sp].id){
-		rectfill(bf, 9, 9, 200, 88, 48);
-	}else{
-		
-		char *name = inv_list[inv[invmenu.sp].id][0];
-		char *desc = inv_list[inv[invmenu.sp].id][1];
-		
-		textprintf_ex (bf, inv_fnt, 14, 14, -1, -1, "%s:", name);
-		text_area_draw (bf, desc, 14, 24);
+		if (m_rest)
+			m_rest--;
 	}
-
-	if (m_rest)
-		m_rest--;
 }
 
 int
@@ -290,7 +292,7 @@ boxmenu_set_src_dest (void)
 void
 invmenu_sel_up (void)
 {
-	if (!m_rest){
+	if (!m_rest && invmenu.vis){
 		
 		if (boxmenu.focus){
 			
@@ -313,7 +315,7 @@ invmenu_sel_up (void)
 void
 invmenu_sel_down (void)
 {
-	if (!m_rest){
+	if (!m_rest && invmenu.vis){
 		
 		if (boxmenu.focus){
 			
@@ -336,7 +338,7 @@ invmenu_sel_down (void)
 void
 invmenu_sel_right (void)
 {
-	if (!m_rest){
+	if (!m_rest && invmenu.vis){
 
 		if ((invmenu.sp == 0 || invmenu.sp == 2 || invmenu.sp == 4 || invmenu.sp == 6) && !boxmenu.focus){
 			play_sample ((SAMPLE *)invsel_wav->dat, 155, 128, 1000, 0);
@@ -352,7 +354,7 @@ invmenu_sel_right (void)
 void
 invmenu_sel_left (void)
 {
-	if (!m_rest){
+	if (!m_rest && invmenu.vis){
 		if ((invmenu.sp == 1 || invmenu.sp == 3 || invmenu.sp == 5 || invmenu.sp == 7) && !boxmenu.focus){
 			play_sample ((SAMPLE *)invsel_wav->dat, 155, 128, 1000, 0);
 			invmenu.sp--;

@@ -58,7 +58,7 @@ elev_vis (void)
 void
 elev_sel_up (void)
 {
-	if (cp > 3 && !e_rest){
+	if (cp > 3 && !e_rest && vis){
 		cp -= 4;
 		e_rest = 20;
 	}
@@ -67,7 +67,7 @@ elev_sel_up (void)
 void
 elev_sel_down (void)
 {
-	if (cp < 8 && !e_rest){
+	if (cp < 8 && !e_rest && vis){
 		cp += 4;
 		e_rest = 20;
 	}
@@ -76,7 +76,7 @@ elev_sel_down (void)
 void
 elev_sel_left (void)
 {
-	if ((cp > 0 || cp > 4 || cp > 8) && !e_rest){
+	if ((cp > 0 || cp > 4 || cp > 8) && !e_rest && vis){
 		cp--;
 		e_rest = 20;
 	}
@@ -85,7 +85,7 @@ elev_sel_left (void)
 void
 elev_sel_right (void)
 {
-	if ((cp < 3 || cp < 7 || cp < 11) && !e_rest){
+	if ((cp < 3 || cp < 7 || cp < 11) && !e_rest && vis){
 		cp++;
 		e_rest = 20;
 	}
@@ -129,7 +129,7 @@ elev_floor_goto (void)
 void
 elev_press (void)
 {
-	if (!e_rest){
+	if (!e_rest && vis){
 		
 		if (cp < 10){
 		
@@ -160,20 +160,22 @@ void
 elev_draw_backbuff (BITMAP *bf)
 {
 
-	if (e_rest)
-		e_rest--;
-
-	if (elev_bmp){
-		blit (elev_bmp, bf, 0, 0, 0, 0, elev_bmp->w, elev_bmp->h);
-		rect (bf, sp[cp][X], sp[cp][Y], sp[cp][X]+13, sp[cp][Y]+13, 2);
-		textprintf_ex (bf, temp_fnt, 102, 28, 14, -1, "%s", sel);
+	if (vis){
+		if (e_rest)
+			e_rest--;
+	
+		if (elev_bmp){
+			blit (elev_bmp, bf, 0, 0, 0, 0, elev_bmp->w, elev_bmp->h);
+			rect (bf, sp[cp][X], sp[cp][Y], sp[cp][X]+13, sp[cp][Y]+13, 2);
+			textprintf_ex (bf, temp_fnt, 102, 28, 14, -1, "%s", sel);
+		}
 	}
 }
 
 void
 elev_free (void)
 {
-	if (!e_rest){
+	if (!e_rest && vis){
 		elev.fl = node_clear (elev.fl);
 		unload_datafile_object (elevbutt_wav);
 		unload_datafile_object (elevrun_wav);

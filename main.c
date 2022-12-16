@@ -1,4 +1,3 @@
-#include <dos.h>
 #include "main.h"
 
 int main (int argc, char **argv)
@@ -28,7 +27,7 @@ int main (int argc, char **argv)
 	fadeout (10);
 	sound_midi_stop_free ();
 	
-	/* Prepare main loop */
+	/* PREPARE LOOP */
 	
 	/* set starting room */
 	m = map_new ();
@@ -48,6 +47,7 @@ int main (int argc, char **argv)
 	/* Get palette for fade in */
 	pal = load_datafile_object (NATE_DAT, "NATE_PAL");
 	
+	/* Set default dest floor */
 	elev_floor_goto ();
 
 	/* MAIN GAME LOOP */
@@ -58,13 +58,13 @@ int main (int argc, char **argv)
 			
 		if (key[KEY_UP]){
 			
-			if (invmenu_vis ()){
-				invmenu_sel_up ();
-			}else if (temp_vis ()){
-				temp_pos_up ();
-			}else if (elev_vis ()){
-				elev_sel_up ();
-			}else {
+			invmenu_sel_up ();
+			temp_pos_up ();
+			elev_sel_up ();
+			vend_move_up ();
+			
+			
+			if (1){
 				
 				if (nate.y){	
 					nate.y--;
@@ -79,13 +79,12 @@ int main (int argc, char **argv)
 		
 		if (key[KEY_DOWN]){
 			
-			if (invmenu_vis ()){
-				invmenu_sel_down ();
-			}else if (temp_vis ()){
-				temp_pos_down ();
-			}else if (elev_vis ()){
-				elev_sel_down ();
-			}else{
+			invmenu_sel_down ();
+			temp_pos_down ();
+			elev_sel_down ();
+			vend_move_down ();
+			
+			if (1){
 				if (nate.y + TILE_H < map_get_h (m) * map_get_th (m)){					
 					nate.y++;
 					
@@ -99,11 +98,11 @@ int main (int argc, char **argv)
 			
 		if (key[KEY_LEFT]){
 			
-			if (invmenu_vis ()){
-				invmenu_sel_left ();
-			}else if (elev_vis ()){
-				elev_sel_left ();
-			}else{
+			invmenu_sel_left ();
+			elev_sel_left ();
+			vend_move_left ();
+			
+			if (1){
 				if (nate.x){
 					nate.x--;
 					
@@ -116,11 +115,12 @@ int main (int argc, char **argv)
 		}
 			
 		if (key[KEY_RIGHT]){
-			if (invmenu_vis ()){
-				invmenu_sel_right ();
-			}else if (elev_vis ()){
-				elev_sel_right ();
-			}else{
+			
+			invmenu_sel_right ();
+			elev_sel_right ();
+			vend_move_right ();
+			
+			if (1){
 				if (nate.x + TILE_W < map_get_w (m) * map_get_tw (m)){
 					nate.x++;
 					
@@ -133,19 +133,19 @@ int main (int argc, char **argv)
 		}
 		
 		if (key[KEY_ESC]){
+			
 			if (vend_vis ()){
 				vend_free_dat ();
 			}else if (temp_vis ()){
 				temp_uninit ();
 			}else if (elev_vis ()){
 				elev_free ();
-			}else {
+			}else{
 				if (!invmenu_vis ())
 					invmenu_init (NATE_DAT);
 				else
 					invmenu_free ();
 			}
-			
 			fadeout (20);
 		}
 		
@@ -154,93 +154,30 @@ int main (int argc, char **argv)
 			* are in map */
 			
 			cn = map_get_node_head (m);
-			while (cn &&
-				!vend_vis () && 
-				!invmenu_vis () &&
-				!temp_vis () &&
-				!elev_vis ()
-				){
 			
-				/* Nate's computer will be a computer in a 
-				* computer */
-				if (node_get_type (cn) == OBJ_COMPUTER ){
-					
-					GENERIC *gn = node_get_data (cn);
-					if (nate.x == gn->x && nate.y == gn->y){
-						
-						break;
-					}
-
-				/* Nate activates a thermostat */
-				}else if (node_get_type (cn) == OBJ_STAT){
-					
-					GENERIC *gn = node_get_data (cn);
-					if (nate.x == gn->x && nate.y == gn->y){
-						temp_set_vis ();
-						break;
-					}
-					
-				/* Nate opens an itembox */
-				}else if (node_get_type (cn) == OBJ_ITEMBOX){
-					
-					GENERIC *gn = node_get_data (cn);
-					if (nate_obj_at_pos (&nate, gn->x, gn->y, 20, 20)){
-						invmenu_init (NATE_DAT);
-						boxmenu_set_active (TRUE);
-						break;
-					}
-					
-				/* Nate checks out what's in the vending machine */
-				}else if (node_get_type (cn) == OBJ_VENDING){
-					vn = node_get_data (cn);
-					if (nate_obj_at_pos (&nate, vn->x, vn->y, 20, 20)){
-						vend_init_dat (vn, NATE_DAT, "VEND_BMP", "ITEMS_BMP");
-						break;
-					}
-				/* Nate looks at what floors are open on elevator */
-				}else if (node_get_type (cn) == OBJ_ELEV_BUTT){
-					
-					GENERIC *gn = node_get_data (cn);
-					if (nate_obj_at_pos (&nate, gn->x, gn->y, 20, 20)){
-						elev_init (NATE_DAT, "ELEV_BMP");	
-						break;
-					}
+			if (vend_vis ()){
 				
-				/* Nate is standing on room change object */
-				}else if (node_get_type (cn) == OBJ_CHGROOM){
-					CHGROOM *cr = node_get_data (cn);
-	
-					if (nate_obj_at_pos (&nate, cr->x, cr->y, 20, 20)){
-	
-						/* Change to room if use button is pressed */
-						nate_set_xy (&nate, cr->cx * TILE_W, cr->cy * TILE_H);
-						sound_play (SND_DOOR);
-						text_msg = strtmp (cr->name);
-						map_free (m);
-						m = map_new ();
-						load_map (m, NATE_DAT, text_msg);
-						
-						nl = map_get_nl (m);
-						fadeout (5);
-						
-						/* Set camera based on nate location */
-						nate_focus_camera (m, nate.x, nate.y, &cam_x, &cam_y);
-						
-						break;
-						
-					}
-				}
+				vend_buy_item (vn, inv_get_item_total (INV_MONEY));
 				
-				cn = node_get_next (cn);
-			} /* END OBJ INTERACTION CHECK */
+			}else if (elev_vis ()){
+				
+				elev_press ();
+				
+			}else if (invmenu_vis () && boxmenu_active ()){
+				
+				boxmenu_set_src_dest ();
+					
+			}else if (temp_vis ()){
+				
+				temp_draw_backbuff (get_backbuff (), NATE_DAT);
 
-			/* Check if in exiting elevator */
-			if (!strcmp (map_get_name (m), "Elevator") &&
+			/* Leave elevator */
+			}else if (!strcmp (map_get_name (m), "Elevator") &&
 				nate_obj_at_pos (&nate, 2*20, 3*20, 20, 20)){
-			
+	
 				int nx, ny;
 				char *fs;
-		
+	
 				map_free (m);
 				m = map_new ();
 				
@@ -257,19 +194,91 @@ int main (int argc, char **argv)
 				nx = map_get_elev_x_pos (m);
 				ny = map_get_elev_y_pos (m);
 				nate_set_xy (&nate, nx, ny+map_get_th(m));
-				
-				/* Set camera based on nate location */
+
 				nate_focus_camera (m, nate.x, nate.y, &cam_x, &cam_y);
+			
+			}else{
+				
+				/* OBJ INTERACTION CHECK ***************/
+				while (cn){
+
+					if (node_get_type (cn) == OBJ_COMPUTER){
+						
+						GENERIC *gn = node_get_data (cn);
+						if (nate_obj_at_pos (&nate, gn->x, gn->y, 20, 20)){
+							
+							break;
+						}
+	
+					/* Nate activates a thermostat */
+					}else if (node_get_type (cn) == OBJ_STAT){
+						
+						GENERIC *gn = node_get_data (cn);
+						if (nate.x == gn->x && nate.y == gn->y){
+							temp_set_vis ();
+							break;
+						}
+						
+					/* Nate opens an itembox */
+					}else if (node_get_type (cn) == OBJ_ITEMBOX){
+						
+						GENERIC *gn = node_get_data (cn);
+						if (nate_obj_at_pos (&nate, gn->x, gn->y, 20, 20)){
+							invmenu_init (NATE_DAT);
+							boxmenu_set_active (TRUE);
+							break;
+						}
+						
+					/* Nate checks out what's in the vending machine */
+					}else if (node_get_type (cn) == OBJ_VENDING){
+						
+						vn = node_get_data (cn);
+						if (nate_obj_at_pos (&nate, vn->x, vn->y, 20, 20)){
+							vend_init_dat (vn, NATE_DAT, "VEND_BMP", "ITEMS_BMP");
+							break;
+						}
+						
+					/* Nate looks at what floors are open on elevator */
+					}else if (node_get_type (cn) == OBJ_ELEV_BUTT){
+						
+						GENERIC *gn = node_get_data (cn);
+						if (nate_obj_at_pos (&nate, gn->x, gn->y, 20, 20)){
+							elev_init (NATE_DAT, "ELEV_BMP");	
+							break;
+						}
+					
+					/* Nate is standing on room change object */
+					}else if (node_get_type (cn) == OBJ_CHGROOM){
+						
+						CHGROOM *cr = node_get_data (cn);
+		
+						if (nate_obj_at_pos (&nate, cr->x, cr->y, 20, 20)){
+		
+							/* Change to room if use button is pressed */
+							nate_set_xy (&nate, cr->cx * TILE_W, cr->cy * TILE_H);
+							sound_play (SND_DOOR);
+							text_msg = strtmp (cr->name);
+							map_free (m);
+							m = map_new ();
+							load_map (m, NATE_DAT, text_msg);
+							
+							nl = map_get_nl (m);
+							fadeout (5);
+							
+							/* Set camera based on nate location */
+							nate_focus_camera (m, nate.x, nate.y, &cam_x, &cam_y);
+							break;
+						}
+					}
+					
+					cn = node_get_next (cn);
+				} /* END OBJ INTERACTION CHECK */
 			}
 
 		} /* END USE KEY CHECK */
-		
-		/* Hotel temp always factored */
-		temp_global_process ();
 
 		/* NATE ANIMATION SPEED CONTROL */
-		nate.ar--;
-		if (nate.ar <= 0){
+		if (--nate.ar <= 0){
 			
 			nate.cf++;
 			if (nate.cf >= sprite_keyframe_get_num_frames (nate.s, nate.ckf))
@@ -277,42 +286,20 @@ int main (int argc, char **argv)
 				
 			nate.ar = sprite_keyframe_get_frame_rest (nate.s, nate.ckf, nate.cf);
 		}
-
-		/* GUI CONTROL */
+		
+		/* DRAW MAP LAYERS */
+		clear (get_backbuff ());
+		for (cl = 0; cl < nl; cl++)
+			draw_map_layer (m, cl, -cam_x, -cam_y);
+		
+		/* DRAW NATE */
+		sprite_draw (nate.s, get_backbuff (), nate.ckf, nate.cf, nate.x-cam_x, nate.y-cam_y-TILE_H);
+		
+		/* PROCESS MENUS */
+		temp_global_process ();
+		invmenu_draw_backbuff (get_backbuff ());
+		elev_draw_backbuff (get_backbuff ());
 		vend_process (vn, inv_get_item_total (INV_MONEY), get_backbuff ());
-		
-		/* Thermostat */
-		if (temp_vis ()){
-			
-			temp_draw_backbuff (get_backbuff (), NATE_DAT);
-			
-		/* Elevator buttons */
-		}else if (elev_vis ()){
-			
-			if (key[KEY_LCONTROL])
-				elev_press ();
-			
-			elev_draw_backbuff (get_backbuff ());
-		
-		/* Item box or inv menu */	
-		}else if (invmenu_vis ()){
-		
-			if (key[KEY_LCONTROL]){
-				if (boxmenu_active ())
-					boxmenu_set_src_dest ();
-			}
-			
-			invmenu_draw_backbuff (get_backbuff ());
-		
-		/* No special GUI visible? Draw game map and stuff instead */
-		}else{
-			/* Draw map layers */
-			clear (get_backbuff ());
-			for (cl = 0; cl < nl; cl++)
-				draw_map_layer (m, cl, -cam_x, -cam_y);
-		
-			sprite_draw (nate.s, get_backbuff (), nate.ckf, nate.cf, nate.x-cam_x, nate.y-cam_y-TILE_H);
-		}
 		
 		/* Blit backbuff to CRT */
 		show_backbuff (0, 0);
@@ -337,7 +324,7 @@ int main (int argc, char **argv)
 	nate_exit ();
 	return 0;
 }
-//END_OF_MAIN()
+END_OF_MAIN()
 
 void
 nate_focus_camera (MAP *m, int nx, int ny, int *cam_x, int *cam_y)
@@ -426,8 +413,7 @@ nate_init (void)
 	}
     
     if (install_sound (DIGI_AUTODETECT, MIDI_AUTODETECT, NULL)){
-        allegro_message ("Error initialising sound: %s\n",
-				allegro_error);
+        allegro_message ("Error initialising sound: %s\n", allegro_error);
         install_sound (DIGI_NONE, MIDI_NONE, NULL);
         readkey ();
     }
