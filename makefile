@@ -14,4 +14,5 @@ $(bin): $(obj)
 clean: .symbolic
     rm *.obj
     rm $(bin)
-    rm *.err
+    rm *.ERR
+    rm *.TXT
