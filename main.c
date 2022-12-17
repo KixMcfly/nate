@@ -2,7 +2,7 @@
 
 int main (int argc, char **argv)
 {	
-	MAP *m = NULL;
+	MAP *cur_map = NULL;
 	
 	NATE nate;
 	VENDING *vn = NULL;
@@ -13,6 +13,7 @@ int main (int argc, char **argv)
 	
 	int nl, cl, quit = FALSE, cam_x = 0, cam_y = 0, cam_dx = 0, cam_dy = 0;
 	int game_speed = 10;
+	int menu_all_off = TRUE;
 
 	/* Initialize Nathyn's Quest */
 	nate_init ();
@@ -27,12 +28,12 @@ int main (int argc, char **argv)
 	fadeout (10);
 	sound_midi_stop_free ();
 	
-	/* PREPARE LOOP */
+	/* PREPARE MAIN LOOP */
 	
 	/* set starting room */
-	m = map_new ();
-	load_map (m, NATE_DAT, "NATEROOM_NAT");
-	nl = map_get_nl (m);
+	cur_map = map_new ();
+	load_map (cur_map, NATE_DAT, "NATEROOM_NAT");
+	nl = map_get_nl (cur_map);
 
 	/* Load player sprite */
 	nate.s = sprite_new ();
@@ -42,7 +43,7 @@ int main (int argc, char **argv)
 	nate_def (&nate);
 
 	/* focus view on nate / player position */
-	nate_focus_camera (m, nate.x, nate.y, &cam_x, &cam_y);
+	nate_focus_camera (cur_map, nate.x, nate.y, &cam_x, &cam_y);
 	
 	/* Get palette for fade in */
 	pal = load_datafile_object (NATE_DAT, "NATE_PAL");
@@ -52,7 +53,7 @@ int main (int argc, char **argv)
 
 	/* MAIN GAME LOOP */
 	while (!quit){
-	
+
 		if (key[KEY_Q])
 			quit = TRUE;
 			
@@ -62,9 +63,8 @@ int main (int argc, char **argv)
 			temp_pos_up ();
 			elev_sel_up ();
 			vend_move_up ();
-			
-			
-			if (1){
+
+			if (menu_all_off){
 				
 				if (nate.y){	
 					nate.y--;
@@ -84,8 +84,8 @@ int main (int argc, char **argv)
 			elev_sel_down ();
 			vend_move_down ();
 			
-			if (1){
-				if (nate.y + TILE_H < map_get_h (m) * map_get_th (m)){					
+			if (menu_all_off){
+				if (nate.y + TILE_H < map_get_h (cur_map) * map_get_th (cur_map)){					
 					nate.y++;
 					
 					if (nate.y > cam_y + CAMERA_H / 2)
@@ -102,7 +102,7 @@ int main (int argc, char **argv)
 			elev_sel_left ();
 			vend_move_left ();
 			
-			if (1){
+			if (menu_all_off){
 				if (nate.x){
 					nate.x--;
 					
@@ -120,8 +120,8 @@ int main (int argc, char **argv)
 			elev_sel_right ();
 			vend_move_right ();
 			
-			if (1){
-				if (nate.x + TILE_W < map_get_w (m) * map_get_tw (m)){
+			if (menu_all_off && nate_right_clear (map_get_tile_flags (cur_map, 0, (nate.x+TILE_W+1) / TILE_W, nate.y/TILE_H))){
+				if (nate.x + TILE_W < map_get_w (cur_map) * map_get_tw (cur_map)){
 					nate.x++;
 					
 					if (nate.x > cam_x + CAMERA_W / 2)
@@ -152,9 +152,7 @@ int main (int argc, char **argv)
 		if (key[KEY_LCONTROL]){
 			/* Check objects. Don't if any GUIs are active or no objects
 			* are in map */
-			
-			cn = map_get_node_head (m);
-			
+
 			if (vend_vis ()){
 				
 				vend_buy_item (vn, inv_get_item_total (INV_MONEY));
@@ -172,34 +170,36 @@ int main (int argc, char **argv)
 				temp_draw_backbuff (get_backbuff (), NATE_DAT);
 
 			/* Leave elevator */
-			}else if (!strcmp (map_get_name (m), "Elevator") &&
+			}else if (!strcmp (map_get_name (cur_map), "Elevator") &&
 				nate_obj_at_pos (&nate, 2*20, 3*20, 20, 20)){
 	
 				int nx, ny;
 				char *fs;
 	
-				map_free (m);
-				m = map_new ();
+				map_free (cur_map);
+				cur_map = map_new ();
 				
 				fs = elev_get_floor_goto_name ();
 				
 				if (fs[0] != '\0')
-					load_map (m, NATE_DAT, elev_get_floor_goto_name ());
+					load_map (cur_map, NATE_DAT, elev_get_floor_goto_name ());
 				else
-					load_map (m, NATE_DAT, "HOTEL99_NAT");
+					load_map (cur_map, NATE_DAT, "HOTEL99_NAT");
 				
-				nl = map_get_nl (m);
+				nl = map_get_nl (cur_map);
 				fadeout (5);
 				
-				nx = map_get_elev_x_pos (m);
-				ny = map_get_elev_y_pos (m);
-				nate_set_xy (&nate, nx, ny+map_get_th(m));
+				nx = map_get_elev_x_pos (cur_map);
+				ny = map_get_elev_y_pos (cur_map);
+				nate_set_xy (&nate, nx, ny+map_get_th(cur_map));
 
-				nate_focus_camera (m, nate.x, nate.y, &cam_x, &cam_y);
+				nate_focus_camera (cur_map, nate.x, nate.y, &cam_x, &cam_y);
 			
 			}else{
 				
 				/* OBJ INTERACTION CHECK ***************/
+				
+				cn = map_get_node_head (cur_map);
 				while (cn){
 
 					if (node_get_type (cn) == OBJ_COMPUTER){
@@ -246,35 +246,34 @@ int main (int argc, char **argv)
 							elev_init (NATE_DAT, "ELEV_BMP");	
 							break;
 						}
-					
-					/* Nate is standing on room change object */
+
 					}else if (node_get_type (cn) == OBJ_CHGROOM){
 						
 						CHGROOM *cr = node_get_data (cn);
 		
+						/* Nate is standing on room change object */
 						if (nate_obj_at_pos (&nate, cr->x, cr->y, 20, 20)){
 		
 							/* Change to room if use button is pressed */
 							nate_set_xy (&nate, cr->cx * TILE_W, cr->cy * TILE_H);
 							sound_play (SND_DOOR);
 							text_msg = strtmp (cr->name);
-							map_free (m);
-							m = map_new ();
-							load_map (m, NATE_DAT, text_msg);
+							map_free (cur_map);
+							cur_map = map_new ();
+							load_map (cur_map, NATE_DAT, text_msg);
 							
-							nl = map_get_nl (m);
+							nl = map_get_nl (cur_map);
 							fadeout (5);
 							
 							/* Set camera based on nate location */
-							nate_focus_camera (m, nate.x, nate.y, &cam_x, &cam_y);
+							nate_focus_camera (cur_map, nate.x, nate.y, &cam_x, &cam_y);
 							break;
 						}
 					}
 					
 					cn = node_get_next (cn);
 				} /* END OBJ INTERACTION CHECK */
-			}
-
+			} /* OBJ LOOP END */
 		} /* END USE KEY CHECK */
 
 		/* NATE ANIMATION SPEED CONTROL */
@@ -290,13 +289,20 @@ int main (int argc, char **argv)
 		/* DRAW MAP LAYERS */
 		clear (get_backbuff ());
 		for (cl = 0; cl < nl; cl++)
-			draw_map_layer (m, cl, -cam_x, -cam_y);
+			draw_map_layer (cur_map, cl, -cam_x, -cam_y);
 		
 		/* DRAW NATE */
 		sprite_draw (nate.s, get_backbuff (), nate.ckf, nate.cf, nate.x-cam_x, nate.y-cam_y-TILE_H);
 		
-		/* PROCESS MENUS */
+		/* All menus off? Release main controls for nate interaction */
+		menu_all_off = FALSE;
+		if (!invmenu_vis () && !temp_vis () && !elev_vis () && !vend_vis ())
+			menu_all_off = TRUE;
+		
+		/* Stuff that runs in the background */
 		temp_global_process ();
+		
+		/* PROCESS MENUS */
 		invmenu_draw_backbuff (get_backbuff ());
 		elev_draw_backbuff (get_backbuff ());
 		vend_process (vn, inv_get_item_total (INV_MONEY), get_backbuff ());
@@ -320,7 +326,7 @@ int main (int argc, char **argv)
 	/* free pal */
 	unload_datafile_object (pal);
 	
-	map_free (m);
+	map_free (cur_map);
 
 	nate_exit ();
 	return 0;
@@ -369,6 +375,12 @@ nate_set_xy (NATE *n, int x, int y)
 {
 	n->x = x;
 	n->y = y;
+}
+
+int
+nate_right_clear (unsigned char tile_flags)
+{
+	return tile_flags;
 }
 
 void

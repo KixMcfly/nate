@@ -81,6 +81,9 @@ nate_obj_at_pos (NATE *n, int x, int y, int w, int h);
 void
 nate_set_xy (NATE *n, int x, int y);
 
+int
+nate_right_clear (unsigned char tile_flags);
+
 void
 nate_def (NATE *n);
 

@@ -3,7 +3,7 @@
         "height": 4300,
         "width": 2
     },
-    "activeFile": "nateroom.tmx",
+    "activeFile": "hotel81.tmx",
     "expandedProjectPaths": [
         "."
     ],
@@ -28,7 +28,7 @@
             "selectedLayer": 1,
             "viewCenter": {
                 "x": 59.999999999999986,
-                "y": 40
+                "y": 40.33333333333337
             }
         },
         "enemies.tsx": {
@@ -59,8 +59,8 @@
             "scale": 1.5,
             "selectedLayer": 2,
             "viewCenter": {
-                "x": 322,
-                "y": 200
+                "x": 323,
+                "y": -200
             }
         },
         "hotel81.tmx": {
@@ -70,8 +70,8 @@
             "scale": 1.5,
             "selectedLayer": 2,
             "viewCenter": {
-                "x": 200.99999999999997,
-                "y": 99.99999999999999
+                "x": 123,
+                "y": -20
             }
         },
         "hotel99.tmx": {
@@ -81,8 +81,8 @@
             "scale": 1.5,
             "selectedLayer": 2,
             "viewCenter": {
-                "x": 300,
-                "y": 119.99999999999997
+                "x": 323,
+                "y": 660
             }
         },
         "hotel_fight_01.tmx": {
@@ -110,8 +110,8 @@
             "scale": 1.5,
             "selectedLayer": 2,
             "viewCenter": {
-                "x": 61,
-                "y": 148
+                "x": 396.33333333333326,
+                "y": 648
             }
         }
     },
@@ -141,14 +141,14 @@
     "project": "nate.tiled-project",
     "property.type": "file",
     "recentFiles": [
-        "hotel81.tmx",
-        "hotel0.tmx",
-        "hotel.tsx",
-        "inter.tsx",
-        "nate.tsx",
-        "elev.tmx",
-        "hotel99.tmx",
         "nateroom.tmx",
+        "hotel99.tmx",
+        "elev.tmx",
+        "nate.tsx",
+        "inter.tsx",
+        "hotel.tsx",
+        "hotel0.tmx",
+        "hotel81.tmx",
         "enemies.tsx",
         "bat_hotel_1.tmx",
         "hotel_fight_01.tmx",
