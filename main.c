@@ -15,6 +15,8 @@ int main (int argc, char **argv)
 	int game_speed = 10;
 	int menu_all_off = TRUE;
 
+	
+
 	/* Initialize Nathyn's Quest */
 	nate_init ();
 	
@@ -120,7 +122,7 @@ int main (int argc, char **argv)
 			elev_sel_right ();
 			vend_move_right ();
 			
-			if (menu_all_off && nate_right_clear (map_get_tile_flags (cur_map, 0, (nate.x+TILE_W+1) / TILE_W, nate.y/TILE_H))){
+			if (menu_all_off && nate.x % TILE_W == 0 && map_get_tile_flags (m, 0, nate.x / TILE_W, nate.y / TILE_H)){
 				if (nate.x + TILE_W < map_get_w (cur_map) * map_get_tw (cur_map)){
 					nate.x++;
 					
@@ -154,8 +156,14 @@ int main (int argc, char **argv)
 			* are in map */
 
 			if (vend_vis ()){
+				int item_id;
 				
-				vend_buy_item (vn, inv_get_item_total (INV_MONEY));
+				item_id = vend_buy_item (vn, inv_get_item_total (INV_MONEY));
+				
+				if (item_id){
+					inv_sub (INV_MONEY, vend_get_cost (item_id));
+					inv_add (item_id, 1);
+				}
 				
 			}else if (elev_vis ()){
 				
@@ -198,7 +206,6 @@ int main (int argc, char **argv)
 			}else{
 				
 				/* OBJ INTERACTION CHECK ***************/
-				
 				cn = map_get_node_head (cur_map);
 				while (cn){
 
@@ -397,6 +404,10 @@ void
 nate_init (void)
 {
     allegro_init();
+    
+    /* Scratch pad area */
+	printf ("Test Number: %d\n", 910 % 20);
+	readkey ();
     
     elapsed_time = 0;
 	install_timer();
