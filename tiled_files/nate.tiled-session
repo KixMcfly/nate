@@ -28,7 +28,7 @@
             "selectedLayer": 1,
             "viewCenter": {
                 "x": 59.999999999999986,
-                "y": 40.33333333333337
+                "y": 40
             }
         },
         "enemies.tsx": {
@@ -59,8 +59,8 @@
             "scale": 1.5,
             "selectedLayer": 2,
             "viewCenter": {
-                "x": 318.66666666666663,
-                "y": 199.66666666666669
+                "x": 322,
+                "y": 200
             }
         },
         "hotel81.tmx": {
@@ -82,7 +82,7 @@
             "selectedLayer": 2,
             "viewCenter": {
                 "x": 300,
-                "y": 120.33333333333331
+                "y": 119.99999999999997
             }
         },
         "hotel_fight_01.tmx": {
@@ -111,11 +111,11 @@
             "selectedLayer": 2,
             "viewCenter": {
                 "x": 49.999999999999986,
-                "y": 59.666666666666686
+                "y": 59.99999999999997
             }
         }
     },
-    "last.exportedFilePath": "C:/projects/nate/maps",
+    "last.exportedFilePath": "/home/shawn/projects/nate/maps",
     "last.imagePath": "C:/projects/nate/images/enemys",
     "last.objectTypesPath": "C:/projects/nate/tiled_files/propertytypes.json",
     "last.worldFilePath": "C:/projects/nate/tiled_files",
