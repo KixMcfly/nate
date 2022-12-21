@@ -87,7 +87,8 @@ int main (int argc, char **argv)
 			vend_move_down ();
 			
 			if (menu_all_off){
-				if (nate.y + TILE_H < map_get_h (cur_map) * map_get_th (cur_map)){					
+				if (nate.y + TILE_H < map_get_h (cur_map) * map_get_th (cur_map) &&
+					!map_get_tile_flags (cur_map, 0, nate.x / TILE_W, (nate.y+19) / TILE_H)){					
 					nate.y++;
 					
 					if (nate.y > cam_y + CAMERA_H / 2)
@@ -122,8 +123,9 @@ int main (int argc, char **argv)
 			elev_sel_right ();
 			vend_move_right ();
 			
-			if (menu_all_off && nate.x % TILE_W == 0 && map_get_tile_flags (m, 0, nate.x / TILE_W, nate.y / TILE_H)){
-				if (nate.x + TILE_W < map_get_w (cur_map) * map_get_tw (cur_map)){
+			if (menu_all_off){
+				if (nate.x + TILE_W < map_get_w (cur_map) * map_get_tw (cur_map) &&
+					!map_get_tile_flags (cur_map, 0, (nate.x+19) / TILE_W, nate.y / TILE_H)){
 					nate.x++;
 					
 					if (nate.x > cam_x + CAMERA_W / 2)
