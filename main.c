@@ -1,10 +1,9 @@
 #include "main.h"
 
 int main (int argc, char **argv)
-{	
-	MAP *cur_map = NULL;
-	
+{
 	NATE nate;
+	MAP *cur_map = NULL;
 	VENDING *vn = NULL;
 
 	DATAFILE *pal = NULL;
@@ -14,12 +13,10 @@ int main (int argc, char **argv)
 	int nl, cl, quit = FALSE, cam_x = 0, cam_y = 0, cam_dx = 0, cam_dy = 0;
 	int game_speed = 10;
 	int menu_all_off = TRUE;
-
 	
-
 	/* Initialize Nathyn's Quest */
 	nate_init ();
-	
+
 	/* Title Screen stuff */
 	draw_load_blit_show (NATE_DAT, "TITLE_BMP", "TITLE_PAL");
 	sound_midi_load_play (NATE_DAT, "TITLE_MID");
@@ -71,7 +68,9 @@ int main (int argc, char **argv)
 				//log_print ("NATE Y: %d\n", nate.y);
 				
 				if (nate.y){
-					nate.y--;
+					
+					if (!map_get_tile_flags (cur_map, 0, nate.x / TILE_W, (nate.y-1) / TILE_H))
+						nate.y--;
 				}
 				
 				if (nate.y < cam_y + CAMERA_H / 2)
@@ -89,9 +88,9 @@ int main (int argc, char **argv)
 			vend_move_down ();
 			
 			if (menu_all_off){
-				if (nate.y + TILE_H < map_get_h (cur_map) * map_get_th (cur_map)){
+				if (nate.y + TILE_H + 1 < map_get_h (cur_map) * map_get_th (cur_map)){
 					
-					if (!map_get_tile_flags (cur_map, 0, (nate.x+20) / TILE_W, (nate.y+20) / TILE_H))
+					if (!map_get_tile_flags (cur_map, 0, nate.x / TILE_W, (nate.y+21) / TILE_H))
 						nate.y++;
 					
 					if (nate.y > cam_y + CAMERA_H / 2)
@@ -132,7 +131,7 @@ int main (int argc, char **argv)
 			vend_move_right ();
 			
 			if (menu_all_off){
-				if (nate.x + TILE_W < map_get_w (cur_map) * map_get_tw (cur_map)){
+				if (nate.x + TILE_W + 1 < map_get_w (cur_map) * map_get_tw (cur_map)){
 					
 					if (!map_get_tile_flags (cur_map, 0, (nate.x+20) / TILE_W, (nate.y+20) / TILE_H))
 						nate.x++;
@@ -308,6 +307,9 @@ int main (int argc, char **argv)
 		clear (get_backbuff ());
 		for (cl = 0; cl < nl; cl++)
 			draw_map_layer (cur_map, cl, -cam_x, -cam_y);
+		
+		/* Temp draw current tile for testing */
+		rectfill (get_backbuff (), nate.x + -cam_x, nate.y + -cam_y, nate.x + 19 + -cam_x, nate.y + 19 + -cam_y, 124);
 		
 		/* DRAW NATE */
 		sprite_draw (nate.s, get_backbuff (), nate.ckf, nate.cf, nate.x-cam_x, nate.y-cam_y-TILE_H);

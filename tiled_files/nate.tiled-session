@@ -3,7 +3,7 @@
         "height": 4300,
         "width": 2
     },
-    "activeFile": "hotel81.tmx",
+    "activeFile": "nateroom.tmx",
     "expandedProjectPaths": [
         "."
     ],
@@ -63,6 +63,17 @@
                 "y": 200
             }
         },
+        "hotel71.tmx": {
+            "expandedObjectLayers": [
+                2
+            ],
+            "scale": 1.615,
+            "selectedLayer": 1,
+            "viewCenter": {
+                "x": 165.01547987616098,
+                "y": 119.5046439628483
+            }
+        },
         "hotel81.tmx": {
             "expandedObjectLayers": [
                 3
@@ -71,7 +82,7 @@
             "selectedLayer": 2,
             "viewCenter": {
                 "x": 123,
-                "y": -620
+                "y": 148
             }
         },
         "hotel99.tmx": {
@@ -108,10 +119,10 @@
                 3
             ],
             "scale": 1.5,
-            "selectedLayer": 2,
+            "selectedLayer": 0,
             "viewCenter": {
-                "x": 49.999999999999986,
-                "y": 59.99999999999997
+                "x": 65,
+                "y": 52
             }
         }
     },
@@ -126,7 +137,7 @@
     "map.lastUsedExportFilter": "Nathyn's Room Chunk Format (*.nat)",
     "map.lastUsedFormat": "tmx",
     "map.tileHeight": 20,
-    "map.tileWidth": 20,
+    "map.tileWidth": 15,
     "map.width": 20,
     "openFiles": [
         "nateroom.tmx",
@@ -139,20 +150,20 @@
         "hotel81.tmx"
     ],
     "project": "nate.tiled-project",
-    "property.type": "file",
+    "property.type": "string",
     "recentFiles": [
-        "nateroom.tmx",
-        "hotel99.tmx",
-        "elev.tmx",
-        "nate.tsx",
-        "inter.tsx",
-        "hotel.tsx",
-        "hotel0.tmx",
         "hotel81.tmx",
+        "hotel0.tmx",
+        "hotel.tsx",
+        "inter.tsx",
+        "nate.tsx",
+        "elev.tmx",
+        "hotel99.tmx",
+        "nateroom.tmx",
+        "hotel71.tmx",
         "enemies.tsx",
         "bat_hotel_1.tmx",
-        "hotel_fight_01.tmx",
-        "floor99.tmx"
+        "hotel_fight_01.tmx"
     ],
     "tileset.lastUsedFormat": "tsx",
     "tileset.type": 1
