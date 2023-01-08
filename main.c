@@ -69,7 +69,7 @@ int main (int argc, char **argv)
 				
 				if (nate.y){
 					
-					if (!map_get_tile_flags (cur_map, 0, nate.x / TILE_W, (nate.y-1) / TILE_H))
+					if (!map_get_tile_flags (cur_map, 0, (nate.x+10) / TILE_W, (nate.y) / TILE_H))
 						nate.y--;
 				}
 				
@@ -90,7 +90,7 @@ int main (int argc, char **argv)
 			if (menu_all_off){
 				if (nate.y + TILE_H + 1 < map_get_h (cur_map) * map_get_th (cur_map)){
 					
-					if (!map_get_tile_flags (cur_map, 0, nate.x / TILE_W, (nate.y+21) / TILE_H))
+					if (!map_get_tile_flags (cur_map, 0, (nate.x+10) / TILE_W, (nate.y+21) / TILE_H))
 						nate.y++;
 					
 					if (nate.y > cam_y + CAMERA_H / 2)
@@ -309,7 +309,7 @@ int main (int argc, char **argv)
 			draw_map_layer (cur_map, cl, -cam_x, -cam_y);
 		
 		/* Temp draw current tile for testing */
-		rectfill (get_backbuff (), nate.x + -cam_x, nate.y + -cam_y, nate.x + 19 + -cam_x, nate.y + 19 + -cam_y, 124);
+		//rectfill (get_backbuff (), nate.x + -cam_x, nate.y + -cam_y, nate.x + 19 + -cam_x, nate.y + 19 + -cam_y, 124);
 		
 		/* DRAW NATE */
 		sprite_draw (nate.s, get_backbuff (), nate.ckf, nate.cf, nate.x-cam_x, nate.y-cam_y-TILE_H);
