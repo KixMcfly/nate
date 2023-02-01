@@ -324,7 +324,7 @@ load_map (MAP *m, char *dat_fn, char *dat_id)
 
 					t_data[c].tn = (unsigned short)pack_igetw (fp);
 					
-					/* 0xFFFF is means no tile or data */
+					/* 0xFFFF means no tile or data */
 					if (t_data[c].tn ^ 0xFFFF){
 						t_data[c].ts = pack_getc (fp);
 						t_data[c].flags = pack_getc (fp);

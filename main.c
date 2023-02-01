@@ -133,8 +133,11 @@ int main (int argc, char **argv)
 			if (menu_all_off){
 				if (nate.x + TILE_W + 1 < map_get_w (cur_map) * map_get_tw (cur_map)){
 					
-					if (!map_get_tile_flags (cur_map, 0, (nate.x+20) / TILE_W, (nate.y+20) / TILE_H))
-						nate.x++;
+					int tx = (nate.x+20) / TILE_W, ty = (nate.y+20) / TILE_H;
+					
+					if (!map_get_tile_flags (cur_map, 0, tx, ty)){
+							nate.x++;
+					}
 					
 					if (nate.x > cam_x + CAMERA_W / 2)
 						cam_x++;
@@ -327,6 +330,7 @@ int main (int argc, char **argv)
 		elev_draw_backbuff (get_backbuff ());
 		vend_process (vn, inv_get_item_total (INV_MONEY), get_backbuff ());
 		temp_draw_backbuff (get_backbuff (), NATE_DAT);
+
 		
 		/* Blit backbuff to CRT */
 		show_backbuff (0, 0);
@@ -395,12 +399,6 @@ nate_set_xy (NATE *n, int x, int y)
 {
 	n->x = x;
 	n->y = y;
-}
-
-int
-nate_right_clear (unsigned char tile_flags)
-{
-	return tile_flags;
 }
 
 void
