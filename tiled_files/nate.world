@@ -39,8 +39,8 @@
             "fileName": "hotel99-1.tmx",
             "height": 400,
             "width": 200,
-            "x": 800,
-            "y": 560
+            "x": 500,
+            "y": -520
         }
     ],
     "onlyShowAdjacentMaps": false,
