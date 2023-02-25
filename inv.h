@@ -20,6 +20,24 @@ enum {
 	INV_NUM
 };
 
+int
+get_food (void);
+
+int
+get_sleep (void);
+
+int
+get_water (void);
+
+void
+adj_food (int adj);
+
+void
+adj_sleep (int adj);
+
+void
+adj_water (int adj);
+
 void
 inv_draw_battle (BITMAP *bf);
 

@@ -11,8 +11,12 @@ int main (int argc, char **argv)
 	char *text_msg = NULL;
 	
 	int nl, cl, quit = FALSE, cam_x = 0, cam_y = 0, cam_dx = 0, cam_dy = 0;
-	int game_speed = 10;
-	int menu_all_off = TRUE;
+	int game_speed = 10, menu_all_off = TRUE;
+	
+	/* Resolution of stat buff decrease */
+	int food_res_max = 3000, food_res = 0;
+	int water_res_max = 3000, water_res = 0;
+	int sleep_res_max = 3000, sleep_res = 0;
 	
 	/* Initialize Nathyn's Quest */
 	nate_init ();
@@ -69,8 +73,7 @@ int main (int argc, char **argv)
 				
 				if (nate.y){
 					
-					if (!map_get_tile_flags (cur_map, 0, (nate.x+10) / TILE_W, (nate.y) / TILE_H))
-						nate.y--;
+					nate.y--;
 				}
 				
 				if (nate.y < cam_y + CAMERA_H / 2)
@@ -90,8 +93,7 @@ int main (int argc, char **argv)
 			if (menu_all_off){
 				if (nate.y + TILE_H + 1 < map_get_h (cur_map) * map_get_th (cur_map)){
 					
-					if (!map_get_tile_flags (cur_map, 0, (nate.x+10) / TILE_W, (nate.y+21) / TILE_H))
-						nate.y++;
+					nate.y++;
 					
 					if (nate.y > cam_y + CAMERA_H / 2)
 						cam_y++;
@@ -111,10 +113,7 @@ int main (int argc, char **argv)
 				
 				if (nate.x){
 					
-					//log_print ("FLAGS: %d\n", map_get_tile_flags (cur_map, 0, (nate.x-20) / TILE_W, (nate.y+20) / TILE_H));
-					
-					if (!map_get_tile_flags (cur_map, 0, (nate.x-1) / TILE_W, (nate.y+20) / TILE_H))
-						nate.x--;
+					nate.x--;
 					
 					if (nate.x < cam_x + CAMERA_W / 2)
 						cam_x--;
@@ -133,11 +132,7 @@ int main (int argc, char **argv)
 			if (menu_all_off){
 				if (nate.x + TILE_W + 1 < map_get_w (cur_map) * map_get_tw (cur_map)){
 					
-					int tx = (nate.x+20) / TILE_W, ty = (nate.y+20) / TILE_H;
-					
-					if (!map_get_tile_flags (cur_map, 0, tx, ty)){
-							nate.x++;
-					}
+					nate.x++;
 					
 					if (nate.x > cam_x + CAMERA_W / 2)
 						cam_x++;
@@ -296,6 +291,22 @@ int main (int argc, char **argv)
 			} /* OBJ LOOP END */
 		} /* END USE KEY CHECK */
 
+		/* Stat buff adjust */
+		if (++food_res >= food_res_max){
+			food_res = 0;
+			adj_food (-1);
+		}
+			
+		if (++water_res >= water_res_max){
+			water_res = 0;
+			adj_water (-1);
+		}
+			
+		if (++sleep_res >= sleep_res_max){
+			sleep_res = 0;
+			adj_sleep (-1);
+		}
+
 		/* NATE ANIMATION SPEED CONTROL */
 		if (--nate.ar <= 0){
 			
@@ -429,10 +440,6 @@ nate_init (void)
         allegro_exit ();
         return;
     }
-    
-    /* Scratch pad area */
-	//printf ("Test Number: %d\n", 39 / 20);
-	//readkey ();
 
     set_color_depth( 8 );
     if (set_gfx_mode (GFX_AUTODETECT, 320, 200, 0, 0)) {

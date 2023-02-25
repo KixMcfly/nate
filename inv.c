@@ -74,6 +74,11 @@ static FONT *inv_fnt = NULL;
 
 static int m_rest = 0;
 
+/* Nate stats */
+static int food = 100;
+static int sleep = 100;
+static int water = 100;
+
 /* X and Y pos of sel rec */
 static int pos_lookup[MAX_INV][2] = {{212, 5},	{264, 5},
 									{212, 48},	{264, 48},
@@ -106,6 +111,60 @@ static char *inv_list[INV_NUM][2] = {
 	{"STABBIN' KNIFE", "KNIFE FOR STABBIN."}
 
 };
+
+int
+get_food (void)
+{
+	return food;
+}
+
+int
+get_sleep (void)
+{
+	return sleep;
+}
+
+int
+get_water (void)
+{
+	return water;
+}
+
+void
+adj_food (int adj)
+{
+	food += adj;
+	
+	if (food > 100)
+		food = 100;
+		
+	if (food < 0)
+		food = 0;
+}
+
+void
+adj_sleep (int adj)
+{
+	sleep += adj;
+	
+	if (sleep > 100)
+		sleep = 100;
+
+	if (sleep < 0)
+		sleep = 0;
+}
+
+void
+adj_water (int adj)
+{
+	water += adj;
+	
+	if (water > 100)
+		water = 100;
+
+	if (water < 0)
+		water = 0;
+}
 
 static void
 text_area_draw (BITMAP *b, char *s, int x, int y)
@@ -160,6 +219,12 @@ invmenu_draw_backbuff (BITMAP *bf)
 		
 		/* Draw inv menu */		
 		blit ((BITMAP *)inv_bmp->dat, bf, 0, 0, 0, 0, 320, 200);
+		
+		/* Draw stats */
+		rectfill (bf, 24, 143, 24 + water, 154, 167);
+		rectfill (bf, 24, 161, 24 + food, 172, 85);
+		rectfill (bf, 24, 179, 24 + sleep, 190, 184);
+		
 		
 		/* Draw items */
 		for (ci = 0; ci < MAX_INV; ci++){
