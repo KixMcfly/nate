@@ -355,6 +355,30 @@ boxmenu_set_src_dest (void)
 }
 
 void
+inv_item_use (void)
+{
+	int used = FALSE;
+	
+	if (!m_rest){
+		switch (inv[invmenu.sp].id)
+		{
+			case INV_NUGGETS: if (food < 100) {adj_food (5); used = TRUE;} break;
+			case INV_DRDOUCHE: if (water < 100) {adj_water (5); used = TRUE;} break;
+		}
+		
+		if (used)
+			inv[invmenu.sp].num--;
+			
+		if (inv[invmenu.sp].num <= 0){
+			inv[invmenu.sp].num = 0;
+			inv[invmenu.sp].id = 0;
+		}
+		
+		m_rest = 100;
+	}
+}
+
+void
 invmenu_sel_up (void)
 {
 	if (!m_rest && invmenu.vis){

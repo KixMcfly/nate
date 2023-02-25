@@ -3,7 +3,6 @@
 #include <stdio.h>
 #include <allegro.h>
 #include "map.h"
-#include "coll.h"
 #include "draw.h"
 #include "sprite.h"
 #include "sound.h"
@@ -13,6 +12,7 @@
 #include "elev.h"
 #include "temp.h"
 #include "tools.h"
+#include "hroom.h"
 
 #define CAMERA_W 			320
 #define CAMERA_H 			200

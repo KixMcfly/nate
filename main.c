@@ -14,12 +14,15 @@ int main (int argc, char **argv)
 	int game_speed = 10, menu_all_off = TRUE;
 	
 	/* Resolution of stat buff decrease */
-	int food_res_max = 3000, food_res = 0;
-	int water_res_max = 3000, water_res = 0;
-	int sleep_res_max = 3000, sleep_res = 0;
+	int food_res_max = 500, food_res = 0;
+	int water_res_max = 500, water_res = 0;
+	int sleep_res_max = 500, sleep_res = 0;
 	
 	/* Initialize Nathyn's Quest */
 	nate_init ();
+
+	init_hroom_stats (NATE_DAT);
+	readkey ();
 
 	/* Title Screen stuff */
 	draw_load_blit_show (NATE_DAT, "TITLE_BMP", "TITLE_PAL");
@@ -177,9 +180,15 @@ int main (int argc, char **argv)
 				
 				elev_press ();
 				
-			}else if (invmenu_vis () && boxmenu_active ()){
+			}else if (invmenu_vis ()){
 				
-				boxmenu_set_src_dest ();
+				/* If item box in use, set to swap mode */
+				if (boxmenu_active ())
+					boxmenu_set_src_dest ();
+					
+				/* If just in the inventory menu, use item */
+				else
+					inv_item_use ();
 					
 			}else if (temp_vis ()){
 				
@@ -258,7 +267,7 @@ int main (int argc, char **argv)
 						
 						GENERIC *gn = node_get_data (cn);
 						if (nate_obj_at_pos (&nate, gn->x, gn->y, 20, 20)){
-							elev_init (NATE_DAT, "ELEV_BMP");	
+							elev_init (NATE_DAT, "ELEV_BMP");
 							break;
 						}
 
@@ -291,20 +300,23 @@ int main (int argc, char **argv)
 			} /* OBJ LOOP END */
 		} /* END USE KEY CHECK */
 
-		/* Stat buff adjust */
-		if (++food_res >= food_res_max){
-			food_res = 0;
-			adj_food (-1);
-		}
-			
-		if (++water_res >= water_res_max){
-			water_res = 0;
-			adj_water (-1);
-		}
-			
-		if (++sleep_res >= sleep_res_max){
-			sleep_res = 0;
-			adj_sleep (-1);
+		/* Only adjust Nate stat buffs when not in menu */
+		if (menu_all_off){
+			/* Stat buff adjust */
+			if (++food_res >= food_res_max){
+				food_res = 0;
+				adj_food (-1);
+			}
+				
+			if (++water_res >= water_res_max){
+				water_res = 0;
+				adj_water (-1);
+			}
+				
+			if (++sleep_res >= sleep_res_max){
+				sleep_res = 0;
+				adj_sleep (-1);
+			}
 		}
 
 		/* NATE ANIMATION SPEED CONTROL */

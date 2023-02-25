@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.9" tiledversion="1.9.2" orientation="orthogonal" renderorder="right-down" width="30" height="12" tilewidth="20" tileheight="20" infinite="0" nextlayerid="4" nextobjectid="15">
+<map version="1.9" tiledversion="1.9.2" orientation="orthogonal" renderorder="right-down" width="30" height="12" tilewidth="20" tileheight="20" infinite="0" nextlayerid="4" nextobjectid="20">
  <editorsettings>
   <export target="../maps/hotel99.nat" format="custom"/>
  </editorsettings>
@@ -76,6 +76,13 @@
     <property name="ITEM18" type="int" propertytype="INV_LIST" value="0"/>
     <property name="ITEM19" type="int" propertytype="INV_LIST" value="0"/>
     <property name="ITEM20" type="int" propertytype="INV_LIST" value="0"/>
+   </properties>
+  </object>
+  <object id="19" name="HOTEL99-1_NAT" class="CHGROOM" x="400" y="40" width="20" height="20">
+   <properties>
+    <property name="name" value="HOTEL99-1_NAT"/>
+    <property name="x" type="int" value="4"/>
+    <property name="y" type="int" value="19"/>
    </properties>
   </object>
  </objectgroup>

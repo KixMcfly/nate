@@ -54,6 +54,9 @@ void
 boxmenu_set_src_dest (void);
 
 void
+inv_item_use (void);
+
+void
 invmenu_sel_up (void);
 
 void
