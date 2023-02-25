@@ -479,7 +479,7 @@ nate_init (void)
 }
 
 void
-nate_exit( void )
+nate_exit (void)
 {
 	/* free assets */
 	sound_free ();

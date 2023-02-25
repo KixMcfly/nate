@@ -24,9 +24,9 @@ typedef struct {
 
 /* Number of hotel rooms are decided at load time */
 static int num_hrooms = 0;
-static HROOM *hroom_list = NULL;
+static NNODE *hroom_list = NULL;
 
-int
+void
 init_hroom_stats (char *dfn)
 {
 	const int type = DAT_ID('T','Y','P','E');
@@ -36,7 +36,7 @@ init_hroom_stats (char *dfn)
 
 	/* Exit hotel room init if datafile load fail */
 	if (!df)
-		return FALSE;
+		return;
 
 	/* Find hotel rooms in datafile and create status info for each */
 	for (i = 0, num_hrooms = 0; df[i].type != DAT_END; i++)
@@ -47,12 +47,29 @@ init_hroom_stats (char *dfn)
 				//while (!isdigit(mfn[c]) && mfn[c])
 					//c++;
 				
-				//elev_push_floor (strtol (&mfn[c], NULL, 10), (char *)mfn);
-				printf ("HOTEL ROOM: %s\n", mfn);
+				HROOM *hroom = (HROOM *) malloc (sizeof (HROOM));
+				hroom->vac = TRUE;
+				hroom->stay_day_max = 0;
+				hroom->stay_day = 0;
+				hroom->happy = 0;
+				hroom->hungry = 0;
+				hroom->thirsty = 0;
+				hroom->comfy = 0;
+				hroom->clean = 100;
+				hroom->floor_num = 0;
+				hroom->room_num = 0;
+				
+				hroom_list = node_add (hroom_list, 0, hroom);
+				
 			}
 		}
 
 	unload_datafile (df);
-	
-	return TRUE;
+
+}
+
+void
+hroom_clear (void)
+{
+	hroom_list = node_clear (hroom_list);
 }
