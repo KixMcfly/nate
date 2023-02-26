@@ -20,6 +20,7 @@ typedef struct {
 	int clean;
 	int floor_num;
 	int room_num;
+	char room_name[30];
 } HROOM;
 
 /* Number of hotel rooms are decided at load time */
@@ -43,9 +44,13 @@ init_hroom_stats (char *dfn)
 		if(!stricmp(get_datafile_property(df+i, type), "MAPD")){
 			const char *mfn = get_datafile_property (df+i, name);
 			if (strstr (mfn, "HOTEL") && strstr (mfn, "-")){
-				//int c = 0;
-				//while (!isdigit(mfn[c]) && mfn[c])
-					//c++;
+				int c = 0;
+				
+				/* first number in room name is floor number */
+				while (!isdigit(mfn[c]) && mfn[c])
+					c++;
+					
+				hroom->floor_num = strtol (&mfn[]);
 				
 				HROOM *hroom = (HROOM *) malloc (sizeof (HROOM));
 				hroom->vac = TRUE;
@@ -55,14 +60,12 @@ init_hroom_stats (char *dfn)
 				hroom->hungry = 0;
 				hroom->thirsty = 0;
 				hroom->comfy = 0;
-				hroom->clean = 100;
+				hroom->clean = 0;
 				hroom->floor_num = 0;
 				hroom->room_num = 0;
-				hroom->room_name_len = strlen (mfn);
-				hroom->room_name = malloc (hroom->room_name_len);
+				strcpy (hroom->room_name, mfn);
 				
 				hroom_list = node_add (hroom_list, 0, hroom);
-				
 			}
 		}
 
@@ -70,8 +73,10 @@ init_hroom_stats (char *dfn)
 
 }
 
+
+
 void
 hroom_clear (void)
-{
+{	
 	hroom_list = node_clear (hroom_list);
 }
