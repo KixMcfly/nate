@@ -367,6 +367,9 @@ int main (int argc, char **argv)
 		elapsed_time = game_speed;
 	}
 
+	/* Free hotel room data */
+	hroom_clear ();
+
 	/* free nate sprite */
 	sprite_free (nate.s);
 	

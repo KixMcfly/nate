@@ -58,6 +58,8 @@ init_hroom_stats (char *dfn)
 				hroom->clean = 100;
 				hroom->floor_num = 0;
 				hroom->room_num = 0;
+				hroom->room_name_len = strlen (mfn);
+				hroom->room_name = malloc (hroom->room_name_len);
 				
 				hroom_list = node_add (hroom_list, 0, hroom);
 				
